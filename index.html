@@ -1,263 +1,542 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>Saisrivathsan Manikandan — About</title>
-<style>
-  :root{
-    --bg:#111214; --text:#f5f5f4; --muted:#a1a1aa;
-    --accent:#ff6a33; --line:#26272b; --card:#18191c;
-    box-sizing:border-box;
-    padding-top:env(safe-area-inset-top,0px);
-    padding-bottom:env(safe-area-inset-bottom,0px);
-  }
-  :root[data-theme="dark"]{
-    --bg:#111214; --text:#f5f5f4; --muted:#a1a1aa;
-    --accent:#ff6a33; --line:#26272b; --card:#18191c;
-  }
-  :root[data-theme="light"]{
-    --bg:#ffffff; --text:#14151a; --muted:#6b6d76;
-    --accent:#ff5a1f; --line:#ececec; --card:#fafafa;
-  }
-  html{scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top,0px); overflow-y:scroll; scrollbar-gutter:stable;}
-  *{box-sizing:border-box;}
-  body{
-    margin:0; background:var(--bg); color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.5; -webkit-font-smoothing:antialiased;
-  }
-  a{color:inherit;}
-  img{max-width:100%;}
-  .wrap{max-width:980px; margin:0 auto; padding:0 24px;}
-  section{padding:90px 0 60px; border-bottom:1px solid var(--line);}
-  section:last-of-type{border-bottom:none;}
-  h1,h2,h3{margin:0; font-weight:800; letter-spacing:-0.02em;}
-  h2{font-size:clamp(1.6rem,3vw,2.2rem); margin-bottom:30px;}
-  p{color:var(--text);}
-  .muted{color:var(--muted);}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Saisrivathsan Manikandan — About</title>
+  <style>
+    :root {
+      --bg: #111214;
+      --text: #f5f5f4;
+      --muted: #a1a1aa;
+      --accent: #ff6a33;
+      --line: #26272b;
+      --card: #18191c;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
 
-  /* NAV */
-  nav{
-    position:fixed; top:calc(18px + env(safe-area-inset-top,0px)); left:50%;
-    transform:translateX(-50%); z-index:50;
-    background:var(--bg); border:1px solid var(--line);
-    border-radius:999px; padding:8px; display:flex; align-items:center; justify-content:center; gap:2px;
-    box-shadow:0 6px 20px rgba(0,0,0,.35); white-space:nowrap;
-  }
-  .nav-indicator{
-    position:absolute; top:0; left:0;
-    border-radius:999px;
-    background:var(--accent);
-    box-shadow:0 2px 14px rgba(255,106,51,.45);
-    transition:transform .3s cubic-bezier(0.25, 1, 0.5, 1), width .3s cubic-bezier(0.25, 1, 0.5, 1), opacity .2s;
-    pointer-events:none;
-    z-index:1;
-    opacity:0;
-  }
-  @media (prefers-reduced-motion: reduce){
-    .nav-indicator{transition:none !important;}
-  }
-  nav a{
-    position:relative; z-index:2;
-    text-decoration:none; font-size:.88rem; font-weight:600;
-    padding:9px 18px; border-radius:999px; color:var(--muted);
-    transition:color .2s;
-  }
-  nav a:hover, nav a:focus-visible{color:var(--text);}
-  nav a.active{color:#fff !important;}
+    :root[data-theme="dark"] {
+      --bg: #111214;
+      --text: #f5f5f4;
+      --muted: #a1a1aa;
+      --accent: #ff6a33;
+      --line: #26272b;
+      --card: #18191c;
+    }
 
-  /* ABOUT HERO */
-  #about{padding-top:150px;}
-  .about-grid{display:grid; grid-template-columns:360px 1fr; gap:48px; align-items:center;}
-  .avatar{
-    width:360px; height:360px; border-radius:50%; background:var(--card);
-    border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
-    font-size:5rem; font-weight:800; color:var(--accent);
-    overflow:hidden; box-shadow:0 12px 40px rgba(0,0,0,.45);
-  }
-  .avatar img{
-    width:100%; height:100%; object-fit:cover; display:block;
-  }
-  #about h1{font-size:clamp(2rem,4.5vw,2.9rem); margin-bottom:8px;}
-  #about .role{color:var(--accent); font-weight:700; margin-bottom:14px; font-size:1.05rem;}
-  #about p{max-width:62ch; color:var(--muted); font-size:1rem; line-height:1.6;}
-  .hero-cta{display:flex; gap:12px; margin-top:22px;}
+    :root[data-theme="light"] {
+      --bg: #ffffff;
+      --text: #14151a;
+      --muted: #6b6d76;
+      --accent: #ff5a1f;
+      --line: #ececec;
+      --card: #fafafa;
+    }
 
-  /* BUTTONS */
-  .btn{
-    text-decoration:none; font-size:.88rem; font-weight:700; padding:10px 18px;
-    border-radius:10px; text-align:center; border:1px solid var(--line);
-    display:inline-flex; align-items:center; justify-content:center; gap:6px;
-    transition:all .15s ease;
-  }
-  .btn.solid{background:var(--accent); color:#fff; border-color:var(--accent); box-shadow:0 3px 12px rgba(255,106,51,.3);}
-  .btn.solid:hover{filter:brightness(1.1); transform:translateY(-1px);}
-  .btn.outline{background:transparent; color:var(--text);}
-  .btn.outline:hover{border-color:var(--accent); color:var(--accent); background:rgba(255,106,51,.05);}
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: env(safe-area-inset-top, 0px);
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+    }
 
-  /* JOURNEY */
-  .timeline{list-style:none; margin:0; padding:0; border-left:2px solid var(--line);}
-  .timeline li{position:relative; padding:0 0 32px 28px;}
-  .timeline li:last-child{padding-bottom:0;}
-  .timeline li::before{
-    content:""; position:absolute; left:-7px; top:4px;
-    width:12px; height:12px; border-radius:50%; background:var(--accent);
-    box-shadow:0 0 8px rgba(255,106,51,.6);
-  }
-  .timeline .when{font-size:.82rem; color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:.04em;}
-  .timeline h3{font-size:1.1rem; margin:2px 0 6px;}
-  .timeline p{color:var(--muted); max-width:68ch; margin:0;}
+    * {
+      box-sizing: border-box;
+    }
 
-  /* RESUME */
-  .resume-top{display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin-bottom:28px;}
-  .resume-top h2{margin:0;}
-  .grid3{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:22px;}
-  .card{
-    background:var(--card); border:1px solid var(--line); border-radius:16px;
-    padding:26px; display:flex; flex-direction:column; gap:12px;
-  }
-  .card h3{font-size:1.15rem; color:var(--text); border-bottom:1px solid var(--line); padding-bottom:8px;}
-  .grid3 .card ul{margin:0; padding-left:18px; color:var(--muted); font-size:.92rem;}
-  .grid3 .card ul li{margin-bottom:8px; line-height:1.45;}
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  footer{padding:36px 0 44px; text-align:center; color:var(--muted); font-size:.85rem; border-top:1px solid var(--line); margin-top:40px;}
+    a {
+      color: inherit;
+    }
 
-  @media (max-width:860px){
-    .about-grid{grid-template-columns:1fr; text-align:center;}
-    .avatar{margin:0 auto; width:300px; height:300px;}
-    #about p{margin:0 auto;}
-    .hero-cta{justify-content:center;}
-  }
-  @media (max-width:640px){
-    .avatar{width:240px; height:240px;}
-    nav{gap:0; padding:6px;} nav a{padding:8px 12px; font-size:.8rem;}
-  }
-</style>
+    img {
+      max-width: 100%;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 90px 0 60px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      margin-bottom: 30px;
+    }
+
+    p {
+      color: var(--text);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: calc(18px + env(safe-area-inset-top, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, .35);
+      white-space: nowrap;
+    }
+
+    .nav-indicator {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 2px 14px rgba(255, 106, 51, .45);
+      transition: transform .3s cubic-bezier(0.25, 1, 0.5, 1), width .3s cubic-bezier(0.25, 1, 0.5, 1), opacity .2s;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .nav-indicator {
+        transition: none !important;
+      }
+    }
+
+    nav a {
+      position: relative;
+      z-index: 2;
+      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 600;
+      padding: 9px 18px;
+      border-radius: 999px;
+      color: var(--muted);
+      transition: color .2s;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      color: var(--text);
+    }
+
+    nav a.active {
+      color: #fff !important;
+    }
+
+    /* ABOUT HERO */
+    #about {
+      padding-top: 150px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: var(--card);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      font-weight: 800;
+      color: var(--accent);
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, .45);
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    #about h1 {
+      font-size: clamp(2rem, 4.5vw, 2.9rem);
+      margin-bottom: 8px;
+    }
+
+    #about .role {
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 14px;
+      font-size: 1.05rem;
+    }
+
+    #about p {
+      max-width: 62ch;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    /* BUTTONS */
+    .btn {
+      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 10px;
+      text-align: center;
+      border: 1px solid var(--line);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all .15s ease;
+    }
+
+    .btn.solid {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 3px 12px rgba(255, 106, 51, .3);
+    }
+
+    .btn.solid:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+    }
+
+    .btn.outline {
+      background: transparent;
+      color: var(--text);
+    }
+
+    .btn.outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(255, 106, 51, .05);
+    }
+
+    /* JOURNEY */
+    .timeline {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-left: 2px solid var(--line);
+    }
+
+    .timeline li {
+      position: relative;
+      padding: 0 0 32px 28px;
+    }
+
+    .timeline li:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline li::before {
+      content: "";
+      position: absolute;
+      left: -7px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 8px rgba(255, 106, 51, .6);
+    }
+
+    .timeline .when {
+      font-size: .82rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .timeline h3 {
+      font-size: 1.1rem;
+      margin: 2px 0 6px;
+    }
+
+    .timeline p {
+      color: var(--muted);
+      max-width: 68ch;
+      margin: 0;
+    }
+
+    /* RESUME */
+    .resume-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .resume-top h2 {
+      margin: 0;
+    }
+
+    .grid3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      color: var(--text);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 8px;
+    }
+
+    .grid3 .card ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+
+    .grid3 .card ul li {
+      margin-bottom: 8px;
+      line-height: 1.45;
+    }
+
+    footer {
+      padding: 36px 0 44px;
+      text-align: center;
+      color: var(--muted);
+      font-size: .85rem;
+      border-top: 1px solid var(--line);
+      margin-top: 40px;
+    }
+
+    @media (max-width:860px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .avatar {
+        margin: 0 auto;
+        width: 300px;
+        height: 300px;
+      }
+
+      #about p {
+        margin: 0 auto;
+      }
+
+      .hero-cta {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width:640px) {
+      .avatar {
+        width: 240px;
+        height: 240px;
+      }
+
+      nav {
+        gap: 0;
+        padding: 6px;
+      }
+
+      nav a {
+        padding: 8px 12px;
+        font-size: .8rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<nav id="navbar">
-  <span class="nav-indicator" id="navIndicator"></span>
-  <a href="index.html" class="active">About</a>
-  <a href="projects.html">Projects</a>
-  <a href="resume.html">Resume</a>
-  <a href="contact.html">Contact</a>
-</nav>
+  <nav id="navbar">
+    <span class="nav-indicator" id="navIndicator"></span>
+    <a href="index.html" class="active">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="resume.html">Resume</a>
+    <a href="contact.html">Contact</a>
+  </nav>
 
-<div class="wrap">
+  <div class="wrap">
 
-  <!-- ABOUT HERO -->
-  <section id="about">
-    <div class="about-grid">
-      <div class="avatar">
-        <img src="image.png" alt="Saisrivathsan Manikandan" onerror="this.onerror=null; this.parentElement.innerText='SM';">
-      </div>
-      <div>
-        <h1>Saisrivathsan Manikandan</h1>
-        <p class="role">Computer Science Graduate Student &amp; AI Systems Engineer</p>
-        <p>I specialize in deep learning, computer vision, multimodal AI, and LLM systems. Experienced in PyTorch, FastAPI, distributed training (DDP), on-premises inference, AWS SageMaker, and MLOps, with a proven track record implementing research models and building end-to-end AI pipelines.</p>
-        <div class="hero-cta">
-          <a class="btn solid" href="projects.html">View Projects &rarr;</a>
-          <a class="btn outline" href="contact.html">Get in Touch</a>
+    <!-- ABOUT HERO -->
+    <section id="about">
+      <div class="about-grid">
+        <div class="avatar">
+          <img src="image.png" alt="Saisrivathsan Manikandan"
+            onerror="this.onerror=null; this.parentElement.innerText='SM';">
+        </div>
+        <div>
+          <h1>Saisrivathsan Manikandan</h1>
+          <p class="role">Computer Science Graduate Student &amp; AI Systems Engineer</p>
+          <p>I specialize in deep learning, computer vision, multimodal AI, and LLM systems. Experienced in PyTorch,
+            FastAPI, distributed training (DDP), on-premises inference, AWS SageMaker, and MLOps, with a proven track
+            record implementing research models and building end-to-end AI pipelines.</p>
+          <div class="hero-cta">
+            <a class="btn solid" href="projects.html">View Projects &rarr;</a>
+            <a class="btn outline" href="contact.html">Get in Touch</a>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- JOURNEY (MERGED UNDER ABOUT) -->
-  <section id="journey">
-    <h2>My Journey</h2>
-    <ul class="timeline">
-      <li>
-        <div class="when">2026 — Expected 2027</div>
-        <h3>M.S. in Computer Science, Arizona State University</h3>
-        <p>Advancing research in deep learning, computer vision, and multimodal systems, with graduate coursework in Cloud Computing, Data-Intensive ML Systems, and Data Mining.</p>
-      </li>
-      <li>
-        <div class="when">2026</div>
-        <h3>SlideSight — 1st Place &amp; Fan Favorite at ASU AIR Spark</h3>
-        <p>Led development of an on-premise multimodal accessibility pipeline using Qwen3-VL-32B and FastAPI, processing 505 slides in 1.4s/image and detecting 531 WCAG violations.</p>
-      </li>
-      <li>
-        <div class="when">2025 — 2026</div>
-        <h3>Medical Imaging AI Research &amp; Swin Transformers</h3>
-        <p>Adapted vision transformers for CheXpert multi-label pathology classification (0.9004 AUC), TB lesion localization, and Swin-UNet V2 segmentation with multi-GPU DDP training.</p>
-      </li>
-      <li>
-        <div class="when">2024 — 2025</div>
-        <h3>App Development &amp; Cloud / MLOps Certifications</h3>
-        <p>Shipped Zesto to the iOS App Store with LLM streaming features and Firestore sync. Earned AWS Certified AI Practitioner credential and completed MLOps Masterclass.</p>
-      </li>
-      <li>
-        <div class="when">2022 — 2026</div>
-        <h3>B.S. in Computer Science, Arizona State University</h3>
-        <p>Focused on Data Structures &amp; Algorithms, Image Processing &amp; Analysis (Deep Learning), and Machine Learning. Built foundational expertise in algorithms and systems programming.</p>
-      </li>
-      <li>
-        <div class="when">Graduated May 2022</div>
-        <h3>International Baccalaureate Diploma (IBDP), The British International School Abu Dhabi</h3>
-        <p>Completed the International Baccalaureate Diploma. Higher Level (HL): Computer Science, ITGS, Physics, Mathematics Analysis and Approaches. Standard Level (SL): English, French ab initio.</p>
-      </li>
-    </ul>
-  </section>
+    <!-- JOURNEY (MERGED UNDER ABOUT) -->
+    <section id="journey">
+      <h2>My Journey</h2>
+      <ul class="timeline">
+        <li>
+          <div class="when">2026 — Expected 2027</div>
+          <h3>M.S. in Computer Science, Arizona State University</h3>
+          <p>Advancing research in deep learning, computer vision, and multimodal systems, with graduate coursework in
+            Cloud Computing, Data-Intensive ML Systems, and Data Mining.</p>
+        </li>
+        <li>
+          <div class="when">2026</div>
+          <h3>SlideSight — 1st Place &amp; Fan Favorite at ASU AIR Spark</h3>
+          <p>Led development of an on-premise multimodal accessibility pipeline using Qwen3-VL-32B and FastAPI,
+            processing 505 slides in 1.4s/image and detecting 531 WCAG violations.</p>
+        </li>
+        <li>
+          <div class="when">2025 — 2026</div>
+          <h3>Medical Imaging AI Research &amp; Swin Transformers</h3>
+          <p>Adapted vision transformers for CheXpert multi-label pathology classification (0.9004 AUC), TB lesion
+            localization, and Swin-UNet V2 segmentation with multi-GPU DDP training.</p>
+        </li>
+        <li>
+          <div class="when">2024 — 2025</div>
+          <h3>App Development &amp; Cloud / MLOps Certifications</h3>
+          <p>Shipped Zesto to the iOS App Store with LLM streaming features and Firestore sync. Earned AWS Certified AI
+            Practitioner credential and completed MLOps Masterclass.</p>
+        </li>
+        <li>
+          <div class="when">2022 — 2026</div>
+          <h3>B.S. in Computer Science, Arizona State University</h3>
+          <p>Focused on Data Structures &amp; Algorithms, Image Processing &amp; Analysis (Deep Learning), and Machine
+            Learning. Built foundational expertise in algorithms and systems programming.</p>
+        </li>
+        <li>
+          <div class="when">Graduated May 2022</div>
+          <h3>International Baccalaureate Diploma (IBDP), The British International School Abu Dhabi</h3>
+          <p>Completed the International Baccalaureate Diploma. Higher Level (HL): Computer Science, ITGS, Physics,
+            Mathematics Analysis and Approaches. Standard Level (SL): English, French ab initio.</p>
+        </li>
+      </ul>
+    </section>
 
-  <footer>© 2026 Saisrivathsan Manikandan. Built with care.</footer>
-</div>
+    <footer>© 2026 Saisrivathsan Manikandan</footer>
+  </div>
 
-<script>
-  (function(){
-    const nav = document.getElementById('navbar');
-    const indicator = document.getElementById('navIndicator');
-    const links = Array.from(nav.querySelectorAll('a'));
-    const activeLink = nav.querySelector("a.active") || links[0];
+  <script>
+    (function () {
+      const nav = document.getElementById('navbar');
+      const indicator = document.getElementById('navIndicator');
+      const links = Array.from(nav.querySelectorAll('a'));
+      const activeLink = nav.querySelector("a.active") || links[0];
 
-    function setIndicator(link, animate = true) {
-      if (!link || !indicator) return;
-      if (!animate) {
-        indicator.style.transition = 'none';
-      } else {
-        indicator.style.transition = 'transform .3s cubic-bezier(0.25, 1, 0.5, 1), width .3s cubic-bezier(0.25, 1, 0.5, 1), opacity .2s';
+      function setIndicator(link, animate = true) {
+        if (!link || !indicator) return;
+        if (!animate) {
+          indicator.style.transition = 'none';
+        } else {
+          indicator.style.transition = 'transform .3s cubic-bezier(0.25, 1, 0.5, 1), width .3s cubic-bezier(0.25, 1, 0.5, 1), opacity .2s';
+        }
+        indicator.style.width = link.offsetWidth + 'px';
+        indicator.style.height = link.offsetHeight + 'px';
+        indicator.style.transform = `translate3d(${link.offsetLeft}px, ${link.offsetTop}px, 0)`;
+        indicator.style.opacity = '1';
+
+        if (!animate) {
+          indicator.offsetHeight;
+          indicator.style.transition = '';
+        }
       }
-      indicator.style.width = link.offsetWidth + 'px';
-      indicator.style.height = link.offsetHeight + 'px';
-      indicator.style.transform = `translate3d(${link.offsetLeft}px, ${link.offsetTop}px, 0)`;
-      indicator.style.opacity = '1';
 
-      if (!animate) {
-        indicator.offsetHeight;
-        indicator.style.transition = '';
-      }
-    }
-
-    links.forEach(link => {
-      link.addEventListener('mouseenter', function() {
-        setIndicator(this);
+      links.forEach(link => {
+        link.addEventListener('mouseenter', function () {
+          setIndicator(this);
+        });
       });
-    });
 
-    nav.addEventListener('mouseleave', function() {
-      setIndicator(activeLink);
-    });
+      nav.addEventListener('mouseleave', function () {
+        setIndicator(activeLink);
+      });
 
-    window.addEventListener('resize', () => setIndicator(activeLink, false));
+      window.addEventListener('resize', () => setIndicator(activeLink, false));
 
-    function init() {
-      setIndicator(activeLink, false);
-      setTimeout(() => setIndicator(activeLink, false), 50);
-      setTimeout(() => setIndicator(activeLink, false), 200);
-    }
+      function init() {
+        setIndicator(activeLink, false);
+        setTimeout(() => setIndicator(activeLink, false), 50);
+        setTimeout(() => setIndicator(activeLink, false), 200);
+      }
 
-    if (document.readyState === 'loading') {
-      window.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
-  })();
-</script>
+      if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
 
 </body>
+
 </html>

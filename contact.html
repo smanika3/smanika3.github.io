@@ -1,258 +1,428 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<title>Saisrivathsan Manikandan — Contact</title>
-<style>
-  :root{
-    --bg:#111214; --text:#f5f5f4; --muted:#a1a1aa;
-    --accent:#ff6a33; --line:#26272b; --card:#18191c;
-    box-sizing:border-box;
-    padding-top:env(safe-area-inset-top,0px);
-    padding-bottom:env(safe-area-inset-bottom,0px);
-  }
-  :root[data-theme="dark"]{
-    --bg:#111214; --text:#f5f5f4; --muted:#a1a1aa;
-    --accent:#ff6a33; --line:#26272b; --card:#18191c;
-  }
-  :root[data-theme="light"]{
-    --bg:#ffffff; --text:#14151a; --muted:#6b6d76;
-    --accent:#ff5a1f; --line:#ececec; --card:#fafafa;
-  }
-  html{scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top,0px); overflow-y:scroll; scrollbar-gutter:stable;}
-  *{box-sizing:border-box;}
-  body{
-    margin:0; background:var(--bg); color:var(--text);
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    line-height:1.5; -webkit-font-smoothing:antialiased;
-  }
-  a{color:inherit;}
-  .wrap{max-width:980px; margin:0 auto; padding:0 24px;}
-  h1,h2,h3{margin:0; font-weight:800; letter-spacing:-0.02em;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Saisrivathsan Manikandan — Contact</title>
+  <style>
+    :root {
+      --bg: #111214;
+      --text: #f5f5f4;
+      --muted: #a1a1aa;
+      --accent: #ff6a33;
+      --line: #26272b;
+      --card: #18191c;
+      box-sizing: border-box;
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
 
-  /* NAV */
-  nav{
-    position:fixed; top:calc(18px + env(safe-area-inset-top,0px)); left:50%;
-    transform:translateX(-50%); z-index:50;
-    background:var(--bg); border:1px solid var(--line);
-    border-radius:999px; padding:8px; display:flex; align-items:center; justify-content:center; gap:2px;
-    box-shadow:0 6px 20px rgba(0,0,0,.35); white-space:nowrap;
-  }
-  .nav-indicator{
-    position:absolute; top:0; left:0;
-    border-radius:999px;
-    background:var(--accent);
-    box-shadow:0 2px 14px rgba(255,106,51,.45);
-    transition:transform .3s cubic-bezier(0.25, 1, 0.5, 1), width .3s cubic-bezier(0.25, 1, 0.5, 1), opacity .2s;
-    pointer-events:none;
-    z-index:1;
-    opacity:0;
-  }
-  @media (prefers-reduced-motion: reduce){
-    .nav-indicator{transition:none !important;}
-  }
-  nav a{
-    position:relative; z-index:2;
-    text-decoration:none; font-size:.88rem; font-weight:600;
-    padding:9px 18px; border-radius:999px; color:var(--muted);
-    transition:color .2s;
-  }
-  nav a:hover, nav a:focus-visible{color:var(--text);}
-  nav a.active{color:#fff !important;}
+    :root[data-theme="dark"] {
+      --bg: #111214;
+      --text: #f5f5f4;
+      --muted: #a1a1aa;
+      --accent: #ff6a33;
+      --line: #26272b;
+      --card: #18191c;
+    }
 
-  /* HEADER */
-  .contact-header{
-    padding-top:150px; text-align:center; margin-bottom:40px;
-  }
-  .contact-header h1{font-size:clamp(2.2rem,5vw,3rem); margin-bottom:12px;}
-  .contact-header p{color:var(--muted); max-width:55ch; margin:0 auto; font-size:1.05rem;}
+    :root[data-theme="light"] {
+      --bg: #ffffff;
+      --text: #14151a;
+      --muted: #6b6d76;
+      --accent: #ff5a1f;
+      --line: #ececec;
+      --card: #fafafa;
+    }
 
-  /* SYMMETRIC TRIANGLE LAYOUT */
-  .triangle-wrapper{
-    display:flex; flex-direction:column; align-items:center;
-    gap:28px; max-width:820px; margin:0 auto 70px;
-  }
-  .triangle-top{
-    display:flex; justify-content:center; width:100%;
-  }
-  .triangle-bottom{
-    display:grid; grid-template-columns:1fr 1fr; gap:28px; width:100%;
-  }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: env(safe-area-inset-top, 0px);
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+    }
 
-  /* BIG CONTACT CARDS */
-  .big-contact-card{
-    background:var(--card); border:1px solid var(--line); border-radius:20px;
-    padding:44px 28px; display:flex; flex-direction:column; align-items:center;
-    text-align:center; gap:10px; text-decoration:none;
-    width:100%; max-width:380px; box-shadow:0 8px 28px rgba(0,0,0,.35);
-    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-    position:relative; overflow:hidden;
-  }
-  .big-contact-card:hover{
-    transform:translateY(-6px);
-    border-color:var(--accent);
-    box-shadow:0 16px 36px rgba(255,106,51,.2);
-  }
-  .big-contact-card .ic{
-    width:66px; height:66px; border-radius:50%; background:var(--accent);
-    display:flex; align-items:center; justify-content:center; margin-bottom:6px;
-    box-shadow:0 4px 18px rgba(255,106,51,.45);
-    transition:transform .25s ease;
-  }
-  .big-contact-card:hover .ic{
-    transform:scale(1.08);
-  }
-  .big-contact-card .ic svg{
-    width:32px; height:32px; fill:#fff;
-  }
-  .big-contact-card h3{
-    font-size:1.32rem; color:var(--text); margin:0;
-  }
-  .big-contact-card .handle{
-    font-size:.9rem; color:var(--accent); font-weight:600;
-  }
-  .big-contact-card .sub-msg{
-    font-size:.92rem; color:var(--muted); line-height:1.45; margin:4px 0 10px;
-  }
-  .card-action{
-    font-size:.8rem; font-weight:700; color:var(--text);
-    background:rgba(255,255,255,.06); border:1px solid var(--line);
-    padding:6px 14px; border-radius:999px; display:inline-flex; align-items:center; gap:4px;
-    transition:background .2s, color .2s, border-color .2s;
-  }
-  .big-contact-card:hover .card-action{
-    background:var(--accent); color:#fff; border-color:var(--accent);
-  }
+    * {
+      box-sizing: border-box;
+    }
 
-  footer{padding:36px 0 44px; text-align:center; color:var(--muted); font-size:.85rem; border-top:1px solid var(--line);}
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
 
-  /* RESPONSIVE */
-  @media (max-width:760px){
-    .triangle-bottom{grid-template-columns:1fr;}
-    .big-contact-card{max-width:100%; padding:36px 24px;}
-    nav{gap:0; padding:6px;} nav a{padding:8px 12px; font-size:.8rem;}
-  }
-</style>
+    a {
+      color: inherit;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: calc(18px + env(safe-area-inset-top, 0px));
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, .35);
+      white-space: nowrap;
+    }
+
+    .nav-indicator {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 2px 14px rgba(255, 106, 51, .45);
+      transition: transform .3s cubic-bezier(0.25, 1, 0.5, 1), width .3s cubic-bezier(0.25, 1, 0.5, 1), opacity .2s;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .nav-indicator {
+        transition: none !important;
+      }
+    }
+
+    nav a {
+      position: relative;
+      z-index: 2;
+      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 600;
+      padding: 9px 18px;
+      border-radius: 999px;
+      color: var(--muted);
+      transition: color .2s;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      color: var(--text);
+    }
+
+    nav a.active {
+      color: #fff !important;
+    }
+
+    /* HEADER */
+    .contact-header {
+      padding-top: 150px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .contact-header h1 {
+      font-size: clamp(2.2rem, 5vw, 3rem);
+      margin-bottom: 12px;
+    }
+
+    .contact-header p {
+      color: var(--muted);
+      max-width: 55ch;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    /* SYMMETRIC TRIANGLE LAYOUT */
+    .triangle-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+      max-width: 820px;
+      margin: 0 auto 70px;
+    }
+
+    .triangle-top {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .triangle-bottom {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      width: 100%;
+    }
+
+    /* BIG CONTACT CARDS */
+    .big-contact-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 44px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      text-decoration: none;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, .35);
+      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .big-contact-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: 0 16px 36px rgba(255, 106, 51, .2);
+    }
+
+    .big-contact-card .ic {
+      width: 66px;
+      height: 66px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+      box-shadow: 0 4px 18px rgba(255, 106, 51, .45);
+      transition: transform .25s ease;
+    }
+
+    .big-contact-card:hover .ic {
+      transform: scale(1.08);
+    }
+
+    .big-contact-card .ic svg {
+      width: 32px;
+      height: 32px;
+      fill: #fff;
+    }
+
+    .big-contact-card h3 {
+      font-size: 1.32rem;
+      color: var(--text);
+      margin: 0;
+    }
+
+    .big-contact-card .handle {
+      font-size: .9rem;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .big-contact-card .sub-msg {
+      font-size: .92rem;
+      color: var(--muted);
+      line-height: 1.45;
+      margin: 4px 0 10px;
+    }
+
+    .card-action {
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--text);
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid var(--line);
+      padding: 6px 14px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: background .2s, color .2s, border-color .2s;
+    }
+
+    .big-contact-card:hover .card-action {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    footer {
+      padding: 36px 0 44px;
+      text-align: center;
+      color: var(--muted);
+      font-size: .85rem;
+      border-top: 1px solid var(--line);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width:760px) {
+      .triangle-bottom {
+        grid-template-columns: 1fr;
+      }
+
+      .big-contact-card {
+        max-width: 100%;
+        padding: 36px 24px;
+      }
+
+      nav {
+        gap: 0;
+        padding: 6px;
+      }
+
+      nav a {
+        padding: 8px 12px;
+        font-size: .8rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<nav id="navbar">
-  <span class="nav-indicator" id="navIndicator"></span>
-  <a href="index.html">About</a>
-  <a href="projects.html">Projects</a>
-  <a href="resume.html">Resume</a>
-  <a href="contact.html" class="active">Contact</a>
-</nav>
+  <nav id="navbar">
+    <span class="nav-indicator" id="navIndicator"></span>
+    <a href="index.html">About</a>
+    <a href="projects.html">Projects</a>
+    <a href="resume.html">Resume</a>
+    <a href="contact.html" class="active">Contact</a>
+  </nav>
 
-<div class="wrap">
+  <div class="wrap">
 
-  <div class="contact-header">
-    <h1>Get in Touch</h1>
-    <p>Feel free to reach out for new opportunities, research collaborations, or technical questions.</p>
-  </div>
-
-  <!-- SYMMETRIC TRIANGLE CONTAINER -->
-  <div class="triangle-wrapper">
-
-    <!-- TOP APEX: GITHUB CARD -->
-    <div class="triangle-top">
-      <a class="big-contact-card" href="https://github.com/saisrivathsan9" target="_blank" rel="noopener">
-        <div class="ic">
-          <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        </div>
-        <h3>GitHub</h3>
-        <span class="handle">github.com/saisrivathsan9</span>
-        <p class="sub-msg">Check out what I'm working on</p>
-        <span class="card-action">View Repositories &rarr;</span>
-      </a>
+    <div class="contact-header">
+      <h1>Get in Touch</h1>
+      <p>Feel free to reach out for new opportunities, research collaborations, or technical questions.</p>
     </div>
 
-    <!-- BOTTOM ROW: LINKEDIN (LEFT) & EMAIL (RIGHT) -->
-    <div class="triangle-bottom">
+    <!-- SYMMETRIC TRIANGLE CONTAINER -->
+    <div class="triangle-wrapper">
 
-      <!-- BOTTOM LEFT: LINKEDIN -->
-      <a class="big-contact-card" href="https://linkedin.com/in/smanika3" target="_blank" rel="noopener">
-        <div class="ic">
-          <svg viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.49 6S0 4.88 0 3.5 1.11 1 2.49 1s2.49 1.12 2.49 2.5zM.24 8.25h4.5V23H.24V8.25zM8.5 8.25h4.31v2.02h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V23h-4.5v-6.93c0-1.65-.03-3.78-2.3-3.78-2.3 0-2.65 1.8-2.65 3.66V23H8.5V8.25z"/></svg>
-        </div>
-        <h3>LinkedIn</h3>
-        <span class="handle">linkedin.com/in/smanika3</span>
-        <p class="sub-msg">Connect &amp; network professionally</p>
-        <span class="card-action">Connect &rarr;</span>
-      </a>
+      <!-- TOP APEX: GITHUB CARD -->
+      <div class="triangle-top">
+        <a class="big-contact-card" href="https://github.com/saisrivathsan9" target="_blank" rel="noopener">
+          <div class="ic">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+            </svg>
+          </div>
+          <h3>GitHub</h3>
+          <span class="handle">github.com/saisrivathsan9</span>
+          <p class="sub-msg">Check out what I'm working on</p>
+          <span class="card-action">View Repositories &rarr;</span>
+        </a>
+      </div>
 
-      <!-- BOTTOM RIGHT: EMAIL -->
-      <a class="big-contact-card" href="mailto:saisrivathsan2004@gmail.com">
-        <div class="ic">
-          <svg viewBox="0 0 24 24"><path d="M2 4h20a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm18.29 2H3.71l8.29 6.63L20.29 6zM3 18h18V7.83l-8.4 6.72a1 1 0 0 1-1.2 0L3 7.83V18z"/></svg>
-        </div>
-        <h3>Email</h3>
-        <span class="handle">saisrivathsan2004@gmail.com</span>
-        <p class="sub-msg">Drop me a message directly</p>
-        <span class="card-action">Send Email &rarr;</span>
-      </a>
+      <!-- BOTTOM ROW: LINKEDIN (LEFT) & EMAIL (RIGHT) -->
+      <div class="triangle-bottom">
+
+        <!-- BOTTOM LEFT: LINKEDIN -->
+        <a class="big-contact-card" href="https://linkedin.com/in/smanika3" target="_blank" rel="noopener">
+          <div class="ic">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M4.98 3.5C4.98 4.88 3.87 6 2.49 6S0 4.88 0 3.5 1.11 1 2.49 1s2.49 1.12 2.49 2.5zM.24 8.25h4.5V23H.24V8.25zM8.5 8.25h4.31v2.02h.06c.6-1.14 2.07-2.34 4.26-2.34 4.56 0 5.4 3 5.4 6.9V23h-4.5v-6.93c0-1.65-.03-3.78-2.3-3.78-2.3 0-2.65 1.8-2.65 3.66V23H8.5V8.25z" />
+            </svg>
+          </div>
+          <h3>LinkedIn</h3>
+          <span class="handle">linkedin.com/in/smanika3</span>
+          <p class="sub-msg">Connect &amp; network professionally</p>
+          <span class="card-action">Connect &rarr;</span>
+        </a>
+
+        <!-- BOTTOM RIGHT: EMAIL -->
+        <a class="big-contact-card" href="mailto:saisrivathsan2004@gmail.com">
+          <div class="ic">
+            <svg viewBox="0 0 24 24">
+              <path
+                d="M2 4h20a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm18.29 2H3.71l8.29 6.63L20.29 6zM3 18h18V7.83l-8.4 6.72a1 1 0 0 1-1.2 0L3 7.83V18z" />
+            </svg>
+          </div>
+          <h3>Email</h3>
+          <span class="handle">saisrivathsan2004@gmail.com</span>
+          <p class="sub-msg">Drop me a message directly</p>
+          <span class="card-action">Send Email &rarr;</span>
+        </a>
+
+      </div>
 
     </div>
 
+    <footer>© 2026 Saisrivathsan Manikandan</footer>
   </div>
 
-  <footer>© 2026 Saisrivathsan Manikandan. Built with care.</footer>
-</div>
+  <script>
+    (function () {
+      const nav = document.getElementById('navbar');
+      const indicator = document.getElementById('navIndicator');
+      const links = Array.from(nav.querySelectorAll('a'));
+      const activeLink = nav.querySelector("a.active") || links[0];
 
-<script>
-  (function(){
-    const nav = document.getElementById('navbar');
-    const indicator = document.getElementById('navIndicator');
-    const links = Array.from(nav.querySelectorAll('a'));
-    const activeLink = nav.querySelector("a.active") || links[0];
+      function setIndicator(link, animate = true) {
+        if (!link || !indicator) return;
+        if (!animate) {
+          indicator.style.transition = 'none';
+        } else {
+          indicator.style.transition = 'transform .3s cubic-bezier(0.25, 1, 0.5, 1), width .3s cubic-bezier(0.25, 1, 0.5, 1), opacity .2s';
+        }
+        indicator.style.width = link.offsetWidth + 'px';
+        indicator.style.height = link.offsetHeight + 'px';
+        indicator.style.transform = `translate3d(${link.offsetLeft}px, ${link.offsetTop}px, 0)`;
+        indicator.style.opacity = '1';
 
-    function setIndicator(link, animate = true) {
-      if (!link || !indicator) return;
-      if (!animate) {
-        indicator.style.transition = 'none';
-      } else {
-        indicator.style.transition = 'transform .3s cubic-bezier(0.25, 1, 0.5, 1), width .3s cubic-bezier(0.25, 1, 0.5, 1), opacity .2s';
+        if (!animate) {
+          indicator.offsetHeight;
+          indicator.style.transition = '';
+        }
       }
-      indicator.style.width = link.offsetWidth + 'px';
-      indicator.style.height = link.offsetHeight + 'px';
-      indicator.style.transform = `translate3d(${link.offsetLeft}px, ${link.offsetTop}px, 0)`;
-      indicator.style.opacity = '1';
 
-      if (!animate) {
-        indicator.offsetHeight;
-        indicator.style.transition = '';
-      }
-    }
-
-    links.forEach(link => {
-      link.addEventListener('mouseenter', function() {
-        setIndicator(this);
+      links.forEach(link => {
+        link.addEventListener('mouseenter', function () {
+          setIndicator(this);
+        });
       });
-    });
 
-    nav.addEventListener('mouseleave', function() {
-      setIndicator(activeLink);
-    });
+      nav.addEventListener('mouseleave', function () {
+        setIndicator(activeLink);
+      });
 
-    window.addEventListener('resize', () => setIndicator(activeLink, false));
+      window.addEventListener('resize', () => setIndicator(activeLink, false));
 
-    function init() {
-      setIndicator(activeLink, false);
-      setTimeout(() => setIndicator(activeLink, false), 50);
-      setTimeout(() => setIndicator(activeLink, false), 200);
-    }
+      function init() {
+        setIndicator(activeLink, false);
+        setTimeout(() => setIndicator(activeLink, false), 50);
+        setTimeout(() => setIndicator(activeLink, false), 200);
+      }
 
-    if (document.readyState === 'loading') {
-      window.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
-  })();
-</script>
+      if (document.readyState === 'loading') {
+        window.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
 
 </body>
+
 </html>
