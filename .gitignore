@@ -1,1 +1,7 @@
 .DS_Store
+
+# Design tool files (local only)
+.impeccable/
+PRODUCT.md
+DESIGN.md
+FUTURE_FIXES.md

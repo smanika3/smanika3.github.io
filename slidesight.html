@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SlideSight — Saisrivathsan Manikandan</title>
+  <meta name="description"
+    content="SlideSight writes confidence-gated alt text for PowerPoint lecture slides on ASU hardware. 1st Place & Fan Favorite, ASU AIR Spark.">
+  <meta property="og:title" content="SlideSight — Saisrivathsan Manikandan">
+  <meta property="og:description"
+    content="Confidence-gated alt text for lecture slides. 380 pictures, 228 written automatically, 30 sent to a person. 1st Place, ASU AIR Spark.">
+  <meta property="og:image" content="https://i.ytimg.com/vi/GsoHh9ocpWg/maxresdefault.jpg">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+</head>
+
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">Saisrivathsan<span class="brand-long"> Manikandan</span><span class="brand-short"> M.</span></a>
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="index.html#work" aria-current="page">Work</a></li>
+          <li><a href="resume.html">Résumé</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="crumbs"><a href="index.html#work">Work</a> / SlideSight</p>
+
+    <div class="hero">
+      <div>
+        <span class="pill">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4Z" />
+            <path d="M17 6h3v2a3 3 0 0 1-3 3M7 6H4v2a3 3 0 0 0 3 3" /></svg>
+          1st Place &amp; Fan Favorite · ASU AIR Spark
+        </span>
+        <h1>SlideSight</h1>
+        <p class="lede">Writes alt text for the pictures in PowerPoint lecture slides, saves only the descriptions
+          it is sure of, and sends the rest to a person. Every model call runs on ASU hardware.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="https://youtu.be/GsoHh9ocpWg" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+            Watch demo
+          </a>
+          <a class="btn btn-secondary" href="https://github.com/smanika3/ASU-AIR-SlideSight" target="_blank"
+            rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path
+                d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.3v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3" /></svg>
+            View source
+          </a>
+        </div>
+        <div class="meta">
+          <span>Team <b>with Shrey Bishnoi</b></span>
+          <span>Year <b>2026</b></span>
+        </div>
+      </div>
+
+      <a class="video" id="demo" href="https://youtu.be/GsoHh9ocpWg" target="_blank" rel="noopener"
+        data-yt="GsoHh9ocpWg" aria-label="Play the SlideSight demo video">
+        <img src="https://i.ytimg.com/vi/GsoHh9ocpWg/maxresdefault.jpg" alt="" width="1280" height="720">
+        <span class="play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg></span>
+        <span class="label">Demo · YouTube</span>
+      </a>
+    </div>
+
+    <div class="stats" role="list">
+      <div class="stat" role="listitem"><b>380</b><span>pictures found</span></div>
+      <div class="stat" role="listitem"><b>228</b><span>descriptions written automatically</span></div>
+      <div class="stat" role="listitem"><b>122</b><span>silenced as decorative</span></div>
+      <div class="stat" role="listitem"><b>30</b><span>sent to a person</span></div>
+    </div>
+    <p class="stats-note">Ten real university lecture decks · 505 slides · 556 seconds end to end · 531 accessibility
+      issues reported</p>
+
+    <div class="body">
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#problem">The problem</a></li>
+          <li><a href="#different">What's different</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#results">Results</a></li>
+          <li><a href="#silencing">The dangerous decision</a></li>
+          <li><a href="#bugs">Bugs from real files</a></li>
+          <li><a href="#unproven">Not yet proved</a></li>
+          <li><a href="#deck">Pitch deck</a></li>
+          <li><a href="#stack">Stack &amp; credits</a></li>
+        </ol>
+      </aside>
+
+      <article>
+        <section id="problem">
+          <h2>The problem</h2>
+          <p>A blind student opening a lecture deck usually hears “Picture 4.” Sometimes it is worse. In one real ASU
+            course deck the alt text is a Windows file path, so that is what the screen reader spells out:</p>
+          <div class="quote">What the student hears
+            <span class="mono">C:\Users\symbiosis\Desktop\IB2COM\box_fls.png</span>
+          </div>
+          <p>Fixing this by hand costs <strong>$3–4 per page</strong> in manual remediation. SlideSight finds every
+            picture in a <code>.pptx</code>, writes a description for each one, and saves the descriptions back into
+            the file. A browser app and a command-line tool run the same pipeline underneath.</p>
+        </section>
+
+        <section id="different">
+          <h2>What's different</h2>
+          <p>Generating PowerPoint alt text with a vision model has been done before. Two things here have not.</p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>It knows when it is unsure</h3>
+              <p>The model rates its own confidence from 1 to 5 in the same request that writes the description.
+                Only 4s and 5s go into the file. Anything lower is held back, with the model's reason attached, for
+                a person to approve or rewrite.</p>
+            </div>
+            <div class="card">
+              <h3>Nothing leaves campus</h3>
+              <p>Lecture slides are unpublished faculty work and can carry graded student material. Every model call
+                goes to ASU Research Computing, never a commercial API.</p>
+            </div>
+          </div>
+          <p>A third behaviour mattered more than expected: logos and icons get empty alt text so screen readers skip
+            them. One Stanford deck repeats a briefcase icon <strong>37 times</strong>. Without this, a student hears
+            “briefcase” 37 times in one lecture.</p>
+        </section>
+
+        <section id="how">
+          <h2>How it works</h2>
+          <div class="pipeline">
+            <div class="step"><span class="n">01</span><b>Find</b><a href="https://github.com/smanika3/ASU-AIR-SlideSight/blob/main/slidesight/extract.py" target="_blank" rel="noopener">extract.py</a>
+              <p>Walk every shape, including inside groups, with each slide's own text and notes.</p>
+            </div>
+            <div class="step"><span class="n">02</span><b>Describe</b><a href="https://github.com/smanika3/ASU-AIR-SlideSight/blob/main/slidesight/describe.py" target="_blank" rel="noopener">describe.py</a>
+              <p>One model call per picture: description, decorative flag, confidence, reason.</p>
+            </div>
+            <div class="step"><span class="n">03</span><b>Decide</b><a href="https://github.com/smanika3/ASU-AIR-SlideSight/blob/main/slidesight/apply.py" target="_blank" rel="noopener">apply.py</a>
+              <p>Apply, silence, or hold for review.</p>
+            </div>
+            <div class="step"><span class="n">04</span><b>Write back</b><a href="https://github.com/smanika3/ASU-AIR-SlideSight/blob/main/slidesight/apply.py" target="_blank" rel="noopener">apply.py</a>
+              <p>Save alt text into the file; strip leaked filenames.</p>
+            </div>
+            <div class="step"><span class="n">05</span><b>Audit</b><a href="https://github.com/smanika3/ASU-AIR-SlideSight/blob/main/slidesight/wcag.py" target="_blank" rel="noopener">wcag.py</a>
+              <p>Five accessibility checks, no model calls.</p>
+            </div>
+          </div>
+          <p class="pre-label">Command-line run on one lecture deck</p>
+          <pre><code><span class="c">$</span> python -m slidesight lecture.pptx -o out/lecture.remediated.pptx
+Reading lecture.pptx
+  slide   8  <span class="ok">applied</span>  c5  Two horizontal position axes labeled x(m) from -60 to 60...
+  slide  25  <span class="dc">decor.</span>   c5  Discord brand logo, no teaching content
+  slide  31  <span class="rv">REVIEW</span>   c2  the chart's axis labels are cut off at the right edge
+
+23 images on 19 slides  ->  8 applied, 4 decorative, 11 to review   (50.4s)</code></pre>
+          <h3>Three things that are easy to get wrong</h3>
+          <ul>
+            <li><strong>Pictures hide inside groups.</strong> Looping over <code>slide.shapes</code> found 13 pictures
+              in the first deck; recursing into groups found 15. A flat loop misses 13%.</li>
+            <li><strong>Pictures carry their original filename.</strong> Some screen readers read
+              <code>Screenshot 2026-09-02 at 9.25.40 AM.png</code> aloud. SlideSight deletes it.</li>
+            <li><strong>Context is per slide, not per deck.</strong> Sending the whole deck made descriptions vaguer.
+              Each picture gets its own slide's text plus one 200-word summary of the file.</li>
+          </ul>
+        </section>
+
+        <section id="results">
+          <h2>Results</h2>
+          <p>Ten real university lecture decks: eight from ASU (CSE 450, CSE 551, CSE 511, two machine learning units,
+            three PHY 111 physics decks), plus MIT's AI 101 and Stanford's CS106B.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Outcome</th><th style="text-align:right">Count</th></tr></thead>
+              <tbody>
+                <tr><td>Pictures found</td><td class="num">380</td></tr>
+                <tr><td>Descriptions written automatically</td><td class="num">228</td></tr>
+                <tr><td>Silenced as decorative</td><td class="num">122</td></tr>
+                <tr><td>Sent to a person</td><td class="num">30</td></tr>
+                <tr><td>Accessibility issues found and reported</td><td class="num">531</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Confidence came back as 5 for 238 pictures, 4 for 137, 3 for four and 2 for one. Writing 4s straight into
+            the file is deliberate: requiring a 5 would send another 137 pictures, 36% of everything, to a person.</p>
+          <p>The gate was tested, not assumed. A Gaussian blur of radius 6 on a well-handled picture drops its score to
+            3; radius 14 drops it to 2. Both land in the review queue. Remediated files reopen in
+            <code>python-pptx</code>, Keynote and LibreOffice with every description preserved byte for byte.</p>
+        </section>
+
+        <section id="silencing">
+          <h2>Silencing a picture is the dangerous decision</h2>
+          <p>A bad description gets read by a person and fixed. A wrongly silenced picture disappears from the file,
+            and by design nobody sees it again. The confidence gate protected descriptions; nothing protected this. So
+            every silenced picture was checked by eye.</p>
+          <p>MIT's AI 101 deck had photographs of cats, dogs and a crawling baby marked decorative, on slides about
+            supervised learning. In a machine learning course those animals are the lesson. A decorative verdict now
+            has to pass two checks, and failing either sends the picture to a person:</p>
+          <div class="callout">
+            <div><b>12%</b><span>of slide area: anything larger is held back</span></div>
+            <div><b>843</b><span>distinct colours: the most any confirmed logo or icon used</span></div>
+            <div><b>3,324</b><span>distinct colours: the fewest any teaching photo used</span></div>
+          </div>
+          <p>Size alone missed a dog photo covering 1% of a feature-extraction slide, where the photo was the raw data
+            being taught. Counting colours caught it. Together the two checks move 11% of previously silenced pictures
+            into review, and MIT's AI 101 now silences nothing.</p>
+        </section>
+
+        <section id="bugs">
+          <h2>Bugs found by running real files</h2>
+          <p>None of these came from reading the code.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Bug</th><th>What it did</th><th>Fix</th></tr></thead>
+              <tbody>
+                <tr><td>Decorative verdicts never double-checked</td><td>Teaching photos in an AI course silently
+                    removed</td><td>Size and photo-vs-graphic checks</td></tr>
+                <tr><td>Size alone was the wrong signal</td><td>A 1% dog photo, the slide's raw data, still
+                    silenced</td><td>Count distinct colours</td></tr>
+                <tr><td>TIFF and BMP rejected</td><td>26 pictures queued as failures</td><td>Re-encode first</td></tr>
+                <tr><td>Long replies cut off</td><td>Three good descriptions reported as failures</td><td>Salvage
+                    partial replies; raise the limit</td></tr>
+                <tr><td>Numbers copied from slide text</td><td>Confident, invented values on unreadable
+                    pictures</td><td>Cap confidence when they disagree</td></tr>
+                <tr><td>Decorative decided after describing</td><td>1 of 15 silenced; logos described at full
+                    confidence</td><td>Decide first: 8 of 15, twice as fast</td></tr>
+                <tr><td>Empty notes page</td><td>One deck crashed extraction</td><td>Guard the empty case</td></tr>
+                <tr><td>PDFs and mislabelled files</td><td>Raw Python traceback</td><td>Plain error messages</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="unproven">
+          <h2>What we have not proved</h2>
+          <ul class="unproven">
+            <li><strong>No screen reader has read a finished file.</strong> The XML is correct and three readers
+              preserve it, but nobody has listened to VoiceOver or NVDA read one yet.</li>
+            <li><strong>The model can still be fooled.</strong> An unreadable picture beside matching slide text can
+              carry a wrong description past the gate.</li>
+            <li><strong>Coverage is ten decks, two departments.</strong> The goal was 20–30 across five; the time went
+              into the false-positive analysis instead.</li>
+            <li><strong>PowerPoint itself is untested.</strong> Python-pptx, Keynote and LibreOffice are.</li>
+          </ul>
+        </section>
+
+        <section id="deck">
+          <h2>Pitch deck</h2>
+          <p>The pitch for the ASU AIR Spark Challenge.</p>
+          <div class="deck"><iframe
+              src="https://docs.google.com/presentation/d/1KF1be3yvECB9Nuo_Ch1uB8P5DlWojvktkVNFMYIkG38/embed?start=false&amp;loop=false"
+              title="SlideSight pitch deck" loading="lazy" allowfullscreen></iframe></div>
+          <p><a href="https://docs.google.com/presentation/d/1KF1be3yvECB9Nuo_Ch1uB8P5DlWojvktkVNFMYIkG38/edit?usp=sharing"
+              target="_blank" rel="noopener">Open in Google Slides<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></p>
+        </section>
+
+        <section id="stack">
+          <h2>Stack &amp; credits</h2>
+          <div class="stack">
+            <span>Python 3.11</span><span>FastAPI</span><span>Uvicorn</span><span>python-pptx</span>
+            <span>Qwen3-VL-32B-Instruct</span><span>Pillow</span><span>ASU Research Computing</span>
+          </div>
+          <p>Built by Saisrivathsan Manikandan and <a href="https://github.com/shrey-Bish/ASU-AIR" target="_blank"
+              rel="noopener">Shrey Bishnoi</a> for the ASU AIR Spark Challenge. Source and full write-up on <a
+              href="https://github.com/smanika3/ASU-AIR-SlideSight" target="_blank" rel="noopener">GitHub</a>.</p>
+        </section>
+
+        <a class="next" href="fundsentinel.html">
+          <b>Next: FundSentinel</b>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="foot">
+      <span>© 2026 Saisrivathsan Manikandan</span>
+      <nav aria-label="Elsewhere">
+        <a href="mailto:saisrivathsan2004@gmail.com">Email</a>
+        <a href="https://linkedin.com/in/smanika3" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/smanika3" target="_blank" rel="noopener">GitHub</a>
+        <a href="SAISRIVATHSAN_MANIKANDAN_RESUME.pdf">Résumé (PDF)</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // Swap the video thumbnail for the player on click; the link still works without JS.
+    document.querySelectorAll('[data-yt]').forEach(el => el.addEventListener('click', e => {
+      e.preventDefault();
+      const f = document.createElement('iframe');
+      f.src = `https://www.youtube-nocookie.com/embed/${el.dataset.yt}?autoplay=1&rel=0`;
+      f.title = 'SlideSight demo';
+      f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      el.replaceChildren(f);
+      el.removeAttribute('href');
+    }));
+
+    // Highlight the section in view in the side contents.
+    const tocLinks = [...document.querySelectorAll('.toc a')];
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      tocLinks.forEach(a => a.setAttribute('aria-current', a.hash === '#' + en.target.id));
+    }), { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('article section').forEach(s => io.observe(s));
+  </script>
+</body>
+
+</html>

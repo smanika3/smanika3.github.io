@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FundSentinel — Saisrivathsan Manikandan</title>
+  <meta name="description"
+    content="FundSentinel: 14 AI agents review mutual funds against company policy, with every number traced to its source row. TIAA × ASU AI Investment Spark Challenge.">
+  <meta property="og:title" content="FundSentinel — Saisrivathsan Manikandan">
+  <meta property="og:description"
+    content="An AI fund-approval committee with proof: 15/15 renamed fields mapped, 13/13 planted data problems caught, 11/13 trick funds caught, 0 genuine funds rejected.">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+</head>
+
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">Saisrivathsan<span class="brand-long"> Manikandan</span><span class="brand-short"> M.</span></a>
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="index.html#work" aria-current="page">Work</a></li>
+          <li><a href="resume.html">Résumé</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="crumbs"><a href="index.html#work">Work</a> / FundSentinel</p>
+
+    <div class="hero">
+      <div>
+        <span class="pill">TIAA × ASU AI Investment Spark · Sep 2026</span>
+        <h1>FundSentinel</h1>
+        <p class="lede">A committee of AI agents that reviews mutual funds and ETFs against company policy, without
+          cutting corners on proof. Every number behind a decision traces back to the exact row of the source file.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="https://github.com/smanika3/FundSentinel" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path
+                d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.3v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3" /></svg>
+            View source
+          </a>
+          <a class="btn btn-secondary" href="#measured">See the results</a>
+        </div>
+        <div class="meta">
+          <span><b>Team Vitality</b>, 4 people</span>
+          <span>Runs on <b>AWS Bedrock</b></span>
+        </div>
+      </div>
+
+      <div class="outcomes" aria-label="The five possible decisions">
+        <header>Every fund gets one of five decisions, with a reason a non-expert can read</header>
+        <div class="outcome"><i style="background:#1f9d55"></i><b>Approved</b><span>passes every rule and reviewer</span></div>
+        <div class="outcome"><i style="background:#d97706"></i><b>Approved with conditions</b><span>passes, with a concern on record</span></div>
+        <div class="outcome"><i style="background:#dc2626"></i><b>Rejected</b><span>a verified hard-rule failure</span></div>
+        <div class="outcome"><i style="background:var(--accent)"></i><b>Sent to a person</b><span>unproven or unsure, never guessed</span></div>
+        <div class="outcome"><i style="background:#8f8f8f"></i><b>Set aside</b><span>data too broken to judge</span></div>
+      </div>
+    </div>
+
+    <div class="stats" role="list">
+      <div class="stat" role="listitem"><b>14</b><span>agents, each with one job</span></div>
+      <div class="stat" role="listitem"><b>23,783</b><span>funds checked in under 5 minutes</span></div>
+      <div class="stat" role="listitem"><b>11 / 13</b><span>planted trick funds caught</span></div>
+      <div class="stat" role="listitem"><b>0</b><span>genuine funds rejected</span></div>
+    </div>
+    <p class="stats-note">Scored against answer keys, re-checked on fresh runs on 24 September 2026 · public and
+      synthetic data, made-up policy · a prototype, not investment advice</p>
+
+    <div class="body">
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#problem">The problem</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#agents">The agentic design</a></li>
+          <li><a href="#measured">What we measured</a></li>
+          <li><a href="#found">A real bug nobody planted</a></li>
+          <li><a href="#adoption">Enterprise adoption</a></li>
+          <li><a href="#stack">Stack &amp; team</a></li>
+        </ol>
+      </aside>
+
+      <article>
+        <section id="problem">
+          <h2>The problem</h2>
+          <p>Getting a new mutual fund or ETF approved at a large company usually means weeks of emails between
+            analysts, compliance, finance and managers. Once a fund is approved, a later change, such as a fee going
+            up, can easily slip past everyone.</p>
+          <p>FundSentinel takes a spreadsheet of funds in whatever format you have, works out what the columns mean,
+            cleans the data, and has an AI committee review every fund against the company's rules. When an updated
+            file arrives a month later, it works out what changed and reopens only the reviews those changes
+            affect.</p>
+        </section>
+
+        <section id="how">
+          <h2>How it works</h2>
+          <p>Two teams. The data team gets the spreadsheet ready; the approval committee reviews each fund.</p>
+          <div class="pipeline">
+            <div class="step"><span class="n">01</span><b>Profile</b><span class="mono">Profiler</span>
+              <p>Map columns and units. “52 bps”, “0.52%” and “0.0052” are the same fee.</p>
+            </div>
+            <div class="step"><span class="n">02</span><b>Repair</b><span class="mono">Quality, SelfHeal</span>
+              <p>Fix, flag or set aside. A repair can never make a fund look better.</p>
+            </div>
+            <div class="step"><span class="n">03</span><b>Route</b><span class="mono">Supervisor</span>
+              <p>Compliance always runs first: a banned product is rejected whatever its returns.</p>
+            </div>
+            <div class="step"><span class="n">04</span><b>Review</b><span class="mono">4 reviewers</span>
+              <p>Analyst, Compliance, Finance and Suitability each give a verdict with its numbers.</p>
+            </div>
+            <div class="step"><span class="n">05</span><b>Verify</b><span class="mono">Evidence checker</span>
+              <p>Any verdict whose numbers didn't come from the data is thrown out.</p>
+            </div>
+            <div class="step"><span class="n">06</span><b>Decide</b><span class="mono">Decision owner</span>
+              <p>Fixed rules first, then judgement.</p>
+            </div>
+          </div>
+          <div class="quote">The rule we kept throughout
+            <span class="rule">Code does the maths and the hard rules, AI does the judgement,
+              and code checks whatever the AI produces.</span>
+          </div>
+          <p>Nothing stops the line. If the system isn't sure, the fund goes to a person instead of a guess. Two extras
+            sit beside the pipeline: <strong>Radar-lite</strong> handles updated files, and <strong>RedTeam</strong>
+            plants realistic trick funds among genuine ones and scores how many get caught, misses included.</p>
+        </section>
+
+        <section id="agents">
+          <h2>The agentic design</h2>
+          <p>Each agent makes its own decisions, and code checks what it produces before anything else relies on it.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Agent</th><th>Decides by itself</th><th>How code keeps it honest</th></tr></thead>
+              <tbody>
+                <tr><td>Profiler</td><td>Which column is which field, in what units</td><td>Every guess is tested
+                    against the data; rejected guesses go back with the reason, up to 3 rounds</td></tr>
+                <tr><td>SelfHeal</td><td>Fix, flag, set aside, or not a problem</td><td>A fix needs 90% confidence;
+                    any fix that turns a policy fail into a pass is blocked</td></tr>
+                <tr><td>Supervisor</td><td>Which reviewers to call, in what order</td><td>Compliance must always run;
+                    at most 2 send-backs per fund</td></tr>
+                <tr><td>Reviewers</td><td>Pass, concern, fail or can't assess</td><td>Every cited number must come
+                    from their own tools, which apply the policy in code</td></tr>
+                <tr><td>Evidence checker</td><td>Whether reasoning follows from evidence</td><td>Unsupported verdicts
+                    are sent back; still unproven goes to a person</td></tr>
+                <tr><td>Decision owner</td><td>The final outcome and reason</td><td>A verified Compliance fail is always
+                    a rejection</td></tr>
+                <tr><td>Radar-lite</td><td>Which changes in an update matter</td><td>A change that crosses a policy
+                    limit always counts</td></tr>
+                <tr><td>RedTeam</td><td>Trick funds to fool the system</td><td>What counts as caught is fixed in
+                    advance, and must be for the right reason</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>The agents correct themselves in three loops: the Profiler retries rejected mappings, the Supervisor sends
+            reviewers back when their facts clash, and the Evidence checker sends back any verdict without proof.</p>
+        </section>
+
+        <section id="measured">
+          <h2>What we measured</h2>
+          <p>Every test file has an answer key, so these numbers are scored, not eyeballed.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Test</th><th style="text-align:right">Result</th></tr></thead>
+              <tbody>
+                <tr><td>Every column renamed, units mixed</td><td class="num">15 / 15 fields</td></tr>
+                <tr><td>13 planted data problems (typos, a 45% fee, duplicates…)</td><td class="num">13 / 13 caught</td></tr>
+                <tr><td>Updated file: 5 meaningful changes plus routine noise</td><td class="num">5 / 5 handled</td></tr>
+                <tr><td>Reviews redone on that update</td><td class="num">6 of 32</td></tr>
+                <tr><td>13 trick funds hidden among 8 genuine ones</td><td class="num">11 / 13 caught</td></tr>
+                <tr><td>Genuine funds wrongly rejected</td><td class="num">0</td></tr>
+                <tr><td>Full Yahoo file: 23,783 funds, 77 MB</td><td class="num">&lt; 5 min</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>On the full Yahoo file the data checks found 31,428 problems, set aside 210 funds with a missing fee, and
+            blocked <strong>142 AI-suggested repairs</strong> because they would have made a fund look better. Each
+            went to a person instead.</p>
+          <h3>The two tricks we missed</h3>
+          <ul>
+            <li><strong>A leveraged fund named “Ultra 2x”.</strong> Noticed and sent to a person, but not rejected
+              outright.</li>
+            <li><strong>Data two years out of date.</strong> There is no rule for staleness yet.</li>
+          </ul>
+          <p>Both stay as honest misses rather than rules added after seeing the test. A teammate also ran it on
+            Brazilian regulator files, leveraged and inverse ETFs (TQQQ, SQQQ, AGQ, all rejected) and real SEC fund
+            changes, each handled by reopening only the affected reviewers.</p>
+        </section>
+
+        <section id="found">
+          <h2>A real bug nobody planted</h2>
+          <p>In the public Yahoo fund dataset, fund names are attached to the wrong tickers across most of the file.
+            Vanguard's S&amp;P 500 fund, for example, is labelled as a BNY Mellon technology fund. The agents found it
+            on their own.</p>
+        </section>
+
+        <section id="adoption">
+          <h2>How an enterprise would adopt it</h2>
+          <p>Fund data goes in as it already arrives, with no reformatting. Decisions, verdicts, evidence and the full
+            review trail come out in an ordinary SQL database and JSON, readable by existing approval and audit
+            tools. The policy is a configuration file, so compliance teams own it.</p>
+          <div class="pipeline">
+            <div class="step"><span class="n">01</span><b>Shadow</b><span class="mono">compare</span>
+              <p>Run beside the current process; disagreements become the evaluation set.</p>
+            </div>
+            <div class="step"><span class="n">02</span><b>Assisted</b><span class="mono">sign-off</span>
+              <p>People still approve, starting from the evidence packet instead of emails.</p>
+            </div>
+            <div class="step"><span class="n">03</span><b>Automated</b><span class="mono">clear cases</span>
+              <p>Clear passes and clear breaches go straight through; the rest already goes to a person.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="stack">
+          <h2>Stack &amp; team</h2>
+          <div class="stack">
+            <span>Amazon Bedrock</span><span>Claude Sonnet 5</span><span>Claude Opus 5</span>
+            <span>Bedrock AgentCore</span><span>Strands Agents</span><span>Aurora PostgreSQL</span><span>S3</span>
+            <span>CloudFormation</span><span>Next.js on Amplify</span><span>Python</span>
+          </div>
+          <p>Built by Team Vitality: Debaleena Chakraborty, Shrey Bishnoi, Saisrivathsan Manikandan and Maulik Jadav,
+            for the TIAA × ASU AI Investment Spark Challenge. Source and full write-up on <a
+              href="https://github.com/smanika3/FundSentinel" target="_blank" rel="noopener">GitHub</a>.</p>
+        </section>
+
+        <a class="next" href="slidesight.html">
+          <b>Next: SlideSight</b>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </a>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="foot">
+      <span>© 2026 Saisrivathsan Manikandan</span>
+      <nav aria-label="Elsewhere">
+        <a href="mailto:saisrivathsan2004@gmail.com">Email</a>
+        <a href="https://linkedin.com/in/smanika3" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/smanika3" target="_blank" rel="noopener">GitHub</a>
+        <a href="SAISRIVATHSAN_MANIKANDAN_RESUME.pdf">Résumé (PDF)</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const tocLinks = [...document.querySelectorAll('.toc a')];
+    const io = new IntersectionObserver(entries => entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      tocLinks.forEach(a => a.setAttribute('aria-current', a.hash === '#' + en.target.id));
+    }), { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('article section').forEach(s => io.observe(s));
+  </script>
+</body>
+
+</html>
