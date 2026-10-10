@@ -1,18 +1,24 @@
 /* Shared styles for every page. */
+/* Theme: graphite (dark charcoal, lime accent) */
 :root {
-  --bg: #ffffff;
-  --bg-soft: #fafafa;
-  --ink: #0a0a0a;
-  --ink-2: #4d4d4d;
-  --muted: #666666;
-  --line: #eaeaea;
-  --line-strong: #d4d4d4;
-  --accent: #0060df;
-  --accent-soft: #ebf3ff;
+  color-scheme: dark;
+  --bg: #111111;
+  --bg-soft: #1a1a1a;
+  --ink: #f2f2f2;
+  --ink-2: #bdbdbd;
+  --muted: #919191;
+  --line: #2a2a2a;
+  --line-strong: #3d3d3d;
+  --accent: #b5e853;
+  --accent-soft: #24310f;
+  --accent-ink: #c9f27a;
+  --on-accent: #111111;
   --code-bg: #0a0a0a;
   --code-ink: #ededed;
   --code-muted: #8f8f8f;
+  --raised: #181818;
   --radius: 8px;
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
   --max: 1200px;
   --sans: "Geist", ui-sans-serif, system-ui, sans-serif;
   --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -27,7 +33,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-::selection { background: var(--accent); color: #fff; }
+::selection { background: var(--accent); color: var(--on-accent); }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 3px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
@@ -43,7 +49,7 @@ p code, li code, td code {
 /* NAV */
 .nav {
   position: sticky; top: 0; z-index: 10;
-  background: rgba(255, 255, 255, .85);
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
   backdrop-filter: saturate(180%) blur(8px);
   -webkit-backdrop-filter: saturate(180%) blur(8px);
   border-bottom: 1px solid var(--line);
@@ -71,7 +77,7 @@ p code, li code, td code {
 }
 .pill {
   display: inline-flex; align-items: center; gap: 8px;
-  background: var(--accent-soft); color: #0047a8;
+  background: var(--accent-soft); color: var(--accent-ink);
   font-size: 13px; font-weight: 500; padding: 5px 12px; border-radius: 999px;
 }
 .pill svg { width: 14px; height: 14px; }
@@ -88,8 +94,8 @@ h1 {
 }
 .btn:hover { text-decoration: none; }
 .btn svg { width: 16px; height: 16px; }
-.btn-primary { background: var(--ink); color: #fff; }
-.btn-primary:hover { background: #333; border-color: #333; }
+.btn-primary { background: var(--ink); color: var(--bg); }
+.btn-primary:hover { background: color-mix(in srgb, var(--ink) 80%, var(--bg)); border-color: transparent; }
 .btn-secondary { background: var(--bg); color: var(--ink); border-color: var(--line-strong); }
 .btn-secondary:hover { border-color: var(--ink); }
 .meta {
@@ -182,6 +188,7 @@ article li::marker { color: var(--line-strong); }
 .step p { font-size: 14px; line-height: 1.5; margin: 0; }
 
 pre {
+  border: 1px solid var(--line);
   background: var(--code-bg); color: var(--code-ink); border-radius: var(--radius);
   padding: 18px 20px; overflow-x: auto; font: 400 13px/1.7 var(--mono); margin: 20px 0 24px;
 }
@@ -286,11 +293,8 @@ footer { border-top: 1px solid var(--line); }
 .home-section > .sub { color: var(--muted); margin-bottom: 28px; max-width: 60ch; }
 
 .featured { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.project {
-  display: flex; flex-direction: column; gap: 14px; border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 28px; color: var(--ink); transition: border-color .15s;
-}
-.project:hover { border-color: var(--ink); text-decoration: none; }
+.project { display: flex; flex-direction: column; gap: 14px; padding: 28px; color: var(--ink); }
+.project:hover { text-decoration: none; }
 .project .pill { align-self: flex-start; }
 .project h3 { margin: 0; font-size: 24px; font-weight: 600; letter-spacing: -.03em; }
 .project p { color: var(--ink-2); font-size: 15px; }
@@ -327,11 +331,30 @@ footer { border-top: 1px solid var(--line); }
 .split-key i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
 
 /* RESUME */
-.resume-head { max-width: 820px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding: 56px 0 28px; border-bottom: 1px solid var(--line); }
+.resume-head { max-width: 820px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding: 56px 0 8px; }
 .resume-head h1 { font-size: clamp(36px, 5vw, 52px); margin: 0 0 10px; }
 .resume-head p { color: var(--muted); font-size: 15px; }
-.resume { max-width: 820px; margin: 0 auto; padding-bottom: 80px; }
-.resume section { padding: 40px 0 0; }
+.resume { max-width: 820px; margin: 0 auto; padding: 32px 0 80px; display: grid; gap: 20px; }
+.resume section { padding: 28px 32px; }
+/* Raised cards (résumé sections, project cards): lit top edge + layered drop shadow.
+   Hover lifts with transform and fades a pre-rendered deeper shadow in via opacity,
+   so nothing repaints mid-animation. */
+.resume section, .project {
+  position: relative; border-radius: 12px; border: 1px solid var(--line);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--raised) 97%, #fff), var(--raised));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06), 0 1px 2px rgba(0, 0, 0, .5), 0 14px 32px -12px rgba(0, 0, 0, .75);
+  transition: transform .6s var(--ease-out), border-color .6s var(--ease-out);
+}
+.resume section::after, .project::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .9); opacity: 0; transition: opacity .6s var(--ease-out);
+}
+.resume section:hover, .project:hover { transform: translateY(-4px); border-color: var(--line-strong); }
+.resume section:hover::after, .project:hover::after { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .resume section, .project, .resume section::after, .project::after { transition: none; }
+  .resume section:hover, .project:hover { transform: none; }
+}
 .resume h2 { font-size: 24px; font-weight: 600; letter-spacing: -.02em; margin-bottom: 18px; }
 .entry { padding: 0 0 22px; }
 .entry + .entry { border-top: 1px solid var(--line); padding-top: 22px; }
@@ -362,6 +385,7 @@ footer { border-top: 1px solid var(--line); }
   .project { padding: 22px; }
   .contact { padding: 28px; }
   .resume-head { flex-direction: column; align-items: flex-start; }
+  .resume section { padding: 22px 20px; }
   .skills { grid-template-columns: 1fr; gap: 2px; }
   .skills dd { margin-bottom: 10px; }
   .home-section { padding-top: 72px; }
@@ -381,3 +405,4 @@ footer { border-top: 1px solid var(--line); }
 }
 
 .ext { width: 12px; height: 12px; margin-left: 3px; vertical-align: -1px; }
+.entry:last-child { padding-bottom: 0; }
