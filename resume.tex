@@ -11,6 +11,8 @@
 \usepackage{fancyhdr}
 \usepackage[english]{babel}
 \usepackage{tabularx}
+\input{glyphtounicode}
+\pdfgentounicode=1
 
 %----------FONT OPTIONS----------
 % sans-serif
@@ -89,12 +91,13 @@
     \small +1 480-876-0016 $|$ 
     \href{mailto:saisrivathsan2004@gmail.com}{\underline{saisrivathsan2004@gmail.com}} $|$ 
     \href{https://linkedin.com/in/smanika3}{\underline{linkedin.com/in/smanika3}} $|$
-    \href{https://github.com/saisrivathsan9}{\underline{github.com/saisrivathsan9}}
+    \href{https://github.com/smanika3}{\underline{github.com/smanika3}} $|$
+    \href{https://smanika3.github.io/}{\underline{smanika3.github.io}}
 \end{center}
 
 %----------PROFESSIONAL SUMMARY----------
 \section{Professional Summary}
-\small{Computer Science graduate student specializing in deep learning, computer vision, multimodal AI, and LLM systems. Skilled in Python, C++, PyTorch, FastAPI, distributed training, on-premises inference, AWS SageMaker, and MLOps with experience implementing research models and building end-to-end AI pipelines.}
+\small{Computer Science graduate student specializing in multimodal AI, LLM-based multi-agent systems, and deep learning for computer vision. Experienced in building AI pipelines with PyTorch, FastAPI, and AWS (Bedrock, AgentCore, SageMaker), including distributed training, on-premises inference, and guardrailed LLM workflows with deterministic verification.}
 
 %----------EDUCATION----------
 \section{Education}
@@ -108,7 +111,7 @@
 
       \resumeSubheading
       {Arizona State University}{Tempe, AZ}
-      {Bachelor of Science in Computer Science}{May 2026}
+      {Bachelor of Science in Computer Science, GPA: 3.59/4.00}{May 2026}
       \resumeItemListStart
         \resumeItem{\textbf{Relevant Coursework}: Data Structures \& Algorithms, Image Processing \& Analysis (Deep Learning), Machine Learning}
       \resumeItemListEnd
@@ -118,34 +121,27 @@
 \section{Technical Skills}
  \begin{itemize}[leftmargin=0.15in, label={}]
     \small{\item{
-     \textbf{Languages}: Python, C, C++, Java, Swift \\
-     \textbf{AI/ML}: PyTorch, Swin Transformer, Hugging Face, Computer Vision, CNNs, Scikit-learn, Generative AI, LLMs, Distributed Data Parallel (DDP), Pandas, NumPy \\
-     \textbf{Backend \& Cloud}: FastAPI, Uvicorn, Asyncio, REST APIs, AWS, Amazon SageMaker, Azure, Firebase, Linux \\
-     \textbf{DevOps \& Tools}: Docker, Git/GitHub, GitHub Actions, Weights \& Biases (W\&B), TensorBoard, Pillow, python-pptx, OpenXML
+     \textbf{Languages}: Python, C, C++, Java, SQL \\
+     \textbf{AI/ML}: PyTorch, Swin Transformer, Hugging Face, Computer Vision, CNNs, Scikit-learn, Generative AI, LLMs, Multi-Agent Systems, Strands Agents, Distributed Data Parallel (DDP), Pandas, NumPy \\
+     \textbf{Backend \& Cloud}: FastAPI, Uvicorn, Asyncio, REST APIs, AWS (Bedrock, AgentCore, SageMaker, S3, Aurora PostgreSQL), CloudFormation, Linux \\
+     \textbf{DevOps \& Tools}: Docker, Git/GitHub, GitHub Actions, Weights \& Biases (W\&B), TensorBoard, Pillow
     }}
  \end{itemize}
 
 %----------RESEARCH PROJECTS----------
-\section{Research Projects}
-  \resumeSubHeadingListStart
-
-    \resumeProjectHeading
-      {\textbf{Medical Imaging AI System with Swin Transformers} $|$ \emph{Python, PyTorch, Timm, TorchVision}}{}
-      \resumeItemListStart
-        \resumeItem{Implemented and adapted state-of-the-art medical-imaging methods from recent research literature, applying teacher-student learning and uncertainty-aware pseudo-labeling to multi-label CheXpert classification across 14 pathologies, achieving \textbf{0.9004 mean AUC}.}
-        \resumeItem{Built Swin Transformer-based systems for TB lesion localization with Feature Pyramid Network and Faster R-CNN (\textbf{mAP@0.5: 0.66}, \textbf{FROC: 0.59}) and anatomical segmentation with Swin-UNet V2 (\textbf{Dice: 0.96}), adapting published architectures for new medical-imaging tasks.}
-        \resumeItem{Engineered a multi-GPU PyTorch Distributed Data Parallel (DDP) pipeline with mixed precision, optimized data loading, and automatic checkpoint resumption for fault-tolerant training.}
-      \resumeItemListEnd
-
-  \resumeSubHeadingListEnd
-
-%----------PROJECTS----------
 \section{Projects}
   \resumeSubHeadingListStart
 
     \resumeProjectHeading
+      {\textbf{Medical Imaging AI System with Swin Transformers} $|$ \href{https://github.com/smanika3/SWIN-CheXpert-Classification.git}{\underline{GitHub}} $|$ \emph{Python, PyTorch, Timm, TorchVision}}{}
+      \resumeItemListStart
+        \resumeItem{Adapted published Swin Transformer methods to chest X-ray tasks: teacher-student learning with uncertainty-aware pseudo-labeling on CheXpert (14 pathologies, \textbf{0.9004 mean AUC}), TB lesion localization with FPN + Faster R-CNN (\textbf{mAP@0.5: 0.66}), and anatomical segmentation with Swin-UNet V2 (\textbf{Dice: 0.96}).}
+        \resumeItem{Built a fault-tolerant multi-GPU PyTorch DDP training pipeline with mixed precision and automatic checkpoint resumption.}
+      \resumeItemListEnd
+
+      \resumeProjectHeading
   {\textbf{SlideSight} $|$
-   \href{https://github.com/saisrivathsan9/ASU-AIR-SlideSight}{\underline{GitHub}} $|$
+   \href{https://github.com/smanika3/ASU-AIR-SlideSight}{\underline{GitHub}} $|$
    \href{https://youtu.be/GsoHh9ocpWg}{\underline{Demo}} $|$
    \emph{Python, FastAPI, Qwen3-VL, Gemma4, Pillow}}
   {\textbf{1st Place \& Fan Favorite}}
@@ -156,10 +152,14 @@
       \resumeItemListEnd
 
     \resumeProjectHeading
-      {\textbf{Zesto-iOS Recipe App} $|$ \href{https://apps.apple.com/us/app/zesto-buddy/id6751173203}{\underline{App Store}} $|$ \emph{Swift, Firebase, REST API, OpenAI API}}{}
+      {\textbf{FundSentinel} $|$
+       \href{https://github.com/smanika3/FundSentinel}{\underline{GitHub}} $|$
+       \emph{Python, Bedrock AgentCore, Strands Agents, Aurora PostgreSQL, S3}}
+      {\textbf{2nd Place}}
       \resumeItemListStart
-        \resumeItem{Built an iOS application integrating LLM-powered conversational features with streaming responses and caching layers to reduce request latency and API overhead.}
-        \resumeItem{Developed an automated receipt-parsing and recommendation pipeline that normalized grocery items into standardized entities and synchronized real-time application state through Firestore and backend APIs.}
+        \resumeItem{Built a 14-agent system on Strands Agents and Bedrock AgentCore (Claude Sonnet/Opus) for ETF and mutual-fund vetting (TIAA \& ASU AI Investment Spark Challenge, team of 4): an LLM Supervisor routes Compliance, Analyst, Finance, and Suitability agents, and a code-plus-LLM evidence checker rejects any verdict whose cited numbers do not trace to source rows.}
+        \resumeItem{Designed deterministic guardrails around every LLM step: schema mappings validated against data with up to 3 retries, repairs gated at 90\% confidence and blocked if they flip a policy fail to a pass (\textbf{142 unsafe repairs} blocked), capped send-backs, and human escalation on unresolved cases.}
+        \resumeItem{Implemented incremental re-review (reopens only affected agents: \textbf{6 of 32} reviews redone) and an LLM red-team harness (\textbf{11/13} trick funds caught, \textbf{0} false rejections); added CSV encoding/delimiter auto-detection and validated \textbf{15/15} remapped columns, \textbf{13/13} planted defects, and \textbf{23,783 funds} in under \textbf{5 minutes}.}
       \resumeItemListEnd
 
   \resumeSubHeadingListEnd
@@ -168,10 +168,8 @@
 \section{Certifications \& Training}
   \resumeSubHeadingListStart
     \resumeProjectHeading
-      {\textbf{AWS Certified AI Practitioner} $|$ \href{https://www.credly.com/badges/026e660d-f387-4956-9046-0d288bc79c01/public_url}{\underline{Credential}}}{}
-
-    \resumeProjectHeading
-      {\textbf{MLOps Masterclass (Workshop)} $|$ \href{https://credsverse.com/credentials/663e20d4-a809-4225-8f23-78f6ed3750b4}{\underline{Certificate}}}{}
+      {\textbf{AWS Certified AI Practitioner} $|$ \href{https://www.credly.com/badges/026e660d-f387-4956-9046-0d288bc79c01/public_url}{\underline{Credential}}}
+      {\textbf{MLOps Masterclass (Workshop)} $|$ \href{https://credsverse.com/credentials/663e20d4-a809-4225-8f23-78f6ed3750b4}{\underline{Certificate}}}
   \resumeSubHeadingListEnd
 
 \end{document}
