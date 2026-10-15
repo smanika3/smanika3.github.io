@@ -54,14 +54,12 @@
           <span>Runs on <b>AWS Bedrock</b></span>
         </div>
       </div>
-
-      <div class="outcomes" aria-label="The five possible decisions">
-        <header>Every fund gets one of five decisions, with a reason a non-expert can read</header>
-        <div class="outcome"><i style="background:#1f9d55"></i><b>Approved</b><span>passes every rule and reviewer</span></div>
-        <div class="outcome"><i style="background:#d97706"></i><b>Approved with conditions</b><span>passes, with a concern on record</span></div>
-        <div class="outcome"><i style="background:#dc2626"></i><b>Rejected</b><span>a verified hard-rule failure</span></div>
-        <div class="outcome"><i style="background:var(--accent)"></i><b>Sent to a person</b><span>unproven or unsure, never guessed</span></div>
-        <div class="outcome"><i style="background:#8f8f8f"></i><b>Set aside</b><span>data too broken to judge</span></div>
+      <div>
+        <div class="deck" style="margin:0 0 10px"><iframe
+              src="https://docs.google.com/presentation/d/1N5mpEWCv0STA7bXN4hxkSGrIzFxzbONt/embed?start=false&amp;loop=false"
+              title="FundSentinel pitch deck" allowfullscreen></iframe></div>
+        <p><a href="https://docs.google.com/presentation/d/1N5mpEWCv0STA7bXN4hxkSGrIzFxzbONt/edit?usp=sharing" target="_blank"
+              rel="noopener">Open in Google Slides<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></p>
       </div>
     </div>
 
@@ -84,7 +82,6 @@
           <li><a href="#measured">What we measured</a></li>
           <li><a href="#found">A real bug nobody planted</a></li>
           <li><a href="#adoption">Enterprise adoption</a></li>
-          <li><a href="#deck">Pitch deck</a></li>
           <li><a href="#stack">Stack &amp; team</a></li>
         </ol>
       </aside>
@@ -131,6 +128,14 @@
           <p>Nothing stops the line. If the system isn't sure, the fund goes to a person instead of a guess. Two extras
             sit beside the pipeline: <strong>Radar-lite</strong> handles updated files, and <strong>RedTeam</strong>
             plants realistic trick funds among genuine ones and scores how many get caught, misses included.</p>
+          <div class="outcomes" style="margin-top:24px" aria-label="The five possible decisions">
+            <header>Every fund gets one of five decisions, with a reason a non-expert can read</header>
+            <div class="outcome"><i style="background:#1f9d55"></i><b>Approved</b><span>passes every rule and reviewer</span></div>
+            <div class="outcome"><i style="background:#d97706"></i><b>Approved with conditions</b><span>passes, with a concern on record</span></div>
+            <div class="outcome"><i style="background:#dc2626"></i><b>Rejected</b><span>a verified hard-rule failure</span></div>
+            <div class="outcome"><i style="background:var(--accent)"></i><b>Sent to a person</b><span>unproven or unsure, never guessed</span></div>
+            <div class="outcome"><i style="background:#8f8f8f"></i><b>Set aside</b><span>data too broken to judge</span></div>
+          </div>
         </section>
 
         <section id="agents">
@@ -220,15 +225,6 @@
           </div>
         </section>
 
-        <section id="deck">
-          <h2>Pitch deck</h2>
-          <p>The pitch for the TIAA × ASU AI Investment Spark Challenge.</p>
-          <div class="deck"><iframe
-              src="https://docs.google.com/presentation/d/1N5mpEWCv0STA7bXN4hxkSGrIzFxzbONt/embed?start=false&amp;loop=false"
-              title="FundSentinel pitch deck" loading="lazy" allowfullscreen></iframe></div>
-          <p><a href="https://docs.google.com/presentation/d/1N5mpEWCv0STA7bXN4hxkSGrIzFxzbONt/edit?usp=sharing" target="_blank"
-              rel="noopener">Open in Google Slides<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></p>
-        </section>
 
         <section id="stack">
           <h2>Stack &amp; team</h2>
