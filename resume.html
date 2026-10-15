@@ -49,10 +49,10 @@
     <div class="resume">
       <section>
         <h2>Summary</h2>
-        <p class="lede" style="font-size:17px;max-width:68ch">Computer Science graduate student specializing in deep
-          learning, computer vision, multimodal AI and LLM systems. Experienced in Python, C++, PyTorch, FastAPI,
-          distributed training, on-premises inference, AWS and MLOps, implementing research models and building
-          end-to-end AI pipelines.</p>
+        <p class="lede" style="font-size:17px;max-width:68ch">Computer Science graduate student specializing in
+          multimodal AI, LLM-based multi-agent systems and deep learning for computer vision. Experienced in building
+          AI pipelines with PyTorch, FastAPI and AWS (Bedrock, AgentCore, SageMaker), including distributed training,
+          on-premises inference and guardrailed LLM workflows with deterministic verification.</p>
       </section>
 
       <section>
@@ -64,7 +64,7 @@
         </div>
         <div class="entry">
           <div class="entry-top"><h3>Arizona State University</h3><span class="when">May 2026</span></div>
-          <p class="what">Bachelor of Science in Computer Science · Tempe, AZ</p>
+          <p class="what">Bachelor of Science in Computer Science · GPA 3.59 · Tempe, AZ</p>
           <ul><li>Coursework: Data Structures &amp; Algorithms, Image Processing &amp; Analysis (Deep Learning), Machine
               Learning</li></ul>
         </div>
@@ -73,77 +73,71 @@
       <section>
         <h2>Technical skills</h2>
         <dl class="skills">
-          <dt>Languages</dt><dd>Python, C, C++, Java, Swift, SQL, Bash</dd>
+          <dt>Languages</dt><dd>Python, C, C++, Java, SQL</dd>
           <dt>AI / ML</dt><dd>PyTorch, Swin Transformer, Hugging Face, computer vision, CNNs, scikit-learn, generative
-            AI, LLMs, Distributed Data Parallel (DDP), pandas, NumPy</dd>
-          <dt>Backend &amp; cloud</dt><dd>FastAPI, Uvicorn, asyncio, REST APIs, AWS, Amazon SageMaker, Azure, Firebase,
-            Linux</dd>
-          <dt>DevOps &amp; tools</dt><dd>Docker, Git, GitHub Actions, Weights &amp; Biases, TensorBoard, Pillow,
-            python-pptx, OpenXML</dd>
+            AI, LLMs, multi-agent systems, Strands Agents, Distributed Data Parallel (DDP), pandas, NumPy</dd>
+          <dt>Backend &amp; cloud</dt><dd>FastAPI, Uvicorn, asyncio, REST APIs, AWS (Bedrock, AgentCore, SageMaker, S3,
+            Aurora PostgreSQL), CloudFormation, Linux</dd>
+          <dt>DevOps &amp; tools</dt><dd>Docker, Git/GitHub, GitHub Actions, Weights &amp; Biases, TensorBoard,
+            Pillow</dd>
         </dl>
-      </section>
-
-      <section>
-        <h2>Research</h2>
-        <div class="entry">
-          <div class="entry-top"><h3>Medical Imaging AI System with Swin Transformers</h3></div>
-          <p class="what">Python, PyTorch, timm, TorchVision</p>
-          <ul>
-            <li>Adapted recent medical-imaging methods, applying teacher-student learning and uncertainty-aware
-              pseudo-labeling to multi-label CheXpert classification across 14 pathologies:
-              <strong>0.9004 mean AUC</strong>.</li>
-            <li>Built Swin Transformer systems for TB lesion localization with FPN and Faster R-CNN
-              (<strong>mAP@0.5 0.66</strong>, <strong>FROC 0.59</strong>) and anatomical segmentation with Swin-UNet V2
-              (<strong>Dice 0.96</strong>).</li>
-            <li>Engineered a multi-GPU PyTorch DDP pipeline with mixed precision, optimized data loading and automatic
-              checkpoint resumption for fault-tolerant training.</li>
-          </ul>
-        </div>
       </section>
 
       <section>
         <h2>Projects</h2>
         <div class="entry">
+          <div class="entry-top"><h3>Medical Imaging AI System with Swin Transformers</h3></div>
+          <p class="what">Python, PyTorch, timm, TorchVision</p>
+          <div class="links"><a href="https://github.com/smanika3/SWIN-CheXpert-Classification" target="_blank"
+              rel="noopener">GitHub<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
+          <ul>
+            <li>Adapted published Swin Transformer methods to chest X-ray tasks: teacher-student learning with
+              uncertainty-aware pseudo-labeling on CheXpert (14 pathologies, <strong>0.9004 mean AUC</strong>), TB lesion
+              localization with FPN and Faster R-CNN (<strong>mAP@0.5 0.66</strong>) and anatomical segmentation with
+              Swin-UNet V2 (<strong>Dice 0.96</strong>).</li>
+            <li>Built a fault-tolerant multi-GPU PyTorch DDP training pipeline with mixed precision and automatic
+              checkpoint resumption.</li>
+          </ul>
+        </div>
+        <div class="entry">
           <div class="entry-top"><h3>SlideSight</h3><span class="when">1st Place &amp; Fan Favorite, ASU AIR
               Spark</span></div>
-          <p class="what">Python, FastAPI, Qwen3-VL, Pillow</p>
+          <p class="what">Python, FastAPI, Qwen3-VL, Gemma4, Pillow</p>
           <div class="links"><a href="slidesight.html">Project page</a><a
               href="https://github.com/smanika3/ASU-AIR-SlideSight" target="_blank" rel="noopener">GitHub<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a><a
               href="https://youtu.be/GsoHh9ocpWg" target="_blank" rel="noopener">Demo<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
           <ul>
-            <li>Built an on-premise multimodal accessibility pipeline with Qwen3-VL-32B-Instruct, FastAPI and
-              python-pptx, processing <strong>380 images across 505 slides</strong> from 10 university course decks at
+            <li>Built an on-premise multimodal accessibility pipeline for the ASU AIR Spark Challenge with
+              Qwen3-VL-32B-Instruct, FastAPI and python-pptx, processing <strong>380 images across 505 slides</strong> from 10 university course decks at
               about <strong>1.4 s per image</strong>, with data kept on university hardware.</li>
             <li>Engineered a confidence-gated human-in-the-loop workflow combining model confidence, slide-text
-              overlap, spatial occupancy and color-histogram analysis: <strong>228 descriptions</strong> written,
-              <strong>122 decorative graphics</strong> silenced, <strong>30 ambiguous images</strong> escalated.</li>
-            <li>Implemented a deterministic WCAG 2.1 AA audit engine with bounded async concurrency and a thread-safe
-              FastAPI job registry, flagging <strong>531 accessibility violations</strong>.</li>
+              overlap, spatial occupancy and Pillow color-histogram analysis: <strong>228 alt-text descriptions</strong>
+              generated automatically, <strong>122 decorative graphics</strong> silenced, <strong>30 ambiguous
+              images</strong> escalated for review.</li>
+            <li>Implemented a deterministic <strong>WCAG 2.1 AA</strong> audit engine for missing titles, typography,
+              table headers, hyperlinks and reading order, with bounded async concurrency and a thread-safe FastAPI job
+              registry, flagging <strong>531 accessibility violations</strong>.</li>
           </ul>
         </div>
         <div class="entry">
           <div class="entry-top"><h3>FundSentinel</h3><span class="when">2nd Place, TIAA × ASU AI Investment Spark</span></div>
-          <p class="what">Amazon Bedrock, AgentCore, Strands Agents, Aurora PostgreSQL, Next.js</p>
+          <p class="what">Python, Bedrock AgentCore, Strands Agents, Aurora PostgreSQL, S3</p>
           <div class="links"><a href="fundsentinel.html">Project page</a><a href="https://github.com/smanika3/FundSentinel"
               target="_blank" rel="noopener">GitHub<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
           <ul>
-            <li>Team-built 14-agent fund-approval pipeline in which code does the maths and hard rules, AI does the
-              judgement, and code checks every AI output against the source data.</li>
-            <li>Scored against answer keys: <strong>15/15</strong> renamed fields mapped, <strong>13/13</strong> planted
-              data problems caught, <strong>11/13</strong> trick funds caught with <strong>0</strong> genuine funds
-              rejected; checked 23,783 funds in under 5 minutes.</li>
-          </ul>
-        </div>
-        <div class="entry">
-          <div class="entry-top"><h3>Zesto, iOS recipe app</h3></div>
-          <p class="what">Swift, Firebase, REST APIs, OpenAI API</p>
-          <div class="links"><a href="https://apps.apple.com/us/app/zesto-buddy/id6751173203" target="_blank"
-              rel="noopener">App Store<svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a></div>
-          <ul>
-            <li>Built LLM-powered conversational features with streaming responses and caching layers to cut request
-              latency and API overhead.</li>
-            <li>Developed a receipt-parsing and recommendation pipeline that normalized grocery items into standard
-              entities and synced real-time state through Firestore.</li>
+            <li>Built a 14-agent system on Strands Agents and Bedrock AgentCore (Claude Sonnet/Opus) for ETF and
+              mutual-fund vetting (team of 4): an LLM Supervisor routes Compliance, Analyst, Finance and Suitability
+              agents, and a code-plus-LLM evidence checker rejects any verdict whose cited numbers do not trace to
+              source rows.</li>
+            <li>Designed deterministic guardrails around every LLM step: schema mappings validated against data with up
+              to 3 retries, repairs gated at 90% confidence and blocked if they flip a policy fail to a pass
+              (<strong>142 unsafe repairs</strong> blocked), capped send-backs and human escalation on unresolved
+              cases.</li>
+            <li>Implemented incremental re-review (reopens only affected agents: <strong>6 of 32</strong> reviews redone)
+              and an LLM red-team harness (<strong>11/13</strong> trick funds caught, <strong>0</strong> false
+              rejections); added CSV encoding/delimiter auto-detection and validated <strong>15/15</strong> remapped
+              columns, <strong>13/13</strong> planted defects and <strong>23,783 funds</strong> in under
+              <strong>5 minutes</strong>.</li>
           </ul>
         </div>
       </section>
