@@ -14,8 +14,9 @@
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap"
     rel="stylesheet">
+  <link rel="icon" href="avatar.jpg">
   <link rel="stylesheet" href="site.css">
 </head>
 
@@ -83,7 +84,7 @@
           <h3>FundSentinel</h3>
           <p>A committee of 14 AI agents reviews mutual funds against company policy. Every number behind a decision
             traces back to the exact row of the source file.</p>
-          <div class="lead"><b>0</b><span>genuine funds wrongly rejected, with 11 of 13 planted trick funds caught</span></div>
+          <div class="lead"><b>11 of 13</b><span>planted trick funds caught, with 0 genuine funds wrongly rejected</span></div>
           <p class="small">15 of 15 renamed columns mapped · 13 of 13 planted data problems caught</p>
           <span class="more">View project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
               stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
@@ -138,10 +139,11 @@
   <script>
     document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'Copied'; }
-      catch { b.textContent = 'Press ⌘C'; }
+      catch { getSelection().selectAllChildren(b.previousElementSibling); b.textContent = 'Selected, copy it'; }
       setTimeout(() => b.textContent = 'Copy', 2000);
     }));
   </script>
+  <script src="motion.js" defer></script>
 </body>
 
 </html>
