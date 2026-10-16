@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swin-CXR-Suite — Saisrivathsan Manikandan</title>
+  <meta name="description"
+    content="Swin Transformers across three chest X-ray tasks: CheXpert classification (0.9004 mean AUC), TBX11K tuberculosis localization (0.6622 AP50) and CheXmask lung and heart segmentation (0.9619 Dice).">
+  <meta property="og:title" content="Swin-CXR-Suite — Saisrivathsan Manikandan">
+  <meta property="og:description"
+    content="Swin Transformers for chest X-rays: 0.9004 mean AUC on CheXpert, 0.6622 AP50 on TBX11K, 0.9619 Dice on CheXmask.">
+  <meta property="og:type" content="article">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap"
+    rel="stylesheet">
+  <link rel="icon" href="avatar.jpg">
+  <link rel="stylesheet" href="site.css">
+</head>
+
+<body>
+  <header class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">About me</a>
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="index.html#work" aria-current="page">Work</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+          <li><a href="resume.html">Résumé</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p class="crumbs"><a href="index.html#work">Work</a> / Medical Imaging AI</p>
+
+    <div class="hero">
+      <div>
+        <h1>Swin-CXR-Suite</h1>
+        <p class="lede">Swin Transformers, three ways, on chest X-rays: naming thoracic diseases, boxing tuberculosis
+          lesions, and outlining the lungs and heart.</p>
+        <p class="hero-sum">Each task is a separately trained model with its own data, head and evaluation. Classification beats
+          the CheXpert paper's baseline on mean AUC, localization finds active TB well and latent TB poorly (the
+          open problem), and segmentation reaches near-perfect organ masks. All three were trained on Arizona State
+          University's Sol supercomputer.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="https://github.com/smanika3/Swin-CXR-Suite" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path
+                d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.2.5-2.3 1.3-3.1-.2-.4-.6-1.6 0-3.2 0 0 1-.3 3.4 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.2.8.8 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.3v3.3c0 .3.1.7.8.6A12 12 0 0 0 12 .3" /></svg>
+            View source
+          </a>
+        </div>
+        <div class="meta">
+          <span>Datasets <b>CheXpert · TBX11K · CheXmask</b></span>
+          <span>Compute <b>ASU Sol supercomputer</b></span>
+        </div>
+      </div>
+
+      <figure class="arch" aria-label="Architecture: a Swin Transformer encoder, trained separately for each of three tasks">
+        <p class="arch-in">Input · chest radiograph</p>
+        <div class="arch-bb"><b>Swin Transformer encoder</b><span>Shifted-window self-attention, trained separately per task</span></div>
+        <ol class="arch-heads">
+          <li><a href="#classification"><span class="n">01</span><b>Classification</b><small>Multi-label head ·
+                uncertainty policies</small><strong>0.9004</strong><small>mean test AUC · paper baseline 0.8892</small></a></li>
+          <li><a href="#localization"><span class="n">02</span><b>Localization</b><small>FPN + Faster R-CNN ·
+                active / latent TB</small><strong>0.6622</strong><small>AP50, class-agnostic · leaderboard ref. 0.6174</small></a></li>
+          <li><a href="#segmentation"><span class="n">03</span><b>Segmentation</b><small>Swin-Unet-V2 · lungs +
+                heart</small><strong>0.9619</strong><small>mean test Dice · lungs, heart, background</small></a></li>
+        </ol>
+        <figcaption>Baseline and leaderboard comparisons are indicative: the paper reports validation scores and the TB split is custom. Details in each task.</figcaption>
+      </figure>
+    </div>
+
+
+    <div class="tasks-bar">
+    <nav class="tasks" aria-label="Tasks">
+      <a href="#classification"><span>01</span>Classification</a>
+      <a href="#localization"><span>02</span>Localization</a>
+      <a href="#segmentation"><span>03</span>Segmentation</a>
+    </nav>
+    </div>
+
+    <div class="body task" id="classification">
+      <aside class="toc" aria-label="Classification contents">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#cls-task">The task</a></li>
+          <li><a href="#cls-approach">Approach</a></li>
+          <li><a href="#cls-results">Results</a></li>
+          <li><a href="#cls-curves">Peak came early</a></li>
+          <li><a href="#cls-other">Other methods tried</a></li>
+          <li><a href="#cls-caveats">Caveats</a></li>
+          <li><a href="#cls-run">Run it</a></li>
+        </ol>
+      </aside>
+      <article>
+        <section id="cls-task">
+          <h2>The task</h2>
+          <p>CheXpert is Stanford's chest X-ray benchmark. Each image carries 14 observations, and the model predicts all
+            14 at once. Scores are reported on the five pathologies the CheXpert leaderboard uses: Atelectasis,
+            Cardiomegaly, Consolidation, Edema and Pleural Effusion.</p>
+          <p>The hard part is the labels. They were mined from radiology reports, so many are marked uncertain
+            (<code>-1</code>) rather than present or absent. Treat every <code>-1</code> as a target and the loss learns
+            noise; throw them all away and some classes lose most of their positives.</p>
+          <div class="callout">
+            <div><b>223,414</b><span>training images, frontal and lateral views</span></div>
+            <div><b>234</b><span>validation images</span></div>
+            <div><b>668</b><span>test images used for the reported AUC</span></div>
+          </div>
+        </section>
+
+        <section id="cls-approach">
+          <h2>Approach</h2>
+          <p>The backbone is Swin Transformer Base (<code>swin_base_patch4_window7_224</code>) with ImageNet-pretrained
+            weights from timm, a 224×224 input and 14 output logits, followed by Dropout(0.5).</p>
+          <h3>A policy per class for uncertain labels</h3>
+          <p>Instead of one rule for every class, each class gets the policy that suits it:</p>
+          <ul>
+            <li><strong>Cardiomegaly: U-Ones.</strong> An uncertain label is treated as positive (<code>-1 → 1</code>).</li>
+            <li><strong>Pleural Effusion: U-Zeros.</strong> An uncertain label is treated as negative (<code>-1 → 0</code>).</li>
+            <li><strong>The other 12 classes: U-Ignore.</strong> Uncertain entries are masked out of the loss, so they
+              contribute no gradient.</li>
+          </ul>
+          <p>The masked binary cross-entropy averages only over labels that are 0 or 1. Training uses AdamW (learning
+            rate 1e-4, weight decay 0.1), batch size 96, mixed precision, and flip, rotation, affine and colour-jitter
+            augmentation.</p>
+          <h3>Compute</h3>
+          <p>Training ran as SLURM jobs on ASU's Sol supercomputer, one GPU per job, with each job resuming from the
+            latest checkpoint. The script switches to PyTorch <code>DataParallel</code> when more than one GPU is
+            visible. The reported run stopped after 18 epochs.</p>
+        </section>
+
+        <section id="cls-results">
+          <h2>Results</h2>
+          <p>Every epoch's checkpoint was scored on the 668-image test set. The best mean AUC came at epoch 2.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Pathology</th><th style="text-align:right">CheXpert paper (U-Ignore)</th><th style="text-align:right">Swin-B, epoch 2</th></tr></thead>
+              <tbody>
+                <tr><td>Atelectasis</td><td class="num">0.818</td><td class="num">0.8606</td></tr>
+                <tr><td>Cardiomegaly</td><td class="num">0.828</td><td class="num">0.8697</td></tr>
+                <tr><td>Consolidation</td><td class="num">0.938</td><td class="num">0.8987</td></tr>
+                <tr><td>Edema</td><td class="num">0.934</td><td class="num">0.9165</td></tr>
+                <tr><td>Pleural Effusion</td><td class="num">0.928</td><td class="num">0.9566</td></tr>
+                <tr><td><strong>Mean</strong></td><td class="num">0.8892</td><td class="num"><strong>0.9004</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Swin is higher on mean AUC (+0.0112) and on three of five classes: Atelectasis (+0.043), Cardiomegaly
+            (+0.042) and Pleural Effusion (+0.029). The paper stays ahead on Consolidation and Edema. Leaderboard entries
+            are still higher: the top entry, an ensemble, scores 0.930, and the single model at rank 86 scores 0.911.</p>
+        </section>
+
+        <section id="cls-curves">
+          <h2>Peak came early</h2>
+          <p>The mean AUC peaked at epoch 2 (0.9004) and then sat between about 0.873 and 0.892 for the remaining 16
+            epochs. Extra training gave no net gain. Pleural Effusion is the easiest class (0.945 to 0.963); Atelectasis
+            is the hardest and least stable (0.794 to 0.868).</p>
+          <figure class="fig">
+            <img src="medical/cls-auroc-per-epoch.jpg" alt="Line chart of test AUROC per epoch for the five leaderboard classes and their mean over 18 epochs. Pleural Effusion stays near 0.96; Atelectasis and Consolidation swing widely; the dashed mean peaks at epoch 2." width="1400" height="817" loading="lazy">
+            <figcaption>Per-class test AUROC by epoch. Atelectasis (low of 0.7938 at epoch 4) and Consolidation (0.8236 at
+              epoch 13) drive most of the movement in the mean.</figcaption>
+          </figure>
+          <p>No single epoch is best for every class. Edema, Cardiomegaly and Pleural Effusion each peak at epoch 10,
+            Consolidation at epoch 5 and Atelectasis at epoch 11, so the epoch-2 checkpoint is a compromise across
+            classes.</p>
+          <figure class="fig">
+            <img src="medical/cls-loss-curve.jpg" alt="Line chart of training and validation loss over 18 epochs. Training loss falls steadily from 0.50 to 0.48; validation loss stays between about 0.365 and 0.385." width="1000" height="600" loading="lazy">
+            <figcaption>Training loss falls every epoch (0.5016 to 0.4794). Validation loss is flat and noisy, lowest at
+              epoch 15 (0.3654), which is not the best-AUC epoch.</figcaption>
+          </figure>
+        </section>
+
+        <section id="cls-other">
+          <h2>Other methods tried</h2>
+          <p>The module keeps every training method from the project as its own script rather than one merged
+            pipeline.</p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>Teacher–student self-training</h3>
+              <p>A teacher trains with uncertainty policies. Its best checkpoint per class relabels only the uncertain
+                entries in the training set, as soft labels or thresholded at 0.8 and 0.2. A student then trains on those
+                pseudo-labels. No student result is reported.</p>
+            </div>
+            <div class="card">
+              <h3>LibAUC AUROC fine-tuning</h3>
+              <p>Fine-tunes a checkpoint by optimizing AUROC directly with PESG and an AUC-margin loss. The script does not
+                run as written: its loss and optimizer calls match no released libauc version.</p>
+            </div>
+          </div>
+          <p>A plain baseline that passes <code>-1</code> straight to the loss, and a CLI policy-mapping variant, are
+            also included. Neither produced the reported result.</p>
+        </section>
+
+        <section id="cls-caveats">
+          <h2>Caveats</h2>
+          <ul class="unproven">
+            <li><strong>The best epoch was picked on test AUC.</strong> Every checkpoint was scored on the test set and
+              the best one chosen from those scores; there was no separate validation-based selection, so model choice and
+              reporting share the same 668 images.</li>
+            <li><strong>The paper comparison is indicative.</strong> The paper's numbers are validation AUC; the Swin
+              numbers are test AUC.</li>
+            <li><strong>It is not a pure U-Ignore comparison.</strong> The run used U-Ignore for 12 of 14 classes but
+              U-Ones and U-Zeros for Cardiomegaly and Pleural Effusion. The original slides said U-Ignore; the code says
+              otherwise, and the repo corrects it.</li>
+          </ul>
+        </section>
+
+        <section id="cls-run">
+          <h2>Run it</h2>
+          <p>Paths are hardcoded at the top of each file and default to the Sol cluster; edit them first.</p>
+          <pre><code><span class="c"># reported run (per-class policy)</span>
+      cd exp1_policy_training
+      python v2_train_swin.py   <span class="c"># writes checkpoint_epoch_*.pth</span>
+      python multi_test.py      <span class="c"># per-epoch test AUROC CSV + plots</span>
+
+      <span class="c"># teacher–student self-training</span>
+      cd self_training
+      python teacher_train.py
+      python teacher_predict.py <span class="c"># writes train_pseudolabels.csv</span>
+      python student_train.py</code></pre>
+        </section>
+
+              <a class="next" href="#localization">
+                <b>Next: 02 Localization</b>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </a>
+            </article>
+    </div>
+
+    <div class="body task" id="localization">
+      <aside class="toc" aria-label="Localization contents">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#loc-task">The task</a></li>
+          <li><a href="#loc-approach">Approach</a></li>
+          <li><a href="#loc-results">Results</a></li>
+          <li><a href="#loc-leaderboard">Against the leaderboard</a></li>
+          <li><a href="#loc-latent">The open problem: Latent TB</a></li>
+          <li><a href="#loc-run">Run it</a></li>
+        </ol>
+      </aside>
+
+      <article>
+        <section id="loc-task">
+          <h2>The task</h2>
+          <p>Classifying a chest X-ray as "TB" is not enough for a radiologist, who needs to know where the lesion is. This
+            module draws bounding boxes around tuberculosis lesions on the TBX11K benchmark and labels each box as one of
+            two subtypes:</p>
+          <ul>
+            <li><strong>Active TB:</strong> cavitary, infiltrate and consolidation-type lesions.</li>
+            <li><strong>Latent TB:</strong> obsolete lesions such as calcified nodules, fibrotic bands and apical scarring.</li>
+          </ul>
+          <p>Most images contain no TB at all, and some patients show both subtypes at once. Both facts shape how the data
+            is split and how the detector is scored.</p>
+          <div class="callout">
+            <div><b>0.6622</b><span>best class-agnostic AP50 (epoch 6)</span></div>
+            <div><b>0.5930</b><span>best FROC score (epoch 11)</span></div>
+            <div><b>0.1905</b><span>best class-agnostic AP75 (epoch 15)</span></div>
+          </div>
+        </section>
+
+        <section id="loc-approach">
+          <h2>Approach</h2>
+          <p>The detector is a standard two-stage Faster R-CNN with a hierarchical vision transformer in place of the usual
+            ResNet backbone.</p>
+          <div class="pipeline">
+            <div class="step"><span class="n">01</span><b>Backbone</b><span class="mono">Swin-B, ImageNet</span>
+              <p>512×512 input; features from stages 1 to 3 (256, 512, 1024 channels).</p>
+            </div>
+            <div class="step"><span class="n">02</span><b>FPN</b><span class="mono">torchvision</span>
+              <p>Lateral 1×1 convs to 256 channels, top-down pathway, four output scales.</p>
+            </div>
+            <div class="step"><span class="n">03</span><b>RPN</b><span class="mono">anchors</span>
+              <p>Anchor sizes 32/64/128/256 px, aspect ratios 0.5/1.0/2.0.</p>
+            </div>
+            <div class="step"><span class="n">04</span><b>Head</b><span class="mono">Faster R-CNN</span>
+              <p>3 classes (background, Active TB, Latent TB) with a Smooth L1 box regressor.</p>
+            </div>
+          </div>
+          <p>Training uses AdamW at a learning rate of 1e-4 with no schedule, batch size 8, and the usual multi-task loss
+            (RPN and ROI classification plus regression). The reported run covers 16 epochs.</p>
+          <h3>A split built for rare classes</h3>
+          <p>A random split would leave the test set with only a handful of Latent or mixed cases. Each image is assigned one
+            of four categories from its boxes (<code>No_TB</code>, <code>Active_TB</code>, <code>Latent_TB</code>,
+            <code>Mixed_TB</code>), and the official training set is split about 70/30 within each category, with at least
+            20 Latent and 5 Mixed images guaranteed in test. Validation is the official TBX11K validation set (1,800 images).</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Category</th><th style="text-align:right">Total</th><th style="text-align:right">Train</th><th style="text-align:right">Test</th></tr></thead>
+              <tbody>
+                <tr><td>No_TB</td><td class="num">6,000</td><td class="num">4,200</td><td class="num">1,800</td></tr>
+                <tr><td>Active_TB</td><td class="num">473</td><td class="num">332</td><td class="num">141</td></tr>
+                <tr><td>Latent_TB</td><td class="num">103</td><td class="num">73</td><td class="num">30</td></tr>
+                <tr><td>Mixed_TB</td><td class="num">23</td><td class="num">17</td><td class="num">6</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Totals: train 4,622, val 1,800, test 1,977. The pipeline reads the Kaggle CSV annotations directly, with no
+            conversion to COCO or Pascal VOC.</p>
+        </section>
+
+        <section id="loc-results">
+          <h2>Results</h2>
+          <p>Three metrics were tracked on the test split: AP at IoU 0.5 and 0.75, per class and class-agnostic (any TB box
+            counts, regardless of subtype), and the FROC score, the mean lesion sensitivity at up to one false positive per
+            image. They do not peak at the same epoch, so the table shows all three standout epochs rather than one cherry-picked
+            checkpoint.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Epoch</th><th style="text-align:right">AP50 agnostic</th><th style="text-align:right">AP50 Active</th><th style="text-align:right">AP50 Latent</th><th style="text-align:right">AP75 agnostic</th><th style="text-align:right">FROC</th></tr></thead>
+              <tbody>
+                <tr><td>6 (best AP50)</td><td class="num"><strong>0.6622</strong></td><td class="num"><strong>0.6241</strong></td><td class="num">0.0763</td><td class="num">0.1059</td><td class="num">0.4991</td></tr>
+                <tr><td>11 (best FROC)</td><td class="num">0.6449</td><td class="num">0.6114</td><td class="num"><strong>0.1410</strong></td><td class="num">0.1239</td><td class="num"><strong>0.5930</strong></td></tr>
+                <tr><td>15 (best AP75)</td><td class="num">0.6332</td><td class="num">0.6016</td><td class="num">0.1249</td><td class="num"><strong>0.1905</strong></td><td class="num">0.5817</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Epoch 11 is the headline checkpoint: it has the best FROC score and the lowest validation loss (0.0183). After
+            epoch 14 validation loss jumps to 0.0287 while training loss keeps falling, a sign of overfitting.</p>
+          <p>AP75 sits far below AP50 (about 0.19 against 0.66). The model finds lesions, but its boxes are often not tight
+            enough to clear the stricter overlap threshold.</p>
+          <figure class="fig">
+            <img src="medical/loc-ap50-vs-epoch.jpg" alt="Line chart of AP at IoU 0.5 over 16 epochs. Class-agnostic and Active TB curves track together, peaking near 0.66 and 0.62 at epoch 6 with dips at epochs 8 and 10. The Latent TB curve stays below 0.2 throughout." width="1400" height="985" loading="lazy">
+            <figcaption>AP50 per epoch. Class-agnostic and Active TB move together and peak at epoch 6; Latent TB stays
+              under 0.2. The dips at epochs 8 and 10 show how noisy single-epoch numbers are.</figcaption>
+          </figure>
+          <figure class="fig">
+            <img src="medical/loc-froc-epoch11.jpg" alt="FROC curve at epoch 11: sensitivity rises steeply to about 0.6 at under 0.1 false positives per image and levels off near 0.79 at about 0.53 false positives per image. FROC score 0.5930." width="1400" height="1112" loading="lazy">
+            <figcaption>FROC curve at epoch 11. Sensitivity reaches about 0.6 at roughly 0.07 false positives per image and
+              about 0.75 at roughly 0.3; the plotted curve ends near 0.79 at about 0.53 FPPI (values read from the chart).</figcaption>
+          </figure>
+        </section>
+
+        <section id="loc-leaderboard">
+          <h2>Against the leaderboard</h2>
+          <p>For context, the project slides show the top row of the TBX11K tuberculosis detection leaderboard (rank 1 of 16
+            entries). Values are converted to percent to match it.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Metric</th><th style="text-align:right">This model</th><th style="text-align:right">Leaderboard rank 1</th></tr></thead>
+              <tbody>
+                <tr><td>Agnostic AP50 (epoch 6)</td><td class="num">66.22</td><td class="num">61.74</td></tr>
+                <tr><td>Active AP50 (epoch 6)</td><td class="num">62.41</td><td class="num">54.76</td></tr>
+                <tr><td>Latent AP50 (epoch 11)</td><td class="num">14.10</td><td class="num">11.77</td></tr>
+                <tr><td>Agnostic AP75 (epoch 15)</td><td class="num">19.05</td><td class="num">19.64</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>This comparison is indicative only.</strong> The numbers come from a custom stratified test split carved
+            from the official training set, not the official benchmark test set, and each figure above is taken from a
+            different epoch. It shows the model is in the right range, not that it beats the leaderboard.</p>
+        </section>
+
+        <section id="loc-latent">
+          <h2>The open problem: Latent TB</h2>
+          <p>Active TB is detected well. Latent TB is not: its AP50 ranges from 0.004 to 0.18 across epochs, and its AP75
+            stays close to zero (0.0367 at epoch 15, the best of the three standout epochs).</p>
+          <div class="grid-2">
+            <div class="card">
+              <h3>Too few examples</h3>
+              <p>The model trains on 73 Latent TB images against 332 Active TB images, with 4,200 healthy images
+                alongside. The test set holds 30 Latent images, so per-class AP is also noisy.</p>
+            </div>
+            <div class="card">
+              <h3>Still climbing</h3>
+              <p>Latent AP50 trends upward late in training while Active TB has already peaked. The best Latent
+                checkpoint is not the best overall checkpoint.</p>
+            </div>
+          </div>
+          <p>Closing this gap is the obvious next step. The repo does not yet test remedies for the class imbalance, so
+            that work remains open.</p>
+        </section>
+
+        <section id="loc-run">
+          <h2>Run it</h2>
+          <p>From inside <code>02_detection/</code>, with the simplified TBX11K release from Kaggle:</p>
+          <pre><code><span class="c"># 1. stratified 4-category split (seed 42)</span>
+      python data/split_dataset.py \
+          --csv-path /path/to/tbx11k-simplified/data.csv \
+          --output-dir /path/to/tbx11k-simplified
+
+      <span class="c"># 2. train Swin-B + FPN + Faster R-CNN</span>
+      python train.py --data-dir /path/to/tbx11k-simplified \
+          --checkpoint-dir ./checkpoints --epochs 30 \
+          --batch-size 8 --lr 1e-4 --img-size 512
+
+      <span class="c"># 3. AP50, AP75, class-agnostic AP and FROC on the test split</span>
+      python evaluate.py --data-dir /path/to/tbx11k-simplified \
+          --checkpoint ./checkpoints/checkpoint_epoch_30.pth --split test
+
+      <span class="c"># 4. ground truth vs prediction overlays</span>
+      python visualize.py --data-dir /path/to/tbx11k-simplified \
+          --checkpoint ./checkpoints/checkpoint_epoch_30.pth \
+          --num-samples 10 --score-thresh 0.3 --output-dir ./visualizations</code></pre>
+          <p>Training was run on ASU's Sol supercomputer; <code>scripts/train_slurm.sh</code> holds the Sol-specific SLURM
+            job.</p>
+        </section>
+
+              <a class="next" href="#segmentation">
+                <b>Next: 03 Segmentation</b>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </a>
+            </article>
+    </div>
+
+    <div class="body task" id="segmentation">
+      <aside class="toc" aria-label="Segmentation contents">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#seg-task">The task</a></li>
+          <li><a href="#seg-approach">Approach</a></li>
+          <li><a href="#seg-results">Results</a></li>
+          <li><a href="#seg-cases">Best and low-scoring cases</a></li>
+          <li><a href="#seg-failures">Failure audit</a></li>
+          <li><a href="#seg-scope">Caveats</a></li>
+          <li><a href="#seg-run">Run it</a></li>
+        </ol>
+      </aside>
+      <article>
+        <section id="seg-task">
+          <h2>The task</h2>
+          <p>Given a chest X-ray, label every pixel as one of four classes: background, right lung, left lung or heart.
+            Clean lung and heart outlines are the starting point for measurements like the cardiothoracic ratio used to
+            flag an enlarged heart.</p>
+          <p>The labels come from <strong>CheXmask</strong>, a public set of anatomical masks for CheXpert images, stored
+            as run-length-encoded strings in one CSV. CheXmask ships its own quality estimate per mask
+            (<code>Dice RCA (Mean)</code>), and only masks scoring 0.7 or higher were kept.</p>
+          <div class="callout">
+            <div><b>130,614</b><span>training images</span></div>
+            <div><b>55,978</b><span>test images</span></div>
+            <div><b>0.9619</b><span>mean test Dice, epoch 11</span></div>
+          </div>
+        </section>
+
+        <section id="seg-approach">
+          <h2>Approach</h2>
+          <p>The model is Swin-Unet-V2: a hierarchical Swin Transformer encoder feeding a U-Net-style decoder. The decoder
+            upsamples with patch expanding layers (2x per stage) and joins each stage to the matching encoder features
+            through skip connections (concatenate, then a linear projection). A 1x1 convolution produces the four class
+            maps.</p>
+          <div class="pipeline">
+            <div class="step"><span class="n">01</span><b>Decode</b><span class="mono">data/prep_mask.py</span>
+              <p>Drop masks with RCA below 0.7, then decode the RLE strings to PNG masks at native resolution across a
+                process pool.</p>
+            </div>
+            <div class="step"><span class="n">02</span><b>Split</b><span class="mono">data/split_train_test.py</span>
+              <p>Random 70/30 image-level split of the CheXpert train images (<code>random_state=42</code>).</p>
+            </div>
+            <div class="step"><span class="n">03</span><b>Train</b><span class="mono">train.py</span>
+              <p>224x224 inputs, CrossEntropy loss, mixed precision, per-class Dice tracked on validation each epoch.</p>
+            </div>
+            <div class="step"><span class="n">04</span><b>Evaluate</b><span class="mono">evaluate.py</span>
+              <p>Per-class Dice on the 55,978-image test split.</p>
+            </div>
+            <div class="step"><span class="n">05</span><b>Audit</b><span class="mono">analysis/min_max_analysis.py</span>
+              <p>Rank test images by organ-mean Dice and plot the best and worst.</p>
+            </div>
+          </div>
+          <p>Training used AdamW (learning rate 1e-4, weight decay 0.05), batch size 96, for 11 epochs on ASU's Sol
+            cluster. Encoder depths are <code>[2,2,2,2]</code>, decoder depths <code>[1,2,2,2]</code>, drop path 0.1.
+            Validation is the 199 images in the CheXpert <code>valid/</code> set that have a CheXmask mask.</p>
+        </section>
+
+        <section id="seg-results">
+          <h2>Results</h2>
+          <p>Test Dice at the epoch-11 checkpoint, against the first epoch:</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Class</th><th style="text-align:right">Epoch 1</th><th style="text-align:right">Epoch 11</th><th style="text-align:right">Gain</th></tr></thead>
+              <tbody>
+                <tr><td>Background</td><td class="num">0.9730</td><td class="num">0.9854</td><td class="num">+0.0124</td></tr>
+                <tr><td>Right lung</td><td class="num">0.9231</td><td class="num">0.9616</td><td class="num">+0.0385</td></tr>
+                <tr><td>Left lung</td><td class="num">0.9099</td><td class="num">0.9512</td><td class="num">+0.0413</td></tr>
+                <tr><td>Heart</td><td class="num">0.9107</td><td class="num">0.9494</td><td class="num">+0.0387</td></tr>
+                <tr><td><strong>Mean (4 classes)</strong></td><td class="num">0.9292</td><td class="num"><strong>0.9619</strong></td><td class="num">+0.0327</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Mean Dice rose every one of the 11 epochs, though single classes dipped slightly at a few (heart at epochs 7
+            and 9, left lung at 11). The ordering never changed: background, then right lung, left lung, heart. The
+            reported mean includes background, which is the easiest class; the three organs alone average 0.9541.</p>
+          <p>Training had not clearly converged. Training loss fell from 0.2026 to 0.0535 and was still falling at epoch 11.
+            Validation loss went from 0.101 to its lowest, 0.0503, at epoch 10, then held level at 0.0513. Per-epoch
+            Dice gains over the last four epochs were 0.0001 to 0.0017.</p>
+        </section>
+
+        <section id="seg-cases">
+          <h2>Best and low-scoring cases</h2>
+          <p>On clear, well-positioned X-rays the prediction is nearly indistinguishable from the label, with per-class
+            Dice of 0.985 to 0.991.</p>
+          <figure class="fig">
+            <img src="medical/seg-best.jpg" alt="Three chest X-rays, each shown as the original image, the CheXmask ground truth and the model prediction, with lung and heart masks that closely match" width="1400" height="1153" loading="lazy">
+            <figcaption>The three best test images. Columns: original, ground truth, prediction. Red is right lung, green
+              left lung, blue heart; per-class Dice is printed above each prediction.</figcaption>
+          </figure>
+          <p>Further down the ranking, images ranked 28 to 30 from the bottom (organ-mean Dice about 0.79) are hard but
+            real chest films: a tilted patient with an arm and tubes in view, a heavily opacified chest with lines and
+            devices, and an implanted device over the right lung. The model still finds all three structures; it gets
+            the boundaries wrong.</p>
+          <figure class="fig">
+            <img src="medical/seg-low-28-30.jpg" alt="Three difficult chest X-rays with tubes, devices and a tilted patient, shown with ground-truth and predicted lung and heart masks" width="1400" height="1236" loading="lazy">
+            <figcaption>Test images ranked 28, 29 and 30 from the bottom, mean organ Dice 0.786 to 0.789. Same colours:
+              red right lung, green left lung, blue heart.</figcaption>
+          </figure>
+        </section>
+
+        <section id="seg-failures">
+          <h2>Failure audit</h2>
+          <p>The three lowest-scoring test images are not hard anatomy. They are inputs that are barely chest X-rays at
+            all.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Rank</th><th>Input</th><th style="text-align:right">Right lung</th><th style="text-align:right">Left lung</th><th style="text-align:right">Heart</th><th style="text-align:right">Organ mean</th></tr></thead>
+              <tbody>
+                <tr><td>#1</td><td>Noise-filled image</td><td class="num">0.6219</td><td class="num">0.0127</td><td class="num">0.6336</td><td class="num">0.4227</td></tr>
+                <tr><td>#2</td><td>Blank grey image</td><td class="num">0.6545</td><td class="num">0.4939</td><td class="num">0.4772</td><td class="num">0.5418</td></tr>
+                <tr><td>#3</td><td>Head-and-shoulders view</td><td class="num">0.7779</td><td class="num">0.4479</td><td class="num">0.7844</td><td class="num">0.6700</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figure class="fig">
+            <img src="medical/seg-lowest.jpg" alt="Three corrupted or atypical inputs: a head-and-shoulders view, a blank grey frame and a noise-filled frame, each with ground-truth and predicted lung and heart masks" width="1400" height="1104" loading="lazy">
+            <figcaption>The three lowest-scoring test images. The plot labels them Worst #1 to #3 from top to bottom, but
+              the order runs the other way: the bottom row (noise, left lung Dice 0.013) is the lowest score of all. Red
+              right lung, green left lung, blue heart.</figcaption>
+          </figure>
+          <p>Two things follow. First, the tail of the error distribution is driven by corrupted or off-target inputs,
+            not by the model missing anatomy on real chest films. Second, the ground-truth column still draws full lungs
+            and a heart on a blank frame, so some CheXmask labels that pass the RCA filter are not real anatomy. A
+            production version would need an input check that rejects non-chest images before segmentation.</p>
+        </section>
+
+        <section id="seg-scope">
+          <h2>Caveats</h2>
+          <ul>
+            <li><strong>The split is not patient-independent.</strong> Train and test are a random 70/30 split of
+              individual images from the CheXpert train set, so images of the same patient can appear in both. Test Dice
+              is likely optimistic for unseen patients.</li>
+            <li><strong>The headline mean includes background.</strong> 0.9619 averages four classes; the organ-only mean
+              is lower.</li>
+            <li><strong>Labels are filtered, not verified.</strong> Masks are CheXmask's, kept when their RCA quality
+              estimate is 0.7 or higher, with no manual review.</li>
+            <li><strong>Dice is pooled per batch</strong> and averaged weighted by batch size, so reproducing the exact
+              numbers needs batch size 96.</li>
+          </ul>
+        </section>
+
+        <section id="seg-run">
+          <h2>Run it</h2>
+          <p>From <code>03_segmentation/</code>, with CheXpert images and the CheXmask CSV downloaded (CheXmask needs
+            credentialed PhysioNet access):</p>
+          <pre><code><span class="c"># 1. decode masks, dropping RCA &lt; 0.7</span>
+      python data/prep_mask.py --csv-path $CHEXMASK_CSV \
+          --train-img-dir $CHEXPERT/train --val-img-dir $CHEXPERT/valid \
+          --output-dir $MASKS --min-rca 0.7 --num-workers 16
+
+      <span class="c"># 2. image-level 70/30 split</span>
+      python data/split_train_test.py --input $MASKS/train_files.txt \
+          --train-out $MASKS/train_split.txt --test-out $MASKS/test_files.txt
+
+      <span class="c"># 3. train, then evaluate the epoch-11 checkpoint</span>
+      python train.py --img-dir $CHEXPERT/train --mask-dir $MASKS/train \
+          --train-list $MASKS/train_split.txt --val-img-dir $CHEXPERT/valid \
+          --val-mask-dir $MASKS/valid --val-list $MASKS/valid_files.txt \
+          --checkpoint-dir ./checkpoints --epochs 11 --batch-size 96 --lr 1e-4
+      python evaluate.py --img-dir $CHEXPERT/train --mask-dir $MASKS/train \
+          --test-list $MASKS/test_files.txt \
+          --checkpoint ./checkpoints/checkpoint_epoch_11.pth --batch-size 96</code></pre>
+        </section>
+
+              <a class="next" href="slidesight.html">
+                <b>Next project: SlideSight</b>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </a>
+            </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="foot">
+      <span>© 2026 Saisrivathsan Manikandan</span>
+      <nav aria-label="Elsewhere">
+        <a href="mailto:saisrivathsan2004@gmail.com">Email</a>
+        <a href="https://linkedin.com/in/smanika3" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/smanika3" target="_blank" rel="noopener">GitHub</a>
+        <a href="SAISRIVATHSAN_MANIKANDAN_RESUME.pdf" download>Résumé (PDF)</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // Task tabs: one task panel visible at a time, picked by the URL hash. Without JS every panel shows.
+    (() => {
+      const panels = [...document.querySelectorAll('.task')];
+      const bar = document.querySelector('.tasks');
+      const tabs = [...bar.querySelectorAll('a')];
+      const ind = document.createElement('span');
+      ind.className = 'tasks-ind';
+      ind.setAttribute('aria-hidden', 'true');
+      bar.prepend(ind);
+
+      const panelFor = hash => {
+        const el = hash.length > 1 && document.getElementById(decodeURIComponent(hash.slice(1)));
+        return el && el.closest('.task');
+      };
+      const current = () => panels.find(p => !p.hidden);
+      const show = (panel, scroll) => {
+        panels.forEach(p => p.hidden = p !== panel);
+        tabs.forEach(t => t.setAttribute('aria-current', t.hash === '#' + panel.id));
+        const t = tabs.find(t => t.hash === '#' + panel.id), b = bar.getBoundingClientRect(), r = t.getBoundingClientRect();
+        ind.style.width = r.width + 'px';
+        ind.style.transform = `translateX(${r.left - b.left - bar.clientLeft}px)`;
+        // Jump to the new panel's top when it starts off screen (e.g. switching from deep inside another task).
+        const top = panel.getBoundingClientRect().top;
+        if (scroll === 'always' || scroll && (top < 0 || top > innerHeight)) panel.scrollIntoView({ block: 'start' });
+      };
+
+      show(panelFor(location.hash) || panels[0]);
+      document.fonts?.ready.then(() => show(current()));
+      requestAnimationFrame(() => requestAnimationFrame(() => ind.classList.add('is-ready')));
+      addEventListener('resize', () => show(current()));
+
+      // Tabs and the hero diagram switch panels; a link to a section in a hidden panel opens that panel first.
+      document.addEventListener('click', e => {
+        const a = e.target.closest('a[href^="#"]');
+        const panel = a && panelFor(a.hash);
+        if (!panel) return;
+        if (a.hash === '#' + panel.id) {
+          e.preventDefault();
+          history.replaceState(null, '', a.hash);
+          show(panel, a.closest('.arch') ? 'always' : true); // hero diagram always scrolls to the task
+        } else if (panel.hidden) show(panel);
+      });
+      addEventListener('hashchange', () => { const p = panelFor(location.hash); if (p) show(p); });
+
+      // Highlight the section in view in the side contents.
+      const tocLinks = [...document.querySelectorAll('.toc a')];
+      const io = new IntersectionObserver(entries => entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        tocLinks.forEach(a => a.setAttribute('aria-current', a.hash === '#' + en.target.id));
+      }), { rootMargin: '-30% 0px -60% 0px' });
+      document.querySelectorAll('article section').forEach(s => io.observe(s));
+    })();
+  </script>
+  <script src="motion.js" defer></script>
+</body>
+
+</html>
