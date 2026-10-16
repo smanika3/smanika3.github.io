@@ -45,7 +45,9 @@
   const pick = () => {
     if (fixed) return fixed;
     let a = spy[0][0];
-    for (const [l, el] of spy) if (el.getBoundingClientRect().top <= innerHeight * 0.4) a = l;
+    if (scrollY < 1) return a;
+    const line = Math.min(innerHeight * 0.4, 320);
+    for (const [l, el] of spy) if (el.getBoundingClientRect().top <= line) a = l;
     if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) a = spy[spy.length - 1][0];
     return a;
   };
