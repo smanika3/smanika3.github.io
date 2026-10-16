@@ -23,3 +23,44 @@
     io.observe(el);
   });
 })();
+
+// Top-bar marker: a black box behind the current link. Project and résumé pages pin it to
+// their aria-current link; the homepage moves it with the section in view.
+(() => {
+  const inner = document.querySelector('.nav-inner');
+  if (!inner) return;
+  const links = [...inner.querySelectorAll('a')];
+  const ind = document.createElement('span');
+  ind.className = 'nav-ind';
+  ind.setAttribute('aria-hidden', 'true');
+  inner.prepend(ind);
+
+  const fixed = inner.querySelector('[aria-current="page"]');
+  const spy = links.map(a => {
+    const h = a.getAttribute('href');
+    return [a, h === 'index.html' ? document.querySelector('.intro') : h.startsWith('#') ? document.querySelector(h) : null];
+  }).filter(([, el]) => el);
+  if (!fixed && !spy.length) return;
+
+  const pick = () => {
+    if (fixed) return fixed;
+    let a = spy[0][0];
+    for (const [l, el] of spy) if (el.getBoundingClientRect().top <= innerHeight * 0.4) a = l;
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) a = spy[spy.length - 1][0];
+    return a;
+  };
+  const place = () => {
+    const a = pick(), box = inner.getBoundingClientRect(), r = a.getBoundingClientRect();
+    links.forEach(l => l.classList.toggle('is-active', l === a));
+    ind.style.width = r.width + 'px';
+    ind.style.transform = `translateX(${r.left - box.left - inner.clientLeft}px)`;
+  };
+
+  place();
+  document.fonts?.ready.then(place);
+  requestAnimationFrame(() => requestAnimationFrame(() => ind.classList.add('is-ready')));
+  let queued = false;
+  const onScroll = () => { if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; place(); }); } };
+  if (!fixed) addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll);
+})();
