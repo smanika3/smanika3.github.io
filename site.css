@@ -316,6 +316,8 @@ footer { border-top: 1px solid var(--line); }
 #contact { padding-top: 64px; }
 
 .featured { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+/* A third card sits centred under the pair, at the same width as one column. */
+.featured .project:nth-child(3) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 8px); }
 .project { display: flex; flex-direction: column; gap: 14px; padding: 28px; color: var(--ink); }
 .project:hover { text-decoration: none; }
 .project .pill { align-self: flex-start; }
@@ -397,6 +399,7 @@ footer { border-top: 1px solid var(--line); }
 
 @media (max-width: 960px) {
   .featured,   .intro { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .featured .project:nth-child(3) { width: auto; justify-self: stretch; }
   .intro .avatar { order: 0; width: 240px; height: 240px; }
         .row { grid-template-columns: minmax(0, 1fr) auto; }
   .row p { grid-column: 1 / -1; grid-row: 2; }
