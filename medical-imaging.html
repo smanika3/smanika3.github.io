@@ -90,24 +90,24 @@
           <li><a href="#cls-approach">Approach</a></li>
           <li><a href="#cls-results">Results</a></li>
           <li><a href="#cls-curves">Peak came early</a></li>
+          <li><a href="#cls-self-training">Self-training</a></li>
           <li><a href="#cls-other">Other methods tried</a></li>
           <li><a href="#cls-caveats">Caveats</a></li>
-          <li><a href="#cls-run">Run it</a></li>
         </ol>
       </aside>
       <article>
         <section id="cls-task">
           <h2>The task</h2>
           <p>CheXpert is Stanford's chest X-ray benchmark. Each image carries 14 observations, and the model predicts all
-            14 at once. Scores are reported on the five pathologies the CheXpert leaderboard uses: Atelectasis,
-            Cardiomegaly, Consolidation, Edema and Pleural Effusion.</p>
+            14 at once. Headline scores use the five pathologies on the CheXpert leaderboard: Atelectasis, Cardiomegaly,
+            Consolidation, Edema and Pleural Effusion.</p>
           <p>The hard part is the labels. They were mined from radiology reports, so many are marked uncertain
-            (<code>-1</code>) rather than present or absent. Treat every <code>-1</code> as a target and the loss learns
-            noise; throw them all away and some classes lose most of their positives.</p>
+            (<code>-1</code>) rather than present or absent: about 139k in the training set. Treat every <code>-1</code>
+            as a target and the loss learns noise; throw them all away and some classes lose most of their positives.</p>
           <div class="callout">
             <div><b>223,414</b><span>training images, frontal and lateral views</span></div>
             <div><b>234</b><span>validation images</span></div>
-            <div><b>668</b><span>test images used for the reported AUC</span></div>
+            <div><b>668</b><span>test images used for every reported AUC</span></div>
           </div>
         </section>
 
@@ -124,20 +124,22 @@
               contribute no gradient.</li>
           </ul>
           <p>The masked binary cross-entropy averages only over labels that are 0 or 1. Training uses AdamW (learning
-            rate 1e-4, weight decay 0.1), batch size 96, mixed precision, and flip, rotation, affine and colour-jitter
+            rate 1e-4, weight decay 0.1), batch size 96, mixed precision, and flip, rotation, affine and color-jitter
             augmentation.</p>
           <h3>Compute</h3>
           <p>Training ran as SLURM jobs on ASU's Sol supercomputer, one GPU per job, with each job resuming from the
-            latest checkpoint. The script switches to PyTorch <code>DataParallel</code> when more than one GPU is
-            visible. The reported run stopped after 18 epochs.</p>
+            latest checkpoint. The script switches to PyTorch <code>nn.DataParallel</code> when more than one GPU is
+            visible. The reported run stopped after 18 epochs. The original training log (Nov 9 to 10, 2025) and test log
+            (Nov 11, 2025) are in the repo, and every number on this page traces back to them.</p>
         </section>
 
         <section id="cls-results">
           <h2>Results</h2>
-          <p>Every epoch's checkpoint was scored on the 668-image test set. The best mean AUC came at epoch 2.</p>
+          <p>Every epoch's checkpoint was scored on the 668-image test set. The best mean AUC, <strong>0.9004</strong>,
+            came at epoch 2.</p>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Pathology</th><th style="text-align:right">CheXpert paper (U-Ignore)</th><th style="text-align:right">Swin-B, epoch 2</th></tr></thead>
+              <thead><tr><th>Pathology</th><th class="num">CheXpert paper (U-Ignore)</th><th class="num">Swin-B, epoch 2</th></tr></thead>
               <tbody>
                 <tr><td>Atelectasis</td><td class="num">0.818</td><td class="num">0.8606</td></tr>
                 <tr><td>Cardiomegaly</td><td class="num">0.828</td><td class="num">0.8697</td></tr>
@@ -151,17 +153,53 @@
           <p>Swin is higher on mean AUC (+0.0112) and on three of five classes: Atelectasis (+0.043), Cardiomegaly
             (+0.042) and Pleural Effusion (+0.029). The paper stays ahead on Consolidation and Edema. Leaderboard entries
             are still higher: the top entry, an ensemble, scores 0.930, and the single model at rank 86 scores 0.911.</p>
+
+          <h3>All 14 classes</h3>
+          <p>The test job scored all 14 outputs, not only the five on the leaderboard. At the same epoch-2 checkpoint,
+            11 classes clear 0.85 AUC and four clear 0.94. Three stay weak: Pneumonia, Fracture and Enlarged
+            Cardiomediastinum.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Class</th><th class="num">Epoch 2</th><th class="num">Lowest (18 epochs)</th><th class="num">Highest (18 epochs)</th></tr></thead>
+              <tbody>
+                <tr><td>Pleural Other</td><td class="num">0.9879</td><td class="num">0.9398</td><td class="num">0.9879</td></tr>
+                <tr><td>Support Devices</td><td class="num">0.9580</td><td class="num">0.9299</td><td class="num">0.9725</td></tr>
+                <tr><td>Pleural Effusion</td><td class="num">0.9566</td><td class="num">0.9452</td><td class="num">0.9626</td></tr>
+                <tr><td>Pneumothorax</td><td class="num">0.9489</td><td class="num">0.8717</td><td class="num">0.9988</td></tr>
+                <tr><td>Edema</td><td class="num">0.9165</td><td class="num">0.8780</td><td class="num">0.9215</td></tr>
+                <tr><td>Lung Opacity</td><td class="num">0.9142</td><td class="num">0.8735</td><td class="num">0.9162</td></tr>
+                <tr><td>Consolidation</td><td class="num">0.8987</td><td class="num">0.8236</td><td class="num">0.9067</td></tr>
+                <tr><td>No Finding</td><td class="num">0.8797</td><td class="num">0.8684</td><td class="num">0.8978</td></tr>
+                <tr><td>Cardiomegaly</td><td class="num">0.8697</td><td class="num">0.8371</td><td class="num">0.8771</td></tr>
+                <tr><td>Atelectasis</td><td class="num">0.8606</td><td class="num">0.7938</td><td class="num">0.8678</td></tr>
+                <tr><td>Lung Lesion</td><td class="num">0.8582</td><td class="num">0.8166</td><td class="num">0.9602</td></tr>
+                <tr><td>Pneumonia</td><td class="num">0.8260</td><td class="num">0.6906</td><td class="num">0.8260</td></tr>
+                <tr><td>Fracture</td><td class="num">0.6931</td><td class="num">0.5803</td><td class="num">0.7903</td></tr>
+                <tr><td>Enlarged Cardiomediastinum</td><td class="num">0.6634</td><td class="num">0.5067</td><td class="num">0.6975</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figure class="fig">
+            <img src="medical/cls-all-classes-auroc.jpg" alt="Line chart of test AUROC per epoch for 12 CheXpert classes over 18 epochs. Pneumothorax, Pleural Other and Pleural Effusion sit near the top; Pneumonia, Fracture and Enlarged Cardiomediastinum sit well below the rest, between about 0.5 and 0.83." width="1400" height="873" loading="lazy">
+            <figcaption>Test AUROC per epoch for 12 of the 14 classes, drawn by the original test job (No Finding and
+              Support Devices are not plotted). The color cycle repeats: Enlarged Cardiomediastinum and Pleural Other are
+              both dark blue, and Cardiomegaly and Fracture are both orange.</figcaption>
+          </figure>
+          <p>The rarer findings move the most from epoch to epoch. Lung Lesion ranges from 0.8166 to 0.9602 and Fracture
+            from 0.5803 to 0.7903, so a single epoch's number for those classes says less than it does for Pleural
+            Effusion, which never leaves a 0.02 band.</p>
         </section>
 
         <section id="cls-curves">
           <h2>Peak came early</h2>
           <p>The mean AUC peaked at epoch 2 (0.9004) and then sat between about 0.873 and 0.892 for the remaining 16
-            epochs. Extra training gave no net gain. Pleural Effusion is the easiest class (0.945 to 0.963); Atelectasis
-            is the hardest and least stable (0.794 to 0.868).</p>
+            epochs. Extra training gave no net gain. Pleural Effusion is the easiest leaderboard class (0.945 to 0.963);
+            Atelectasis is the hardest and least stable (0.794 to 0.868).</p>
           <figure class="fig">
-            <img src="medical/cls-auroc-per-epoch.jpg" alt="Line chart of test AUROC per epoch for the five leaderboard classes and their mean over 18 epochs. Pleural Effusion stays near 0.96; Atelectasis and Consolidation swing widely; the dashed mean peaks at epoch 2." width="1400" height="817" loading="lazy">
-            <figcaption>Per-class test AUROC by epoch. Atelectasis (low of 0.7938 at epoch 4) and Consolidation (0.8236 at
-              epoch 13) drive most of the movement in the mean.</figcaption>
+            <img src="medical/cls-auroc-per-epoch.jpg" alt="Line chart of test AUROC per epoch for the five leaderboard classes and their mean over 18 epochs. Pleural Effusion stays near 0.96; Atelectasis and Consolidation swing widely; the dashed black mean peaks at epoch 2." width="1400" height="816" loading="lazy">
+            <figcaption>The five leaderboard classes and their mean (black dashed), original chart from the test job.
+              Atelectasis (low of 0.7938 at epoch 4) and Consolidation (0.8236 at epoch 13) drive most of the movement in
+              the mean.</figcaption>
           </figure>
           <p>No single epoch is best for every class. Edema, Cardiomegaly and Pleural Effusion each peak at epoch 10,
             Consolidation at epoch 5 and Atelectasis at epoch 11, so the epoch-2 checkpoint is a compromise across
@@ -173,25 +211,81 @@
           </figure>
         </section>
 
+        <section id="cls-self-training">
+          <h2>Self-training</h2>
+          <p>The reported run masks most uncertain labels out of the loss, so that data goes unused. A supplementary
+            teacher–student experiment, run after the main result, tries to recover it.</p>
+          <div class="pipeline">
+            <div class="step"><span class="n">01</span><b>Teacher</b><span class="mono">reported-run checkpoints</span>
+              <p>For each class, the checkpoint from that class's best test-AUC epoch makes the predictions.</p></div>
+            <div class="step"><span class="n">02</span><b>Pseudo-labels</b><span class="mono">138,879 labels replaced</span>
+              <p>The teacher predicts only where the label is <code>-1</code>; certain labels are kept. Soft variant:
+                the probability itself. Thresholded: at or above the high cut becomes 1, at or below the low cut becomes
+                0, anything between stays soft.</p></div>
+            <div class="step"><span class="n">03</span><b>Student</b><span class="mono">fresh Swin-B</span>
+              <p>Restarts from ImageNet weights with the same recipe, trained with unmasked BCE on the pseudo-labels.</p></div>
+            <div class="step"><span class="n">04</span><b>Scoring</b><span class="mono">same 668 test images</span>
+              <p>Every student checkpoint is scored with the same test script, and the best epoch is picked the same way.</p></div>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Student</th><th>Pseudo-labels (high / low)</th><th class="num">Epochs run</th><th class="num">Best epoch</th><th class="num">Mean 5-class AUC</th><th class="num">vs teacher</th></tr></thead>
+              <tbody>
+                <tr><td>Soft</td><td>teacher probability</td><td class="num">19</td><td class="num">3</td><td class="num">0.8995</td><td class="num">−0.0009</td></tr>
+                <tr><td>thresh1</td><td>0.5 / 0.5</td><td class="num">23</td><td class="num">3</td><td class="num">0.8914</td><td class="num">−0.0090</td></tr>
+                <tr><td>thresh2</td><td>0.6 / 0.4</td><td class="num">36</td><td class="num">4</td><td class="num">0.9026</td><td class="num">+0.0022</td></tr>
+                <tr><td>thresh3</td><td>0.7 / 0.3</td><td class="num">31</td><td class="num">7</td><td class="num">0.9018</td><td class="num">+0.0014</td></tr>
+                <tr><td>thresh4</td><td>0.8 / 0.2</td><td class="num">28</td><td class="num">4</td><td class="num">0.9020</td><td class="num">+0.0016</td></tr>
+                <tr><td><strong>thresh5</strong></td><td><strong>0.9 / 0.1</strong></td><td class="num">40</td><td class="num">6</td><td class="num"><strong>0.9028</strong></td><td class="num"><strong>+0.0024</strong></td></tr>
+                <tr><td>Teacher (reported run)</td><td>none</td><td class="num">18</td><td class="num">2</td><td class="num">0.9004</td><td class="num">0.0000</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Four of the five thresholded students beat the teacher, by +0.0014 to +0.0024. The pattern is consistent:
+            confident cuts help a little, while turning every pseudo-label into a hard 0 or 1 (0.5 / 0.5) hurts most and
+            drops Atelectasis to 0.8218.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Pathology</th><th class="num">Teacher, epoch 2</th><th class="num">Best student, epoch 6</th><th class="num">Change</th></tr></thead>
+              <tbody>
+                <tr><td>Atelectasis</td><td class="num">0.8606</td><td class="num">0.8696</td><td class="num">+0.0090</td></tr>
+                <tr><td>Cardiomegaly</td><td class="num">0.8697</td><td class="num">0.8872</td><td class="num">+0.0175</td></tr>
+                <tr><td>Consolidation</td><td class="num">0.8987</td><td class="num">0.8803</td><td class="num">−0.0184</td></tr>
+                <tr><td>Edema</td><td class="num">0.9165</td><td class="num">0.9171</td><td class="num">+0.0006</td></tr>
+                <tr><td>Pleural Effusion</td><td class="num">0.9566</td><td class="num">0.9596</td><td class="num">+0.0030</td></tr>
+                <tr><td><strong>Mean</strong></td><td class="num">0.9004</td><td class="num"><strong>0.9028</strong></td><td class="num">+0.0024</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figure class="fig">
+            <img src="medical/cls-self-training-auroc.jpg" alt="Line chart of test AUROC per epoch for the best student over 40 epochs. Pleural Effusion stays near 0.95 to 0.96; the dashed black mean peaks near 0.903 at epoch 6 and drifts down to about 0.865 by epoch 40." width="1400" height="816" loading="lazy">
+            <figcaption>Best student (0.9 / 0.1 pseudo-labels) over 40 epochs. The mean peaks at epoch 6 (0.9028), has
+              near-peaks up to epoch 31, then drifts down to about 0.865 by epoch 40.</figcaption>
+          </figure>
+          <p>As with the teacher, the gain arrives in the first few epochs and longer training does not add to it. The
+            student's gains on Cardiomegaly and Atelectasis are mostly cancelled by its loss on Consolidation, which is
+            why the mean moves so little.</p>
+        </section>
+
         <section id="cls-other">
           <h2>Other methods tried</h2>
           <p>The module keeps every training method from the project as its own script rather than one merged
             pipeline.</p>
           <div class="grid-2">
             <div class="card">
-              <h3>Teacher–student self-training</h3>
-              <p>A teacher trains with uncertainty policies. Its best checkpoint per class relabels only the uncertain
-                entries in the training set, as soft labels or thresholded at 0.8 and 0.2. A student then trains on those
-                pseudo-labels. No student result is reported.</p>
-            </div>
-            <div class="card">
               <h3>LibAUC AUROC fine-tuning</h3>
               <p>Fine-tunes a checkpoint by optimizing AUROC directly with PESG and an AUC-margin loss. The script does not
                 run as written: its loss and optimizer calls match no released libauc version.</p>
             </div>
+            <div class="card">
+              <h3>Baseline and CLI policy mapping</h3>
+              <p>A plain baseline passes <code>-1</code> straight to the loss as a target. A CLI variant maps uncertain
+                labels per class, but its "U-Ignore" maps <code>-1 → 0</code> instead of masking. Neither produced the
+                reported result.</p>
+            </div>
           </div>
-          <p>A plain baseline that passes <code>-1</code> straight to the loss, and a CLI policy-mapping variant, are
-            also included. Neither produced the reported result.</p>
+          <p>A separately trained teacher with its own policies is also in the repo. It was not used for the
+            self-training results above.</p>
         </section>
 
         <section id="cls-caveats">
@@ -205,22 +299,12 @@
             <li><strong>It is not a pure U-Ignore comparison.</strong> The run used U-Ignore for 12 of 14 classes but
               U-Ones and U-Zeros for Cardiomegaly and Pleural Effusion. The original slides said U-Ignore; the code says
               otherwise, and the repo corrects it.</li>
+            <li><strong>Self-training is supplementary and also test-picked.</strong> The student gains (+0.0014 to
+              +0.0024) are smaller than the teacher's own epoch-to-epoch swing (0.873 to 0.900). They suggest confident
+              pseudo-labels help a little; they do not prove it.</li>
+            <li><strong>The weak classes are weak.</strong> Fracture and Enlarged Cardiomediastinum stay below 0.80 AUC
+              at every epoch, so the 14-class model is not uniformly strong.</li>
           </ul>
-        </section>
-
-        <section id="cls-run">
-          <h2>Run it</h2>
-          <p>Paths are hardcoded at the top of each file and default to the Sol cluster; edit them first.</p>
-          <pre><code><span class="c"># reported run (per-class policy)</span>
-      cd exp1_policy_training
-      python v2_train_swin.py   <span class="c"># writes checkpoint_epoch_*.pth</span>
-      python multi_test.py      <span class="c"># per-epoch test AUROC CSV + plots</span>
-
-      <span class="c"># teacher–student self-training</span>
-      cd self_training
-      python teacher_train.py
-      python teacher_predict.py <span class="c"># writes train_pseudolabels.csv</span>
-      python student_train.py</code></pre>
         </section>
 
               <a class="next" href="#localization">
@@ -238,9 +322,9 @@
           <li><a href="#loc-task">The task</a></li>
           <li><a href="#loc-approach">Approach</a></li>
           <li><a href="#loc-results">Results</a></li>
+          <li><a href="#loc-predictions">What the model sees</a></li>
           <li><a href="#loc-leaderboard">Against the leaderboard</a></li>
           <li><a href="#loc-latent">The open problem: Latent TB</a></li>
-          <li><a href="#loc-run">Run it</a></li>
         </ol>
       </aside>
 
@@ -282,7 +366,9 @@
             </div>
           </div>
           <p>Training uses AdamW at a learning rate of 1e-4 with no schedule, batch size 8, and the usual multi-task loss
-            (RPN and ROI classification plus regression). The reported run covers 16 epochs.</p>
+            (RPN and ROI classification plus regression). The reported run covers 16 epochs, and every checkpoint was
+            scored on the same 1,977 test images. At inference, boxes need a confidence above 0.5 and an IoU of at least
+            0.5 to count.</p>
           <h3>A split built for rare classes</h3>
           <p>A random split would leave the test set with only a handful of Latent or mixed cases. Each image is assigned one
             of four categories from its boxes (<code>No_TB</code>, <code>Active_TB</code>, <code>Latent_TB</code>,
@@ -290,7 +376,7 @@
             20 Latent and 5 Mixed images guaranteed in test. Validation is the official TBX11K validation set (1,800 images).</p>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Category</th><th style="text-align:right">Total</th><th style="text-align:right">Train</th><th style="text-align:right">Test</th></tr></thead>
+              <thead><tr><th>Category</th><th class="num">Total</th><th class="num">Train</th><th class="num">Test</th></tr></thead>
               <tbody>
                 <tr><td>No_TB</td><td class="num">6,000</td><td class="num">4,200</td><td class="num">1,800</td></tr>
                 <tr><td>Active_TB</td><td class="num">473</td><td class="num">332</td><td class="num">141</td></tr>
@@ -307,32 +393,133 @@
           <h2>Results</h2>
           <p>Three metrics were tracked on the test split: AP at IoU 0.5 and 0.75, per class and class-agnostic (any TB box
             counts, regardless of subtype), and the FROC score, the mean lesion sensitivity at up to one false positive per
-            image. They do not peak at the same epoch, so the table shows all three standout epochs rather than one cherry-picked
-            checkpoint.</p>
+            image. They do not peak at the same epoch, so the table shows every epoch rather than one cherry-picked
+            checkpoint. Bold marks the best value in each column.</p>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Epoch</th><th style="text-align:right">AP50 agnostic</th><th style="text-align:right">AP50 Active</th><th style="text-align:right">AP50 Latent</th><th style="text-align:right">AP75 agnostic</th><th style="text-align:right">FROC</th></tr></thead>
+              <thead><tr><th>Epoch</th><th class="num">AP50 agnostic</th><th class="num">AP50 Active</th><th class="num">AP50 Latent</th><th class="num">AP75 agnostic</th><th class="num">AP75 Active</th><th class="num">AP75 Latent</th><th class="num">FROC</th></tr></thead>
               <tbody>
-                <tr><td>6 (best AP50)</td><td class="num"><strong>0.6622</strong></td><td class="num"><strong>0.6241</strong></td><td class="num">0.0763</td><td class="num">0.1059</td><td class="num">0.4991</td></tr>
-                <tr><td>11 (best FROC)</td><td class="num">0.6449</td><td class="num">0.6114</td><td class="num"><strong>0.1410</strong></td><td class="num">0.1239</td><td class="num"><strong>0.5930</strong></td></tr>
-                <tr><td>15 (best AP75)</td><td class="num">0.6332</td><td class="num">0.6016</td><td class="num">0.1249</td><td class="num"><strong>0.1905</strong></td><td class="num">0.5817</td></tr>
+                <tr><td>1</td><td class="num">0.3478</td><td class="num">0.3077</td><td class="num">0.0042</td><td class="num">0.0569</td><td class="num">0.0232</td><td class="num">0.0000</td><td class="num">0.2394</td></tr>
+                <tr><td>2</td><td class="num">0.4809</td><td class="num">0.4543</td><td class="num">0.0250</td><td class="num">0.0730</td><td class="num">0.0730</td><td class="num">0.0012</td><td class="num">0.3328</td></tr>
+                <tr><td>3</td><td class="num">0.5532</td><td class="num">0.5165</td><td class="num">0.0121</td><td class="num">0.1635</td><td class="num">0.1546</td><td class="num">0.0010</td><td class="num">0.4204</td></tr>
+                <tr><td>4</td><td class="num">0.5785</td><td class="num">0.5503</td><td class="num">0.0307</td><td class="num">0.1518</td><td class="num">0.1396</td><td class="num">0.0007</td><td class="num">0.4920</td></tr>
+                <tr><td>5</td><td class="num">0.6299</td><td class="num">0.5969</td><td class="num">0.0874</td><td class="num">0.1148</td><td class="num">0.1083</td><td class="num"><strong>0.0476</strong></td><td class="num">0.5542</td></tr>
+                <tr><td>6 (best AP50)</td><td class="num"><strong>0.6622</strong></td><td class="num"><strong>0.6241</strong></td><td class="num">0.0763</td><td class="num">0.1059</td><td class="num">0.0902</td><td class="num">0.0025</td><td class="num">0.4991</td></tr>
+                <tr><td>7</td><td class="num">0.6007</td><td class="num">0.5857</td><td class="num">0.1618</td><td class="num">0.1530</td><td class="num">0.1544</td><td class="num">0.0077</td><td class="num">0.4626</td></tr>
+                <tr><td>8</td><td class="num">0.4560</td><td class="num">0.4559</td><td class="num">0.0402</td><td class="num">0.0718</td><td class="num">0.0716</td><td class="num">0.0040</td><td class="num">0.4277</td></tr>
+                <tr><td>9</td><td class="num">0.5769</td><td class="num">0.5684</td><td class="num">0.0752</td><td class="num">0.1371</td><td class="num">0.1173</td><td class="num">0.0061</td><td class="num">0.5011</td></tr>
+                <tr><td>10</td><td class="num">0.4634</td><td class="num">0.4343</td><td class="num">0.0545</td><td class="num">0.0735</td><td class="num">0.0693</td><td class="num">0.0046</td><td class="num">0.4168</td></tr>
+                <tr><td>11 (best FROC)</td><td class="num">0.6449</td><td class="num">0.6114</td><td class="num">0.1410</td><td class="num">0.1239</td><td class="num">0.1095</td><td class="num">0.0095</td><td class="num"><strong>0.5930</strong></td></tr>
+                <tr><td>12</td><td class="num">0.5941</td><td class="num">0.5757</td><td class="num">0.0965</td><td class="num">0.1826</td><td class="num"><strong>0.1874</strong></td><td class="num">0.0056</td><td class="num">0.4990</td></tr>
+                <tr><td>13</td><td class="num">0.5771</td><td class="num">0.5712</td><td class="num">0.1109</td><td class="num">0.1444</td><td class="num">0.1398</td><td class="num">0.0045</td><td class="num">0.5212</td></tr>
+                <tr><td>14</td><td class="num">0.5828</td><td class="num">0.5361</td><td class="num">0.1200</td><td class="num">0.1610</td><td class="num">0.1573</td><td class="num">0.0173</td><td class="num">0.4345</td></tr>
+                <tr><td>15 (best AP75)</td><td class="num">0.6332</td><td class="num">0.6016</td><td class="num">0.1249</td><td class="num"><strong>0.1905</strong></td><td class="num">0.1754</td><td class="num">0.0367</td><td class="num">0.5817</td></tr>
+                <tr><td>16</td><td class="num">0.5496</td><td class="num">0.5590</td><td class="num"><strong>0.1811</strong></td><td class="num">0.1352</td><td class="num">0.1440</td><td class="num">0.0156</td><td class="num">0.4530</td></tr>
               </tbody>
             </table>
           </div>
-          <p>Epoch 11 is the headline checkpoint: it has the best FROC score and the lowest validation loss (0.0183). After
-            epoch 14 validation loss jumps to 0.0287 while training loss keeps falling, a sign of overfitting.</p>
+          <p>Epoch 11 is the headline checkpoint: it has the best FROC score and the lowest validation loss (0.0183). The
+            best checkpoint still depends on the metric you care about: AP50 peaks at epoch 6, agnostic AP75 at epoch 15,
+            and Latent AP50 at epoch 16. After epoch 14 validation loss jumps to 0.0287 while training loss keeps falling,
+            a sign of overfitting.</p>
           <p>AP75 sits far below AP50 (about 0.19 against 0.66). The model finds lesions, but its boxes are often not tight
-            enough to clear the stricter overlap threshold.</p>
+            enough to clear the stricter overlap threshold. Single epochs are also noisy: agnostic AP50 drops to 0.4560 at
+            epoch 8 and 0.4634 at epoch 10 between much better neighbors.</p>
           <figure class="fig">
-            <img src="medical/loc-ap50-vs-epoch.jpg" alt="Line chart of AP at IoU 0.5 over 16 epochs. Class-agnostic and Active TB curves track together, peaking near 0.66 and 0.62 at epoch 6 with dips at epochs 8 and 10. The Latent TB curve stays below 0.2 throughout." width="1400" height="985" loading="lazy">
-            <figcaption>AP50 per epoch. Class-agnostic and Active TB move together and peak at epoch 6; Latent TB stays
-              under 0.2. The dips at epochs 8 and 10 show how noisy single-epoch numbers are.</figcaption>
+            <img src="medical/loc-ap50-vs-epoch.jpg" alt="Line chart of AP at IoU 0.5 over 16 epochs. Class-agnostic (blue circles) and Active TB (orange squares) track together, peaking near 0.66 and 0.62 at epoch 6 with dips at epochs 8 and 10. Latent TB (green triangles) stays below 0.2 and ends at its highest point at epoch 16." width="1400" height="985" loading="lazy">
+            <figcaption>AP50 per epoch. Blue is class-agnostic, orange Active TB, green Latent TB. The first two move
+              together and peak at epoch 6; Latent TB stays under 0.2 but trends upward late in training.</figcaption>
           </figure>
           <figure class="fig">
-            <img src="medical/loc-froc-epoch11.jpg" alt="FROC curve at epoch 11: sensitivity rises steeply to about 0.6 at under 0.1 false positives per image and levels off near 0.79 at about 0.53 false positives per image. FROC score 0.5930." width="1400" height="1112" loading="lazy">
-            <figcaption>FROC curve at epoch 11. Sensitivity reaches about 0.6 at roughly 0.07 false positives per image and
-              about 0.75 at roughly 0.3; the plotted curve ends near 0.79 at about 0.53 FPPI (values read from the chart).</figcaption>
+            <img src="medical/loc-ap75-vs-epoch.jpg" alt="Line chart of AP at IoU 0.75 over 16 epochs on a 0 to 0.2 axis. Class-agnostic and Active TB zigzag between about 0.07 and 0.19, with highs at epochs 12 and 15. Latent TB stays near zero except a spike to about 0.048 at epoch 5." width="1400" height="968" loading="lazy">
+            <figcaption>AP75 per epoch, same colors. Note the axis tops out at 0.2: at the stricter overlap even the best
+              epoch reaches 0.1905 agnostic, and Latent TB is close to zero throughout.</figcaption>
           </figure>
+          <figure class="fig">
+            <img src="medical/loc-froc-all-epochs.jpg" alt="FROC curves for all 16 epochs on one chart, sensitivity against false positives per image from 0 to 2. Epoch 1 is the lowest curve, flat near 0.43 sensitivity until about 0.6 false positives per image. Most later curves rise steeply to 0.5 to 0.65 sensitivity by 0.1 false positives per image, and the best reach about 0.75 to 0.8 by 0.3 to 0.5." width="1400" height="844" loading="lazy">
+            <figcaption>FROC curves of every checkpoint. Epoch 1 (the low blue curve) stalls near 0.43 sensitivity; from
+              epoch 2 on most curves climb to roughly 0.5 to 0.65 sensitivity by 0.1 false positives per image, and the
+              best, epoch 11 among them, reach about 0.75 to 0.8. Curves end where the 0.05 score threshold runs out;
+              epoch 11 stops at about 0.53. The 10-color cycle repeats, so epochs 1 and 11 share a color.</figcaption>
+          </figure>
+        </section>
+
+        <section id="loc-predictions">
+          <h2>What the model sees</h2>
+          <p>Numbers hide what kind of mistakes a detector makes, so the test job also ranked every test image by F1 (at
+            confidence 0.5 and IoU 0.5) and kept the three best and three worst per category at epoch 11. In each pair
+            below, ground truth is on the left with solid boxes and the prediction is on the right with dashed boxes.
+            <strong>Red is Active TB, blue is Latent TB.</strong></p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Category</th><th class="num">Best 3 F1</th><th class="num">Worst 3 F1</th></tr></thead>
+              <tbody>
+                <tr><td>No_TB</td><td class="num">1.0000 / 1.0000 / 1.0000</td><td class="num">0.0000 / 0.0000 / 0.0000</td></tr>
+                <tr><td>Active_TB</td><td class="num">1.0000 / 1.0000 / 1.0000</td><td class="num">0.0000 / 0.0000 / 0.0000</td></tr>
+                <tr><td>Latent_TB</td><td class="num">0.6667 / 0.4000 / 0.3333</td><td class="num">0.0000 / 0.0000 / 0.0000</td></tr>
+                <tr><td>Mixed_TB</td><td class="num">0.6667 / 0.5000 / 0.4000</td><td class="num">0.0000 / 0.0000 / 0.4000</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>The split is the story. For healthy and Active TB images the best cases are perfect. For Latent and Mixed
+            images, even the best case finds only one of two lesions. Each of the three worst No_TB images has a single
+            false box.</p>
+          <h3>Where it works</h3>
+          <div class="grid-2">
+            <figure class="fig">
+              <img src="medical/loc-pred-active-single.jpg" alt="Chest X-ray pair. Left: one solid red Active TB box over the upper left lung. Right: one dashed red box labeled Active TB 0.98 covering the upper part of that region. F1 1.000." width="1400" height="726" loading="lazy">
+              <figcaption>Active TB, one lesion: found at 0.98 confidence (F1 1.0). The red dashed box covers the upper
+                part of the annotated region, enough overlap to count.</figcaption>
+            </figure>
+            <figure class="fig">
+              <img src="medical/loc-pred-active-two.jpg" alt="Chest X-ray pair. Left: two solid red Active TB boxes, one in each upper lung. Right: two dashed red boxes at 0.68 and 0.95 closely matching both. F1 1.000." width="1400" height="726" loading="lazy">
+              <figcaption>Active TB, two lesions: both found (0.95 and 0.68) with red dashed boxes that closely match
+                the annotations (F1 1.0).</figcaption>
+            </figure>
+          </div>
+          <h3>Healthy lungs: a clean pass and a false alarm</h3>
+          <div class="grid-2">
+            <figure class="fig">
+              <img src="medical/loc-pred-notb-clean.jpg" alt="Chest X-ray pair labeled No_TB with no boxes on either side. F1 1.000." width="1400" height="726" loading="lazy">
+              <figcaption>No TB: no boxes in the ground truth and none predicted, the correct output.</figcaption>
+            </figure>
+            <figure class="fig">
+              <img src="medical/loc-pred-notb-false.jpg" alt="Chest X-ray pair labeled No_TB. Left: no boxes. Right: one large dashed red box labeled Active TB 0.99 over the left lung. One false positive." width="1400" height="726" loading="lazy">
+              <figcaption>No TB, false alarm: a confident red Active TB box (0.99) over one lung of an image labeled
+                No_TB.</figcaption>
+            </figure>
+          </div>
+          <h3>The typical Latent TB error</h3>
+          <figure class="fig">
+            <img src="medical/loc-pred-latent-as-active.jpg" alt="Chest X-ray pair labeled Latent_TB. Left: two solid blue Latent TB boxes over both lung apices. Right: two dashed red boxes in nearly the same places, labeled Active TB 0.88 and 0.92. F1 0.000." width="1400" height="726" loading="lazy">
+            <figcaption>Latent TB labeled as Active: both blue latent lesions are boxed in the right places, but the
+              predictions are red Active TB (0.88, 0.92). A class-agnostic metric counts these as hits; the per-class
+              metric counts two misses and two false positives (F1 0).</figcaption>
+          </figure>
+          <p>This is the clearest picture of the Latent TB gap. The model often knows where the disease is, but not which
+            kind it is. Mistakes like this pull Latent AP50 down to 0.1410 at epoch 11 without hurting the agnostic
+            AP50 of 0.6449.</p>
+          <div class="grid-2">
+            <figure class="fig">
+              <img src="medical/loc-pred-latent-best.jpg" alt="Chest X-ray pair labeled Latent_TB. Left: two solid blue boxes in both upper lungs. Right: one dashed blue box labeled Latent TB 0.51 over the left upper lung; the right one is missed. F1 0.667." width="1400" height="726" loading="lazy">
+              <figcaption>Best Latent TB case: one blue lesion found with the right class (0.51), the other missed
+                (F1 0.67).</figcaption>
+            </figure>
+            <figure class="fig">
+              <img src="medical/loc-pred-mixed-best.jpg" alt="Chest X-ray pair labeled Mixed_TB. Left: a solid red Active TB box in the right upper lung and a solid blue Latent TB box in the left lung. Right: only a dashed red box labeled Active TB 0.68 over the active lesion. F1 0.667." width="1400" height="726" loading="lazy">
+              <figcaption>Best Mixed TB case: the red active lesion is found (0.68); the blue latent lesion in the other
+                lung is missed (F1 0.67).</figcaption>
+            </figure>
+          </div>
+          <h3>The worst Active TB case</h3>
+          <figure class="fig">
+            <img src="medical/loc-pred-active-boxsize.jpg" alt="Chest X-ray pair labeled Active_TB. Left: two tall solid red boxes each covering a whole lung. Right: two dashed red boxes at 0.99 and 0.95 covering only the upper half of each lung. F1 0.000." width="1400" height="726" loading="lazy">
+            <figcaption>Active TB, box-size mismatch: the annotations cover each whole lung, the red predictions (0.99,
+              0.95) only the upper half. IoU falls below 0.5, so both count as misses (F1 0) even though the disease is
+              found.</figcaption>
+          </figure>
+          <p>Across these examples the failures are rarely missed disease. They are boxes too small for very large
+            annotations, latent lesions called active, and confident false alarms on healthy lungs.</p>
         </section>
 
         <section id="loc-leaderboard">
@@ -341,7 +528,7 @@
             entries). Values are converted to percent to match it.</p>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Metric</th><th style="text-align:right">This model</th><th style="text-align:right">Leaderboard rank 1</th></tr></thead>
+              <thead><tr><th>Metric</th><th class="num">This model</th><th class="num">Leaderboard rank 1</th></tr></thead>
               <tbody>
                 <tr><td>Agnostic AP50 (epoch 6)</td><td class="num">66.22</td><td class="num">61.74</td></tr>
                 <tr><td>Active AP50 (epoch 6)</td><td class="num">62.41</td><td class="num">54.76</td></tr>
@@ -357,8 +544,9 @@
 
         <section id="loc-latent">
           <h2>The open problem: Latent TB</h2>
-          <p>Active TB is detected well. Latent TB is not: its AP50 ranges from 0.004 to 0.18 across epochs, and its AP75
-            stays close to zero (0.0367 at epoch 15, the best of the three standout epochs).</p>
+          <p>Active TB is detected well. Latent TB is not: its AP50 ranges from 0.0042 to 0.1811 across epochs, and its
+            AP75 never passes 0.0476. The gallery above shows why the per-class number is so low: latent lesions are
+            often located but labeled Active.</p>
           <div class="grid-2">
             <div class="card">
               <h3>Too few examples</h3>
@@ -367,37 +555,12 @@
             </div>
             <div class="card">
               <h3>Still climbing</h3>
-              <p>Latent AP50 trends upward late in training while Active TB has already peaked. The best Latent
-                checkpoint is not the best overall checkpoint.</p>
+              <p>Latent AP50 reaches its best value at epoch 16, the last checkpoint, while Active TB peaked at epoch 6.
+                The best Latent checkpoint is not the best overall checkpoint.</p>
             </div>
           </div>
           <p>Closing this gap is the obvious next step. The repo does not yet test remedies for the class imbalance, so
             that work remains open.</p>
-        </section>
-
-        <section id="loc-run">
-          <h2>Run it</h2>
-          <p>From inside <code>02_detection/</code>, with the simplified TBX11K release from Kaggle:</p>
-          <pre><code><span class="c"># 1. stratified 4-category split (seed 42)</span>
-      python data/split_dataset.py \
-          --csv-path /path/to/tbx11k-simplified/data.csv \
-          --output-dir /path/to/tbx11k-simplified
-
-      <span class="c"># 2. train Swin-B + FPN + Faster R-CNN</span>
-      python train.py --data-dir /path/to/tbx11k-simplified \
-          --checkpoint-dir ./checkpoints --epochs 30 \
-          --batch-size 8 --lr 1e-4 --img-size 512
-
-      <span class="c"># 3. AP50, AP75, class-agnostic AP and FROC on the test split</span>
-      python evaluate.py --data-dir /path/to/tbx11k-simplified \
-          --checkpoint ./checkpoints/checkpoint_epoch_30.pth --split test
-
-      <span class="c"># 4. ground truth vs prediction overlays</span>
-      python visualize.py --data-dir /path/to/tbx11k-simplified \
-          --checkpoint ./checkpoints/checkpoint_epoch_30.pth \
-          --num-samples 10 --score-thresh 0.3 --output-dir ./visualizations</code></pre>
-          <p>Training was run on ASU's Sol supercomputer; <code>scripts/train_slurm.sh</code> holds the Sol-specific SLURM
-            job.</p>
         </section>
 
               <a class="next" href="#segmentation">
@@ -415,10 +578,9 @@
           <li><a href="#seg-task">The task</a></li>
           <li><a href="#seg-approach">Approach</a></li>
           <li><a href="#seg-results">Results</a></li>
-          <li><a href="#seg-cases">Best and low-scoring cases</a></li>
+          <li><a href="#seg-cases">Predictions on test images</a></li>
           <li><a href="#seg-failures">Failure audit</a></li>
           <li><a href="#seg-scope">Caveats</a></li>
-          <li><a href="#seg-run">Run it</a></li>
         </ol>
       </aside>
       <article>
@@ -471,7 +633,7 @@
           <p>Test Dice at the epoch-11 checkpoint, against the first epoch:</p>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Class</th><th style="text-align:right">Epoch 1</th><th style="text-align:right">Epoch 11</th><th style="text-align:right">Gain</th></tr></thead>
+              <thead><tr><th>Class</th><th class="num">Epoch 1</th><th class="num">Epoch 11</th><th class="num">Gain</th></tr></thead>
               <tbody>
                 <tr><td>Background</td><td class="num">0.9730</td><td class="num">0.9854</td><td class="num">+0.0124</td></tr>
                 <tr><td>Right lung</td><td class="num">0.9231</td><td class="num">0.9616</td><td class="num">+0.0385</td></tr>
@@ -481,32 +643,82 @@
               </tbody>
             </table>
           </div>
+          <p>The reported mean includes background, which is the easiest class. The three organs alone average 0.9541.</p>
+          <figure class="fig">
+            <img src="medical/seg-dice-epoch.jpg" alt="Line chart of test Dice per epoch for background, right lung, left lung, heart and the mean, all rising and flattening over 11 epochs" width="1400" height="840" loading="lazy">
+            <figcaption>Test Dice per class across the 11 epochs. The dashed black line is the 4-class mean; the red
+              dotted line marks epoch 11, the checkpoint reported here.</figcaption>
+          </figure>
           <p>Mean Dice rose every one of the 11 epochs, though single classes dipped slightly at a few (heart at epochs 7
-            and 9, left lung at 11). The ordering never changed: background, then right lung, left lung, heart. The
-            reported mean includes background, which is the easiest class; the three organs alone average 0.9541.</p>
-          <p>Training had not clearly converged. Training loss fell from 0.2026 to 0.0535 and was still falling at epoch 11.
-            Validation loss went from 0.101 to its lowest, 0.0503, at epoch 10, then held level at 0.0513. Per-epoch
-            Dice gains over the last four epochs were 0.0001 to 0.0017.</p>
+            and 9, left lung at 11). The ordering never changed: background, then right lung, left lung, heart. Most of
+            the gain came early. Over the last four epochs the mean moved by 0.0001 to 0.0017 per epoch.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Epoch</th><th class="num">Train loss</th><th class="num">Validation loss</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td class="num">0.2026</td><td class="num">0.101</td></tr>
+                <tr><td>2</td><td class="num">0.0987</td><td class="num">0.0802</td></tr>
+                <tr><td>3</td><td class="num">0.0827</td><td class="num">0.0698</td></tr>
+                <tr><td>4</td><td class="num">0.0746</td><td class="num">0.0632</td></tr>
+                <tr><td>5</td><td class="num">0.0693</td><td class="num">0.0593</td></tr>
+                <tr><td>6</td><td class="num">0.0652</td><td class="num">0.0558</td></tr>
+                <tr><td>7</td><td class="num">0.062</td><td class="num">0.0557</td></tr>
+                <tr><td>8</td><td class="num">0.0597</td><td class="num">0.0527</td></tr>
+                <tr><td>9</td><td class="num">0.0573</td><td class="num">0.0534</td></tr>
+                <tr><td>10</td><td class="num">0.0552</td><td class="num"><strong>0.0503</strong></td></tr>
+                <tr><td>11</td><td class="num">0.0535</td><td class="num">0.0513</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Training had not clearly converged. Training loss fell from 0.2026 to 0.0535 and was still falling at
+            epoch 11. Validation loss stayed below training loss the whole run, reached its lowest point, 0.0503, at
+            epoch 10, then held level at 0.0513. The two curves never diverge, so there is no sign of overfitting in
+            this window.</p>
         </section>
 
         <section id="seg-cases">
-          <h2>Best and low-scoring cases</h2>
-          <p>On clear, well-positioned X-rays the prediction is nearly indistinguishable from the label, with per-class
-            Dice of 0.985 to 0.991.</p>
+          <h2>Predictions on test images</h2>
+          <p>The first figure is not curated. The test script runs the epoch-11 model over the test split in file order
+            with shuffling off and plots the first six images it reaches. Most are portable or supine films with lines
+            and leads across the chest.</p>
           <figure class="fig">
-            <img src="medical/seg-best.jpg" alt="Three chest X-rays, each shown as the original image, the CheXmask ground truth and the model prediction, with lung and heart masks that closely match" width="1400" height="1153" loading="lazy">
+            <img src="medical/seg-samples.jpg" alt="Six chest X-rays in rows, each shown as the original image, the CheXmask ground truth overlay and the epoch-11 prediction overlay, with predicted lung and heart shapes closely matching the ground truth" width="1400" height="2900" loading="lazy">
+            <figcaption>Six test images in loader order, epoch-11 model. Columns: original, ground truth, prediction. Red
+              is right lung, green left lung, blue heart, drawn semi-transparent; the right lung sits on the left of the
+              image, as is standard for chest films.</figcaption>
+          </figure>
+          <p>Predicted shapes follow the labels closely on all six. The visible differences sit on the outlines, for
+            example where the heart meets the left lung, not in missing or extra organs.</p>
+          <p>At the top of the ranking, on clear, well-positioned X-rays, the prediction is nearly indistinguishable
+            from the label.</p>
+          <figure class="fig">
+            <img src="medical/seg-best.jpg" alt="Three chest X-rays, each shown as the original image, the CheXmask ground truth and the model prediction, with lung and heart masks that closely match" width="1394" height="1148" loading="lazy">
             <figcaption>The three best test images. Columns: original, ground truth, prediction. Red is right lung, green
               left lung, blue heart; per-class Dice is printed above each prediction.</figcaption>
           </figure>
-          <p>Further down the ranking, images ranked 28 to 30 from the bottom (organ-mean Dice about 0.79) are hard but
-            real chest films: a tilted patient with an arm and tubes in view, a heavily opacified chest with lines and
-            devices, and an implanted device over the right lung. The model still finds all three structures; it gets
-            the boundaries wrong.</p>
+          <p>Further down, images ranked 28 to 30 from the bottom are hard but real chest films: a tilted patient with an
+            arm and tubes in view, a heavily opacified chest with lines and devices, and an implanted device over the
+            right lung. The model still finds all three structures; it gets the boundaries wrong.</p>
           <figure class="fig">
             <img src="medical/seg-low-28-30.jpg" alt="Three difficult chest X-rays with tubes, devices and a tilted patient, shown with ground-truth and predicted lung and heart masks" width="1400" height="1236" loading="lazy">
-            <figcaption>Test images ranked 28, 29 and 30 from the bottom, mean organ Dice 0.786 to 0.789. Same colours:
-              red right lung, green left lung, blue heart.</figcaption>
+            <figcaption>Test images ranked 28, 29 and 30 from the bottom. Same columns and colors: red right lung, green
+              left lung, blue heart.</figcaption>
           </figure>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Case</th><th class="num">Right lung</th><th class="num">Left lung</th><th class="num">Heart</th><th>Organ mean</th></tr></thead>
+              <tbody>
+                <tr><td>Best #1</td><td class="num">0.989</td><td class="num">0.987</td><td class="num">0.989</td><td></td></tr>
+                <tr><td>Best #2</td><td class="num">0.987</td><td class="num">0.985</td><td class="num">0.991</td><td></td></tr>
+                <tr><td>Best #3</td><td class="num">0.986</td><td class="num">0.988</td><td class="num">0.986</td><td></td></tr>
+                <tr><td>Low #28</td><td class="num">0.888</td><td class="num">0.680</td><td class="num">0.789</td><td class="num">0.786</td></tr>
+                <tr><td>Low #29</td><td class="num">0.740</td><td class="num">0.837</td><td class="num">0.784</td><td class="num">0.787</td></tr>
+                <tr><td>Low #30</td><td class="num">0.629</td><td class="num">0.863</td><td class="num">0.875</td><td class="num">0.789</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Even at rank 28 from the bottom, out of 55,978 test images, every organ scores at least 0.629 and the mean
+            stays near 0.79.</p>
         </section>
 
         <section id="seg-failures">
@@ -515,7 +727,7 @@
             all.</p>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Rank</th><th>Input</th><th style="text-align:right">Right lung</th><th style="text-align:right">Left lung</th><th style="text-align:right">Heart</th><th style="text-align:right">Organ mean</th></tr></thead>
+              <thead><tr><th>Rank</th><th>Input</th><th class="num">Right lung</th><th class="num">Left lung</th><th class="num">Heart</th><th class="num">Organ mean</th></tr></thead>
               <tbody>
                 <tr><td>#1</td><td>Noise-filled image</td><td class="num">0.6219</td><td class="num">0.0127</td><td class="num">0.6336</td><td class="num">0.4227</td></tr>
                 <tr><td>#2</td><td>Blank grey image</td><td class="num">0.6545</td><td class="num">0.4939</td><td class="num">0.4772</td><td class="num">0.5418</td></tr>
@@ -524,7 +736,7 @@
             </table>
           </div>
           <figure class="fig">
-            <img src="medical/seg-lowest.jpg" alt="Three corrupted or atypical inputs: a head-and-shoulders view, a blank grey frame and a noise-filled frame, each with ground-truth and predicted lung and heart masks" width="1400" height="1104" loading="lazy">
+            <img src="medical/seg-lowest.jpg" alt="Three corrupted or atypical inputs: a head-and-shoulders view, a blank grey frame and a noise-filled frame, each with ground-truth and predicted lung and heart masks" width="1400" height="1129" loading="lazy">
             <figcaption>The three lowest-scoring test images. The plot labels them Worst #1 to #3 from top to bottom, but
               the order runs the other way: the bottom row (noise, left lung Dice 0.013) is the lowest score of all. Red
               right lung, green left lung, blue heart.</figcaption>
@@ -537,40 +749,19 @@
 
         <section id="seg-scope">
           <h2>Caveats</h2>
-          <ul>
+          <ul class="unproven">
             <li><strong>The split is not patient-independent.</strong> Train and test are a random 70/30 split of
               individual images from the CheXpert train set, so images of the same patient can appear in both. Test Dice
               is likely optimistic for unseen patients.</li>
             <li><strong>The headline mean includes background.</strong> 0.9619 averages four classes; the organ-only mean
-              is lower.</li>
+              is 0.9541.</li>
             <li><strong>Labels are filtered, not verified.</strong> Masks are CheXmask's, kept when their RCA quality
               estimate is 0.7 or higher, with no manual review.</li>
             <li><strong>Dice is pooled per batch</strong> and averaged weighted by batch size, so reproducing the exact
               numbers needs batch size 96.</li>
+            <li><strong>One run, 11 epochs.</strong> Validation loss was still near its low and Dice still creeping up,
+              so a longer schedule might score higher. That was not tested.</li>
           </ul>
-        </section>
-
-        <section id="seg-run">
-          <h2>Run it</h2>
-          <p>From <code>03_segmentation/</code>, with CheXpert images and the CheXmask CSV downloaded (CheXmask needs
-            credentialed PhysioNet access):</p>
-          <pre><code><span class="c"># 1. decode masks, dropping RCA &lt; 0.7</span>
-      python data/prep_mask.py --csv-path $CHEXMASK_CSV \
-          --train-img-dir $CHEXPERT/train --val-img-dir $CHEXPERT/valid \
-          --output-dir $MASKS --min-rca 0.7 --num-workers 16
-
-      <span class="c"># 2. image-level 70/30 split</span>
-      python data/split_train_test.py --input $MASKS/train_files.txt \
-          --train-out $MASKS/train_split.txt --test-out $MASKS/test_files.txt
-
-      <span class="c"># 3. train, then evaluate the epoch-11 checkpoint</span>
-      python train.py --img-dir $CHEXPERT/train --mask-dir $MASKS/train \
-          --train-list $MASKS/train_split.txt --val-img-dir $CHEXPERT/valid \
-          --val-mask-dir $MASKS/valid --val-list $MASKS/valid_files.txt \
-          --checkpoint-dir ./checkpoints --epochs 11 --batch-size 96 --lr 1e-4
-      python evaluate.py --img-dir $CHEXPERT/train --mask-dir $MASKS/train \
-          --test-list $MASKS/test_files.txt \
-          --checkpoint ./checkpoints/checkpoint_epoch_11.pth --batch-size 96</code></pre>
         </section>
 
               <a class="next" href="slidesight.html">
