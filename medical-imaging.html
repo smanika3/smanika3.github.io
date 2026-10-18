@@ -465,33 +465,59 @@
             images, even the best case finds only one of two lesions. Each of the three worst No_TB images has a single
             false box.</p>
           <h3>Where it works</h3>
-          <div class="grid-2">
-            <figure class="fig">
-              <img src="medical/loc-pred-active-single.jpg" alt="Chest X-ray pair. Left: one solid red Active TB box over the upper left lung. Right: one dashed red box labeled Active TB 0.98 covering the upper part of that region. F1 1.000." width="1400" height="726" loading="lazy">
+          <figure class="fig">
+            <div class="cmp" tabindex="0" role="slider" aria-label="Compare ground truth and prediction" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+              <img src="medical/loc-cmp-active-two-pred.jpg" alt="Prediction: two dashed red boxes labeled Active TB 0.68 and 0.95 over the upper lungs." width="1200" height="1200" loading="lazy">
+              <img class="cmp-top" src="medical/loc-cmp-active-two-gt.jpg" alt="Ground truth: two solid red Active TB boxes, one in each upper lung." width="1200" height="1200" loading="lazy">
+              <span class="cmp-line" aria-hidden="true"><span class="cmp-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></span>
+              <span class="cmp-tag cmp-tag-l" aria-hidden="true">Ground truth</span>
+              <span class="cmp-tag cmp-tag-r" aria-hidden="true">Prediction</span>
+            </div>
+            <figcaption>Active TB, two lesions: both found (0.95 and 0.68) with dashed boxes that closely match the
+              solid annotations (F1 1.0). Move across the X-ray to slide between ground truth and prediction.</figcaption>
+          </figure>
+          <figure class="fig">
+              <div class="cmp" tabindex="0" role="slider" aria-label="Compare ground truth and prediction" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                <img src="medical/loc-cmp-active-single-pred.jpg" alt="Prediction: one dashed red box labeled Active TB 0.98 covering the upper part of that region. F1 1.000." width="1200" height="1200" loading="lazy">
+                <img class="cmp-top" src="medical/loc-cmp-active-single-gt.jpg" alt="Ground truth: one solid red Active TB box over the upper left lung." width="1200" height="1200" loading="lazy">
+                <span class="cmp-line" aria-hidden="true"><span class="cmp-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></span>
+                <span class="cmp-tag cmp-tag-l" aria-hidden="true">Ground truth</span>
+                <span class="cmp-tag cmp-tag-r" aria-hidden="true">Prediction</span>
+              </div>
               <figcaption>Active TB, one lesion: found at 0.98 confidence (F1 1.0). The red dashed box covers the upper
                 part of the annotated region, enough overlap to count.</figcaption>
             </figure>
-            <figure class="fig">
-              <img src="medical/loc-pred-active-two.jpg" alt="Chest X-ray pair. Left: two solid red Active TB boxes, one in each upper lung. Right: two dashed red boxes at 0.68 and 0.95 closely matching both. F1 1.000." width="1400" height="726" loading="lazy">
-              <figcaption>Active TB, two lesions: both found (0.95 and 0.68) with red dashed boxes that closely match
-                the annotations (F1 1.0).</figcaption>
-            </figure>
-          </div>
           <h3>Healthy lungs: a clean pass and a false alarm</h3>
-          <div class="grid-2">
             <figure class="fig">
-              <img src="medical/loc-pred-notb-clean.jpg" alt="Chest X-ray pair labeled No_TB with no boxes on either side. F1 1.000." width="1400" height="726" loading="lazy">
+              <div class="cmp" tabindex="0" role="slider" aria-label="Compare ground truth and prediction" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                <img src="medical/loc-cmp-notb-clean-pred.jpg" alt="Chest X-ray pair labeled No_TB with no boxes on either side. F1 1.000." width="1200" height="1200" loading="lazy">
+                <img class="cmp-top" src="medical/loc-cmp-notb-clean-gt.jpg" alt="Chest X-ray pair labeled No_TB with no boxes on either side. F1 1.000." width="1200" height="1200" loading="lazy">
+                <span class="cmp-line" aria-hidden="true"><span class="cmp-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></span>
+                <span class="cmp-tag cmp-tag-l" aria-hidden="true">Ground truth</span>
+                <span class="cmp-tag cmp-tag-r" aria-hidden="true">Prediction</span>
+              </div>
               <figcaption>No TB: no boxes in the ground truth and none predicted, the correct output.</figcaption>
             </figure>
             <figure class="fig">
-              <img src="medical/loc-pred-notb-false.jpg" alt="Chest X-ray pair labeled No_TB. Left: no boxes. Right: one large dashed red box labeled Active TB 0.99 over the left lung. One false positive." width="1400" height="726" loading="lazy">
+              <div class="cmp" tabindex="0" role="slider" aria-label="Compare ground truth and prediction" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                <img src="medical/loc-cmp-notb-false-pred.jpg" alt="Prediction: one large dashed red box labeled Active TB 0.99 over the left lung. One false positive." width="1200" height="1200" loading="lazy">
+                <img class="cmp-top" src="medical/loc-cmp-notb-false-gt.jpg" alt="Ground truth: no boxes." width="1200" height="1200" loading="lazy">
+                <span class="cmp-line" aria-hidden="true"><span class="cmp-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></span>
+                <span class="cmp-tag cmp-tag-l" aria-hidden="true">Ground truth</span>
+                <span class="cmp-tag cmp-tag-r" aria-hidden="true">Prediction</span>
+              </div>
               <figcaption>No TB, false alarm: a confident red Active TB box (0.99) over one lung of an image labeled
                 No_TB.</figcaption>
             </figure>
-          </div>
           <h3>The typical Latent TB error</h3>
           <figure class="fig">
-            <img src="medical/loc-pred-latent-as-active.jpg" alt="Chest X-ray pair labeled Latent_TB. Left: two solid blue Latent TB boxes over both lung apices. Right: two dashed red boxes in nearly the same places, labeled Active TB 0.88 and 0.92. F1 0.000." width="1400" height="726" loading="lazy">
+            <div class="cmp" tabindex="0" role="slider" aria-label="Compare ground truth and prediction" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+              <img src="medical/loc-cmp-latent-as-active-pred.jpg" alt="Prediction: two dashed red boxes in nearly the same places, labeled Active TB 0.88 and 0.92. F1 0.000." width="1200" height="1200" loading="lazy">
+              <img class="cmp-top" src="medical/loc-cmp-latent-as-active-gt.jpg" alt="Ground truth: two solid blue Latent TB boxes over both lung apices." width="1200" height="1200" loading="lazy">
+              <span class="cmp-line" aria-hidden="true"><span class="cmp-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></span>
+              <span class="cmp-tag cmp-tag-l" aria-hidden="true">Ground truth</span>
+              <span class="cmp-tag cmp-tag-r" aria-hidden="true">Prediction</span>
+            </div>
             <figcaption>Latent TB labeled as Active: both blue latent lesions are boxed in the right places, but the
               predictions are red Active TB (0.88, 0.92). A class-agnostic metric counts these as hits; the per-class
               metric counts two misses and two false positives (F1 0).</figcaption>
@@ -499,21 +525,37 @@
           <p>This is the clearest picture of the Latent TB gap. The model often knows where the disease is, but not which
             kind it is. Mistakes like this pull Latent AP50 down to 0.1410 at epoch 11 without hurting the agnostic
             AP50 of 0.6449.</p>
-          <div class="grid-2">
             <figure class="fig">
-              <img src="medical/loc-pred-latent-best.jpg" alt="Chest X-ray pair labeled Latent_TB. Left: two solid blue boxes in both upper lungs. Right: one dashed blue box labeled Latent TB 0.51 over the left upper lung; the right one is missed. F1 0.667." width="1400" height="726" loading="lazy">
+              <div class="cmp" tabindex="0" role="slider" aria-label="Compare ground truth and prediction" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                <img src="medical/loc-cmp-latent-best-pred.jpg" alt="Prediction: one dashed blue box labeled Latent TB 0.51 over the left upper lung; the right one is missed. F1 0.667." width="1200" height="1200" loading="lazy">
+                <img class="cmp-top" src="medical/loc-cmp-latent-best-gt.jpg" alt="Ground truth: two solid blue boxes in both upper lungs." width="1200" height="1200" loading="lazy">
+                <span class="cmp-line" aria-hidden="true"><span class="cmp-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></span>
+                <span class="cmp-tag cmp-tag-l" aria-hidden="true">Ground truth</span>
+                <span class="cmp-tag cmp-tag-r" aria-hidden="true">Prediction</span>
+              </div>
               <figcaption>Best Latent TB case: one blue lesion found with the right class (0.51), the other missed
                 (F1 0.67).</figcaption>
             </figure>
             <figure class="fig">
-              <img src="medical/loc-pred-mixed-best.jpg" alt="Chest X-ray pair labeled Mixed_TB. Left: a solid red Active TB box in the right upper lung and a solid blue Latent TB box in the left lung. Right: only a dashed red box labeled Active TB 0.68 over the active lesion. F1 0.667." width="1400" height="726" loading="lazy">
+              <div class="cmp" tabindex="0" role="slider" aria-label="Compare ground truth and prediction" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+                <img src="medical/loc-cmp-mixed-best-pred.jpg" alt="Prediction: only a dashed red box labeled Active TB 0.68 over the active lesion. F1 0.667." width="1200" height="1200" loading="lazy">
+                <img class="cmp-top" src="medical/loc-cmp-mixed-best-gt.jpg" alt="Ground truth: a solid red Active TB box in the right upper lung and a solid blue Latent TB box in the left lung." width="1200" height="1200" loading="lazy">
+                <span class="cmp-line" aria-hidden="true"><span class="cmp-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></span>
+                <span class="cmp-tag cmp-tag-l" aria-hidden="true">Ground truth</span>
+                <span class="cmp-tag cmp-tag-r" aria-hidden="true">Prediction</span>
+              </div>
               <figcaption>Best Mixed TB case: the red active lesion is found (0.68); the blue latent lesion in the other
                 lung is missed (F1 0.67).</figcaption>
             </figure>
-          </div>
           <h3>The worst Active TB case</h3>
           <figure class="fig">
-            <img src="medical/loc-pred-active-boxsize.jpg" alt="Chest X-ray pair labeled Active_TB. Left: two tall solid red boxes each covering a whole lung. Right: two dashed red boxes at 0.99 and 0.95 covering only the upper half of each lung. F1 0.000." width="1400" height="726" loading="lazy">
+            <div class="cmp" tabindex="0" role="slider" aria-label="Compare ground truth and prediction" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+              <img src="medical/loc-cmp-active-boxsize-pred.jpg" alt="Prediction: two dashed red boxes at 0.99 and 0.95 covering only the upper half of each lung. F1 0.000." width="1200" height="1200" loading="lazy">
+              <img class="cmp-top" src="medical/loc-cmp-active-boxsize-gt.jpg" alt="Ground truth: two tall solid red boxes each covering a whole lung." width="1200" height="1200" loading="lazy">
+              <span class="cmp-line" aria-hidden="true"><span class="cmp-knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></span>
+              <span class="cmp-tag cmp-tag-l" aria-hidden="true">Ground truth</span>
+              <span class="cmp-tag cmp-tag-r" aria-hidden="true">Prediction</span>
+            </div>
             <figcaption>Active TB, box-size mismatch: the annotations cover each whole lung, the red predictions (0.99,
               0.95) only the upper half. IoU falls below 0.5, so both count as misses (F1 0) even though the disease is
               found.</figcaption>
@@ -829,6 +871,22 @@
         } else if (panel.hidden) show(panel);
       });
       addEventListener('hashchange', () => { const p = panelFor(location.hash); if (p) show(p); });
+
+      // Comparison slider: the divider follows the pointer (drag on touch); arrow keys move it too.
+      document.querySelectorAll('.cmp').forEach(el => {
+        const set = v => {
+          v = Math.max(0, Math.min(100, v));
+          el.style.setProperty('--x', v + '%');
+          el.setAttribute('aria-valuenow', Math.round(v));
+        };
+        const fromPointer = e => { const r = el.getBoundingClientRect(); set((e.clientX - r.left) / r.width * 100); };
+        el.addEventListener('pointermove', e => { if (e.pointerType === 'mouse' || e.buttons) fromPointer(e); });
+        el.addEventListener('pointerdown', fromPointer);
+        el.addEventListener('keydown', e => {
+          const step = { ArrowLeft: -5, ArrowRight: 5 }[e.key];
+          if (step) { e.preventDefault(); set(parseFloat(el.getAttribute('aria-valuenow')) + step); }
+        });
+      });
 
       // Highlight the section in view in the side contents.
       const tocLinks = [...document.querySelectorAll('.toc a')];
