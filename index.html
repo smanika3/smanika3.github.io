@@ -7,9 +7,9 @@
   <title>Saisrivathsan Manikandan - Portfolio</title>
   <meta name="description"
     content="Saisrivathsan Manikandan, M.S. Computer Science at Arizona State University. Applied ML systems: multimodal accessibility, agentic fund review, medical imaging.">
-  <meta property="og:title" content="Saisrivathsan Manikandan — ML Engineer">
+  <meta property="og:title" content="Saisrivathsan Manikandan">
   <meta property="og:description"
-    content="ML engineer taking models from research papers to real, working systems. M.S. CS, ASU, May 2027.">
+    content="M.S. Computer Science student at Arizona State University, taking models from research papers to real, working systems. Graduating May 2027.">
   <meta property="og:image" content="https://smanika3.github.io/avatar.jpg">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,8 +45,8 @@
         and I love digging into deep learning, computer vision, and LLM systems. I’m always looking for the next hard
         problem to learn from, and I’m excited to keep growing in this field and build technology that makes a real
         difference.</p>
-      <p class="status">Open to ML/AI roles · M.S. Computer Science, ASU, graduating May 2027</p>
-      <p class="proof">1st Place, ASU AIR Spark · 2nd Place, TIAA × ASU AI Investment Spark · 0.9004 mean AUC on CheXpert</p>
+      <p class="status">Open to ML/AI roles · graduating May 2027</p>
+      <p class="proof">0.9004 mean AUC on CheXpert · 228 of 380 slide pictures described · 11 of 13 trick funds caught</p>
       <div class="actions">
         <a class="btn btn-primary" href="SAISRIVATHSAN_MANIKANDAN_RESUME.pdf" download>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -63,6 +63,17 @@
       <h2>Work</h2>
 
       <div class="featured">
+        <a class="project wide" href="medical-imaging.html">
+          <span class="pill">Research · ASU Sol supercomputer</span>
+          <h3>Swin-CXR-Suite</h3>
+          <p>Swin Transformers trained three ways on chest X-rays: naming thoracic diseases, boxing tuberculosis
+            lesions, and outlining the lungs and heart.</p>
+          <div class="lead"><b>0.9004</b><span>mean AUC on 5 CheXpert pathologies, above the paper's 0.8892
+              baseline</span></div>
+          <p class="small">0.6622 AP50 (box accuracy) on tuberculosis lesions · 0.9619 Dice (outline overlap) on lungs and heart</p>
+          <span class="more">View project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+        </a>
         <a class="project" href="slidesight.html">
           <span class="pill">1st Place &amp; Fan Favorite · ASU AIR Spark</span>
           <h3>SlideSight</h3>
@@ -89,17 +100,6 @@
           <span class="more">View project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
               stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
         </a>
-        <a class="project" href="medical-imaging.html">
-          <span class="pill">Research · ASU Sol supercomputer</span>
-          <h3>Swin-CXR-Suite</h3>
-          <p>Swin Transformers trained three ways on chest X-rays: naming thoracic diseases, boxing tuberculosis
-            lesions, and outlining the lungs and heart.</p>
-          <div class="lead"><b>0.9004</b><span>mean AUC on 5 CheXpert pathologies, above the paper's 0.8892
-              baseline</span></div>
-          <p class="small">0.6622 AP50 on TB localization · 0.9619 Dice on lung and heart segmentation</p>
-          <span class="more">View project <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-              stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
-        </a>
       </div>
 
     </section>
@@ -115,9 +115,6 @@
           <a href="mailto:saisrivathsan2004@gmail.com">saisrivathsan2004@gmail.com</a>
           <button type="button" class="btn btn-secondary copy" data-copy="saisrivathsan2004@gmail.com">Copy</button>
         </div>
-        <p class="also"><a href="https://linkedin.com/in/smanika3" target="_blank" rel="noopener">LinkedIn</a> · <a
-            href="https://github.com/smanika3" target="_blank" rel="noopener">GitHub</a> · <a
-            href="SAISRIVATHSAN_MANIKANDAN_RESUME.pdf" download>Résumé (PDF)</a></p>
       </div>
     </section>
   </main>
@@ -138,7 +135,7 @@
     document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(b.dataset.copy); b.textContent = 'Copied'; }
       catch { getSelection().selectAllChildren(b.previousElementSibling); b.textContent = 'Selected, copy it'; }
-      setTimeout(() => b.textContent = 'Copy', 2000);
+      clearTimeout(b.t); b.t = setTimeout(() => b.textContent = 'Copy', 2000);
     }));
   </script>
   <script src="motion.js" defer></script>
