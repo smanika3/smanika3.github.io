@@ -303,7 +303,6 @@ footer { border-top: 1px solid var(--line); }
 .intro .lede { max-width: 44ch; }
 .intro .bio { margin-top: 14px; max-width: 60ch; color: var(--ink-2); font-size: 16px; }
 .status { display: inline-flex; align-items: flex-start; gap: 8px; margin-top: 20px; font-size: 14px; color: var(--ink-2); text-wrap: balance; }
-.proof { margin-top: 6px; font-size: 15px; color: var(--ink-2); font-variant-numeric: tabular-nums; text-wrap: balance; }
 @media (min-width: 961px) {
   .featured .project > p { min-height: calc(3em * 1.65); }
   .featured .lead { margin-top: 0; }
@@ -414,7 +413,6 @@ footer { border-top: 1px solid var(--line); }
   .intro { gap: 24px; }
   .intro > div { display: flex; flex-direction: column; }
   .intro .status { align-self: flex-start; margin-top: 16px; }
-  .intro .proof { margin-top: 8px; }
   .intro .actions { margin-top: 20px; }
   .intro .bio { order: 1; margin-top: 28px; }
   .project { padding: 22px; }
